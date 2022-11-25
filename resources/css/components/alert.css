@@ -1,0 +1,29 @@
+@layer components {
+    .alert-card {
+        @apply block text-lg text-left flex items-center px-4 py-3 rounded-md;
+    }
+
+    .alert-card>div {
+        @apply flex w-full;
+    }
+
+    .alert-icon {
+        @apply flex-none w-16 px-3;
+    }
+
+    .alert-body {
+        @apply flex-grow w-11/12;
+    }
+
+    .alert-title {
+        @apply font-medium text-left;
+    }
+
+    .alert-content {
+        @apply text-sm my-2;
+    }
+
+    .btn-alert-close {
+        @apply flex-none w-16 bg-transparent text-2xl font-semibold leading-none px-3 outline-none focus:outline-none;
+    }
+}

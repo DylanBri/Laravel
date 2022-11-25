@@ -1,0 +1,20 @@
+De : Marcel Ramanantsoa [mailto:mramanantsoa@capdatasoft.com] 
+Envoyé : mardi 2 janvier 2018 12:22
+À : Francois VIEILLECROZE <info@vieillecroze.com>
+Objet : Serial OMNIS 8.1.3
+
+bonjour Monsieur Claire,
+Je vous transmets mes bons voeux pour cette nouvelle année 2018,
+
+Veuillez trouver ci-jointe les numéro de série d'OMNIS 8.1.3
+merci de télécharger à l'adresse ci-dessous le runtime et d'utiliser un des numéros de série
+
+ftp://omnis.tech/OmnisStudio/Studio813/OmnisStudio/Runtime/osx64/
+
+Sur le plan méthodologique, je vous propose de préparer un poste d'intégration, avec interviewer 12
+sur le quel les utilisateurs pourront tester les nouveau modules
+
+Merci de me confirmer la finalisation de ce poste.
+Très cordialement
+
+ 

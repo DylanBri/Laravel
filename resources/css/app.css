@@ -1,0 +1,29 @@
+/********************** JQUERY-UI - AUTOCOMPLETE *********************/
+@import '../js/lib/jquery-ui/1.12.1/jquery-ui.min.css';
+@import '../js/lib/jquery-ui/1.12.1/jquery-ui.structure.min.css';
+@import '../js/lib/jquery-ui/1.12.1/jquery-ui.theme.min.css';
+@import '../js/lib/jquery-autocomplete/1.4.10/jquery.autocomplete.css';
+
+/********************** SUMMERNOTES *********************/
+@import 'summernote/dist/summernote.min.css';
+@import 'summernote/dist/summernote-lite.min.css';
+@import 'summernote/dist/summernote-bs4.min.css';
+
+/********************** TAILWINDCSS *********************/
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/********************** PERSONNALISATION *********************/
+@import './custom-form.css';
+@import './components/base.css';
+@import './components/form.css';
+@import './components/alert.css';
+@import './components/modal.css';
+@import './components/listing.css';
+@import './components/grid.css';
+@import './components/utilities.css';
+
+.modal-backdrop {
+    z-index: 30;
+}

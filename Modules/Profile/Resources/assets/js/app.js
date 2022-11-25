@@ -1,0 +1,12 @@
+require('./models/SuperAdmin');
+require('./collections/SuperAdmins');
+require('./collections/pageable/SuperAdmins');
+require('./models/Administrator');
+require('./collections/Administrators');
+require('./collections/pageable/Administrators');
+require('./models/Manager');
+require('./collections/Managers');
+require('./collections/pageable/Managers');
+require('./models/User');
+require('./collections/Users');
+require('./collections/pageable/Users');

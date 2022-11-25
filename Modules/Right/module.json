@@ -1,0 +1,13 @@
+{
+    "name": "Right",
+    "alias": "right",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Right\\Providers\\RightServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
