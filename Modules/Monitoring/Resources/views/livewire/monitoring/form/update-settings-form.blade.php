@@ -117,10 +117,7 @@
                         <input id="account" type="number" class="form-input input-text mt-3" wire:model.defer="monitoring.account" step=".01"/>
                         @error('monitoring.account') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
-                </div>
-
-                
-                <div class="col-span-6 sm:col-span-4 flex">
+                    
                     <!-- Account_management_percent -->
                     <div class="flex-1 mr-2">
                         <label for="account_management_percent">{{ __('monitoring::monitoring.Account_management_percent') }}</label>
@@ -134,6 +131,11 @@
                         <input id="account_management" type="number" class="form-input input-text mt-3" wire:model.defer="monitoring.account_management" step=".01"/>
                         @error('monitoring.account_management') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
+                </div>
+
+                
+                <div class="col-span-6 sm:col-span-4 flex">
+                    
                 
                     <!-- Bank_guarantee -->
                     <div class="flex-1 mr-2">
@@ -220,13 +222,6 @@
                         <label for="deduction_previous_payment">{{ __('monitoring::monitoring.Deduction_previous_payment') }}</label>
                         <input id="deduction_previous_payment" type="number" class="form-input input-text" wire:model.defer="monitoring.deduction_previous_payment" step=".01"/>
                         @error('monitoring.deduction_previous_payment') <span class="text-error">{{ $message }}</span> @enderror
-                    </div>
-
-                    <!-- Cumul_monitoring_previous -->
-                    <div class="flex-1 mr-2">
-                        <label for="cumul_monitoring_previous">Cumul_monitoring_previous</label>
-                        <input id="cumul_monitoring_previous" type="number" class="form-input input-text" wire:model.defer="monitoring.cumul_monitoring_previous" step=".01"/>
-                        @error('monitoring.cumul_monitoring_previous') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
 
                     <!-- Amount_to_pay -->

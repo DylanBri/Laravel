@@ -15,6 +15,7 @@ class MonitoringRequest extends FormRequest
     {
         return [
             'client_id' => 'nullable|integer',
+            'parent_id' => 'nullable|integer',
             ///lot_id' => 'bail|required|integer',
             //'work_site_id' => 'bail|required|integer',
             'work_site_lot_company_id' => 'bail|required|integer',

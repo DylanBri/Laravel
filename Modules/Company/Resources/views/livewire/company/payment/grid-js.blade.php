@@ -12,6 +12,7 @@
                 btnModify: true,
                 btnDelete: false,
                 data: {
+                    workSiteLotCompanyId: 0,
                     alert: null,
                     loading: null,
                     modal: null,
@@ -35,7 +36,19 @@
                 },
 
                 afterInitialize: function () {
-                    var me = this;
+                    var me = this, pathname = document.location.pathname.split('/');
+                    if (pathname.length > 5 && isInt(pathname[5]) && pathname[4] === 'work-site-lot-company') {
+                        me.data.workSiteLotCompanyId = parseInt(pathname[5]);
+                        if (pathname.length > 6 && pathname[6] !== '') {
+                            me.data.isEdit = (pathname[6] === 'edit');
+                        }
+                    } else if (pathname.length > 3 && isInt(pathname[3]) && pathname[2] === 'work-site-lot-company') {
+                        me.data.workSiteLotCompanyId = parseInt(pathname[3]);
+                        if (pathname.length > 4 && pathname[4] !== '') {
+                            me.data.isEdit = (pathname[4] === 'payment');
+                        }
+                    }
+
                     me.initGrid();
                     me.render();
                 },
@@ -86,6 +99,31 @@
                             headerCell: App.View.HeaderCell.MenuHeader
                         }
                     ]
+                },
+
+                reload: function () {
+                    var me = this;
+                    if (me.grid !== null) {
+                        toggleLoading();
+                        me.$el.find(".grid-content").empty().append(me.grid.render().el);
+                        me.renderBtnPaginator();
+                        me.collection.state.currentPage = 1;
+                        me.collection.setSorting(null, -1, {});
+                        me.collection.clearFilters();
+
+                        // Filters
+                        if (me.data.workSiteLotCompanyId > 0) {
+                            me.collection.setFilters([{
+                                field: 'monitorings.work_site_lot_company_id',
+                                value: me.data.workSiteLotCompanyId,
+                                type: 'number'
+                            }]);
+                        }
+
+                        me.collection.fetch().always(function () {
+                            toggleLoading();
+                        });
+                    }
                 },
 
                 tplBtnAction: function (model) {

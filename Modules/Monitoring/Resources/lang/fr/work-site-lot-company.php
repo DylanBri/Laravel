@@ -1,14 +1,14 @@
 <?php
 
 return[
-    'workSiteLotCompany' => 'Suivi de chantier',
-    'List' => 'Gestion des Suivis de chantier',
-    'Listing' => 'Suivis de chantier',
+    'workSiteLotCompany' => 'Suivi des lots',
+    'List' => 'Suivis des lots',
+    'Listing' => 'Suivis des lots',
     'Id' => 'Code',
     'Name' => 'Nom',
     'Amount_ttc' => 'Montant',
-    'See' => 'Consulter le Suivi de chantier',
-    'Add' => 'Ajouter un Suivi de chantier',
-    'Modify' => 'Modifier le Suivi de chantier',
-    'Delete' => 'Supprimer le Suivi de chantier'
+    'See' => 'Consulter le Suivi des lots',
+    'Add' => 'Ajouter un Suivi des lots',
+    'Modify' => 'Modifier le Suivi des lots',
+    'Delete' => 'Supprimer le Suivi des lots'
 ];

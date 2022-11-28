@@ -225,4 +225,15 @@ class PaymentController extends Controller
 
         return response()->json($payment);
     }
+
+    /**
+     * Display a listing of the resource.
+     * @param int $workSiteLotCompanyId
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function getByWorkSiteLotCompany(int $workSiteLotCompanyId) {
+        $this->authorize('viewAny', [Auth::user()]);
+        return view('company::livewire.company.payment.grid', ['workSiteLotCompanyId' => $workSiteLotCompanyId]);
+    }
 }

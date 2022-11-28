@@ -12,6 +12,7 @@ class Monitoring extends Model
 
     protected $fillable = [
         'client_id',
+        'parent_id',
         'work_site_lot_company_id',
         'name',
         'date',
@@ -42,6 +43,7 @@ class Monitoring extends Model
      */
     protected $attributes = [
         'client_id' => 0,
+        'parent_id' => null,
         'work_site_lot_company_id' => null,
         'name'=> '',
         'date'=> '2022-01-01 00:00:00',

@@ -40,6 +40,7 @@ class UpdateSettingsForm extends Component
 
     protected $rules = [
         'monitoring.client_id' => 'bail|required|integer',
+        'monitoring.parent_id' => 'nullable|integer',
         /*
         'monitoring.lot_id' => 'bail|required|integer',
         'monitoring.lot_name' => 'bail|required|max:255',

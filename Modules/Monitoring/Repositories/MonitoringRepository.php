@@ -50,6 +50,19 @@ class MonitoringRepository extends Repository
             $monitoring->save();
         }
 
+        $maxId = Monitoring::query()
+                ->selectRaw("MAX(monitorings.id) AS parent_id")
+                ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
+                ->where('monitorings.id', '<', $monitoring->id);
+        $idParent = $maxId->get();
+
+        if(!$idParent->isEmpty()) {
+            $parentId = $idParent[0]->parent_id;
+            $mon = $monitoring;
+            $mon->parent_id = $parentId;
+            $mon->save();
+        }
+
         return $monitoring;
     }
 
@@ -79,10 +92,10 @@ class MonitoringRepository extends Repository
 
         // Somme des paiements précèdent le suivi
         $req = Monitoring::query()
-                ->selectRaw("SUM(monitorings.amount_to_pay) as cumul_monitoring_previous")
-                ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
-                ->where('monitorings.date', '<=', $monitoring->date)
-                ->groupBy('work_site_lot_company_id');
+               ->selectRaw("SUM(monitorings.amount_to_pay) as cumul_monitoring_previous")
+               ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
+               ->where('monitorings.date', '<', $monitoring->date)
+               ->groupBy('work_site_lot_company_id');
         $sum1 = $req->get();
         
         if(!$sum1->isEmpty()) {
@@ -90,6 +103,19 @@ class MonitoringRepository extends Repository
             $mo = $monitoring;
             $mo->cumul_monitoring_previous = $cumul1;
             $mo->save();
+        }
+
+        $maxId = Monitoring::query()
+                ->selectRaw("MAX(monitorings.id) AS parent_id")
+                ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
+                ->where('monitorings.id', '<', $monitoring->id);
+        $idParent = $maxId->get();
+
+        if(!$idParent->isEmpty()) {
+            $parentId = $idParent[0]->parent_id;
+            $mon = $monitoring;
+            $mon->parent_id = $parentId;
+            $mon->save();
         }
 
         return $monitoring;

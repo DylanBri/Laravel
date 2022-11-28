@@ -24,6 +24,12 @@ class UpdateSettingsForm extends Component
      */
     public $isModal;
 
+    /**
+     * @var boolean $isEdit
+     * 
+     */
+    public $isEdit;
+
     protected $rules = [
         'payment.client_id' => 'nullable|integer',
         'payment.customer_id' => 'nullable|integer',

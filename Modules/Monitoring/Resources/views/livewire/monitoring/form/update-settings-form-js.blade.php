@@ -173,7 +173,7 @@
                         modify_market_amount = (me.$el.find("#modify_market_amount").val() !== '') ? parseFloat(me.$el.find("#modify_market_amount").val()) : 0,
                         tot_market_amount;
 
-                    if (market_amount === 0 || modify_market_amount === 0) {
+                    if (market_amount === 0) {
                         me.$el.find('#tot_market_amount').val(0);
                         return 0;
                     }
@@ -212,8 +212,8 @@
                         account_percent = (tot_market_amount === 0 ? 0 : roundWith((account / tot_market_amount) * 100,2));
                     }
                     else {
-                        account = 0;
-                        account_percent = 0;
+                        me.$el.find('#account').val(0);
+                        me.$el.find('#account_percent').val(0);
                     }
 
                     me.data.nbRunsAccount = 1;
@@ -388,7 +388,7 @@
                         deposit = (me.$el.find("#deposit").val() !== '') ? parseFloat(me.$el.find("#deposit").val()) : 0,
                         progress = (me.$el.find("#progress").val() !== '') ? parseFloat(me.$el.find("#progress").val()) : 0,
                         deposit_recovery;
-                     
+                    console.log(deposit); 
                     if (progress === 0 || deposit === 0) {
                         me.$el.find('#deposit_recovery').val(0);
                         return 0;
@@ -435,9 +435,18 @@
                     var me = this,
                         balance = (me.$el.find("#balance").val() !== '') ? parseFloat(me.$el.find("#balance").val()) : 0,
                         deposit_recovery = (me.$el.find("#deposit_recovery").val() !== '') ? parseFloat(me.$el.find("#deposit_recovery").val()) : 0,
+                        parent_id = me.model.attributes.parent_id,
+                        deposit = (me.$el.find("#deposit").val() !== '') ? parseFloat(me.$el.find("#deposit").val()) : 0,
                         balance_du;
                     
-                    if (balance === 0) {
+                    if (parent_id === null) {
+                        console.log('parent_id est null');
+                        me.$el.find('#balance_du').val(deposit);
+                        me.changeFieldValue('balance_du', deposit);
+                        return deposit;
+                    }
+                    else if (balance === 0) {
+                        console.log('les données à 0');
                         me.$el.find('#balance_du').val(0);
                         return 0;
                     }
@@ -445,6 +454,7 @@
                     balance_du = roundWith(balance - deposit_recovery,2);
 
                     if (balance_du !== parseFloat(me.$el.find('#balance_du').val())) {
+                        console.log('ici');
                         me.$el.find('#balance_du').val(balance_du);
                         me.changeFieldValue('balance_du', balance_du);
                     }
@@ -455,7 +465,7 @@
                 calculFieldsDeductionPreviousPayment: function (){
                     var me = this,
                         deposit = (me.$el.find("#deposit").val() !== '') ? parseFloat(me.$el.find("#deposit").val()) : 0,
-                        cumul_monitoring_previous = (me.$el.find("#cumul_monitoring_previous").val() !== '') ? parseFloat(me.$el.find("#cumul_monitoring_previous").val()) : 0,
+                        cumul_monitoring_previous = me.model.attributes.cumul_monitoring_previous,
                         deduction_previous_payment = 0;
 
                         if(deposit === 0 || cumul_monitoring_previous === 0) {
@@ -477,10 +487,17 @@
                     var me = this,
                         deduction_previous_payment = (me.$el.find("#deduction_previous_payment").val() !== '') ? parseFloat(me.$el.find("#deduction_previous_payment").val()) : 0,
                         balance_du = (me.$el.find("#balance_du").val() !== '') ? parseFloat(me.$el.find("#balance_du").val()) : 0,
+                        parent_id = me.model.attributes.parent_id,
+                        deposit = (me.$el.find("#deposit").val() !== '') ? parseFloat(me.$el.find("#deposit").val()) : 0,
                         amount_to_pay;
                     
-                    if (payment_amount_ttc === 0 || deposit === 0) {
-                        me.$el.find('#balance_du').val(0);
+                    if(parent_id === null) {
+                        me.$el.find('#amount_to_pay').val(deposit)
+                        me.changeFieldValue('amount_to_pay', deposit);
+                        return deposit;
+                    }
+                    else if (balance_du === 0) {
+                        me.$el.find('#amount_to_pay').val(0);
                         return 0;
                     }
 
@@ -559,10 +576,13 @@
                         case 'deposit' : 
                         case 'progress' :
                             res = me.calculFieldsDepositRecovery();
-                            console.log("Deposit : ", res, elId);
+                            console.log("Deposit_recovery : ", res, elId);
                             if(elId === 'deposit'){
                                 res = me.calculFieldsDeductionPreviousPayment();
-                                console.log('Deduction_previous_payment', res);
+                                console.log('Deduction_previous_payment', res, elId);
+
+                                res1 = me.calculFieldsBalanceDu();
+                                console.log("balance_du : ", res1, elId);
                             }
                             break;
                         
@@ -572,9 +592,10 @@
                             console.log("balance_du : ", res, elId);
                             break;
 
-                        case 'cumul_monitoring_previous' :
-                            res = me.calculFieldsDeductionPreviousPayment();
-                            console.log('Deduction_previous_payment', res);
+                        case 'balance_du' : 
+                        case 'deduction_previous_payment' :
+                            res = me.calculFieldsAmountToPay();
+                            console.log("Montant", res);
                             break;
                     }
                 },

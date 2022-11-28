@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
         App.Module.Monitoring.Model.Monitoring = App.Model.Model.extend({
             defaults: {
                 id: null,
-                'client_id': '',
+                'client_id': 0,
+                'parent_id': null,
                 /*
                 'lot_id': '',
                 'lot_name': '',
