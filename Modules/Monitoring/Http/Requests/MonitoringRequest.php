@@ -22,6 +22,8 @@ class MonitoringRequest extends FormRequest
             'work_site_lot_company_name' => 'bail|required|max:255',
             'name'=> 'bail|required|max:255',
             'date'=> 'bail|required|date_format:Y-m-d H:i:s',
+            'total_modify_market_amount'=> 'nullable|numeric',
+            'total_market_amount'=> 'nullable|numeric',
             'market_amount'=> 'nullable|numeric',
             'modify_market_amount'=> 'nullable|numeric',
             'tot_market_amount'=> 'nullable|numeric',

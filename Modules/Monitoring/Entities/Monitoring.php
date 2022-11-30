@@ -16,6 +16,8 @@ class Monitoring extends Model
         'work_site_lot_company_id',
         'name',
         'date',
+        'total_market_amount',
+        'total_modify_market_amount',
         'market_amount',
         'modify_market_amount',
         'rate_vat',

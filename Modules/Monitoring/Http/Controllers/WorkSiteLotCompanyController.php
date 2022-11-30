@@ -234,4 +234,10 @@ class WorkSiteLotCompanyController extends Controller
         $this->authorize('viewAny', [Auth::user()]);
         return view('monitoring::livewire.monitoring.work-site-lot-company.grid', ['workSiteId' => $workSiteId]);
     }
+
+    public function showByMonitoring(int $monitornigId)
+    {
+        $this->authorize('viewAny', [Auth::user()]);
+        return view('monitoring::livewire.monitoring.work-site-lot-company.grid', ['monitornigId' => $monitornigId]);
+    }
 }

@@ -13,6 +13,8 @@ return[
     'Date'=> 'Date de suivi',
     'Payment_amount_ttc'=> 'Somme des paiements',
     'Amount_to_pay'=> 'Montant',
+    'Total_market_amount'=> 'Marché de base',
+    'Total_modify_market_amount'=> 'Marché modifié',
     'Market_amount'=> 'Sur marché de base',
     'Modify_market_amount'=> 'Sur marché modifié',
     'Tot_market_amount'=> 'Total',

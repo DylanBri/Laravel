@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
             Route::get('/list/search', 'WorkSiteLotCompanyController@showSearch')->name('work-site-lot-company.listing');
             Route::get('/search', 'WorkSiteLotCompanyController@search');
             Route::get('/list/work-site/{id}', 'WorkSiteLotCompanyController@showByWorkSite')->where('id', '[0-9]+');
+            Route::get('/list/monitoring/{id}', 'WorkSiteLotCompanyController@showBymonitoring')->where('id', '[0-9]+');
         });
         Route::resource('work-site-lot-company', 'WorkSiteLotCompanyController'); 
         

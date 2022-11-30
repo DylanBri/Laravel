@@ -107,12 +107,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
     App.Module.Customer.Model.Address = App.Model.Model.extend({
       defaults: {
         id: null,
-        'customer_id': '',
         'address1': '',
         'address2': '',
         'zip_code': '',
-        'city': '',
-        'country': 'FR'
+        'city': '' //'country': 'FR'
+
       },
       urlRoot: "/customer/address",
       parse: function parse(resp) {
@@ -146,9 +145,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
         'client_id': 0,
         'address_1': '',
         'address_2': '',
-        'address_zip_code': '',
-        'address_city': '',
-        'address_country': 'FR',
+        'zip_code': '',
+        'city': '',
+        'country': 'FR',
         'name': '',
         'gender': '',
         'phone': '',

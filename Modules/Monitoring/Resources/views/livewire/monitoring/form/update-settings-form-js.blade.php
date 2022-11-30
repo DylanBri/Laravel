@@ -173,7 +173,7 @@
                         modify_market_amount = (me.$el.find("#modify_market_amount").val() !== '') ? parseFloat(me.$el.find("#modify_market_amount").val()) : 0,
                         tot_market_amount;
 
-                    if (market_amount === 0) {
+                    if (market_amount === 0 && modify_market_amount === 0) {
                         me.$el.find('#tot_market_amount').val(0);
                         return 0;
                     }
@@ -445,7 +445,7 @@
                         me.changeFieldValue('balance_du', deposit);
                         return deposit;
                     }
-                    else if (balance === 0) {
+                    else if (balance === 0 && deposit_recovery === 0) {
                         console.log('les données à 0');
                         me.$el.find('#balance_du').val(0);
                         return 0;
@@ -496,7 +496,7 @@
                         me.changeFieldValue('amount_to_pay', deposit);
                         return deposit;
                     }
-                    else if (balance_du === 0) {
+                    else if (balance_du === 0 && deduction_previous_payment === 0) {
                         me.$el.find('#amount_to_pay').val(0);
                         return 0;
                     }

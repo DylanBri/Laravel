@@ -118,6 +118,19 @@ class MonitoringRepository extends Repository
             $mon->save();
         }
 
+        $depo = Monitoring::query()
+                ->selectRaw("monitorings.deposit AS deposit")
+                ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
+                ->where('monitorings.parent_id', '=', NULL);
+        $deposit = $depo->get();
+
+        if(!$deposit->isEmpty()) {
+            $depos = $deposit[0]->deposit;
+            $moni = $monitoring;
+            $moni->deposit = $depos;
+            $moni->save();
+        }
+
         return $monitoring;
     }
 

@@ -229,7 +229,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
     App.Module.Monitoring.Model.Monitoring = App.Model.Model.extend({
       defaults: {
         id: null,
-        'client_id': '',
+        'client_id': 0,
+        'parent_id': null,
 
         /*
         'lot_id': '',
@@ -259,7 +260,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
         'work_penality': 0,
         'progress': 0,
         'balance_du': 0,
-        'deduction_previous_payment': 0
+        'deduction_previous_payment': 0,
+        'cumul_monitoring_previous': 0,
+        'amount_to_pay': 0
       },
       urlRoot: "/monitoring",
       parse: function parse(resp) {
@@ -294,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
         'customer_name': '',
         'name': '',
         'notes': '',
+        'cumul': 0,
         'address1': '',
         'address2': '',
         'city': '',
@@ -338,9 +342,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
         'monitoring_id': '',
         'name': '',
         'type': '',
-        'amount_ttc': '',
-        'cumul_payment': '',
-        'cumul_monitoring': ''
+        'amount_ttc': 0,
+        'cumul_payment': 0,
+        'cumul_monitoring': 0
       },
       urlRoot: "/monitoring/work-site-lot-company",
       parse: function parse(resp) {
