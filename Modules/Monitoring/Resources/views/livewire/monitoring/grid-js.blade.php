@@ -118,7 +118,7 @@
                         },
                         {
                             label: "<?php echo __("monitoring::monitoring.Cumul_WorkSiteLotCompany"); ?>",
-                            name: 'cumul_work_sit_lot_company',
+                            name: 'cumul_monitoring_previous',
                             cell: 'number',
                             sortable: false,
                             editable: false,

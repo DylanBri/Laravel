@@ -1,21 +1,19 @@
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', e => {
         $(document).on('app.ready', function () {
-            if (App.Module.Monitoring === undefined) App.Module.Monitoring = {};
-            if (App.Module.Monitoring.View === undefined) App.Module.Monitoring.View = {};
-            if (App.Module.Monitoring.View.Monitoring === undefined) App.Module.Monitoring.View.Monitoring = {};
-            App.Module.Monitoring.View.Monitoring.Form = App.View.View.extend({
-                el: '#monitoringForm',
+            if (App.Module.Company === undefined) App.Module.Company = {};
+            if (App.Module.Company.View === undefined) App.Module.Company.View = {};
+            if (App.Module.Company.View === undefined) App.Module.Company.View.Payment = {};
+            App.Module.Company.View.Payment.Form = App.View.View.extend({
+                el: '#paymentForm',
                 attributes: {},
                 data: {
                     id: null,
-                    monitoring: {
+                    payment: {
                         settings: null,
                     }
                 },
-                events: {
-                    "click .btnBack": "historyBack"
-                },
+                events: {},
 
                 afterInitialize: function () {
                     var me = this, pathname = document.location.pathname.split('/');
@@ -23,7 +21,7 @@
                         me.data.id = parseInt(pathname[2]);
                     }
 
-                    me.data.monitoring.settings = new App.Module.Monitoring.View.Monitoring.Settings({
+                    me.data.payment.settings = new App.Module.Company.View.Payment.Settings({
                         attributes : {
                             id : me.data.id,
                             isModal : false,
@@ -45,12 +43,13 @@
                         }
                     });*/
 
-                    Livewire.on('work-site-settings-form-success', request => {
-                        window.location.replace("/monitoring/" + request.id + '/edit');
+                    Livewire.on('payment-settings-form-success', request => {
+                        console.log('payment-settings-form-success', request);
+                        window.location.replace("/company/ayment/" + request.id + '/edit');
                     });
 
                     Livewire.on('work-site-lot-company-settings-form-success', request => {
-                        me.data.monitoring.settings.setId(request.monitoring_id);
+                        me.data.payment.settings.setId(request.payment_id);
                     });
 
                     Livewire.on('work-site-form-without-customerid', request => {
@@ -60,13 +59,9 @@
                         $('.input-text').attr('disabled', '');
                         $('.btn-primary').attr('hidden', 'true');
                     });
-                },
-
-                historyBack : function () {
-                    return window.history.back()
                 }
             });
-            new App.Module.Monitoring.View.Monitoring.Form();
+            new App.Module.Company.View.Payment.Form();
         });
     });
 </script>

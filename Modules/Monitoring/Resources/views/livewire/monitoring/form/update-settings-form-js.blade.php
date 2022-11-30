@@ -67,6 +67,7 @@
                             me.attributes.parent.toggleModal();
                         }
 
+                        me.calculFieldsAdditionMarket();
                         me.calculFieldsMarket($dfdMarket);
                         me.calculFieldsDepositRecovery();
                         me.calculFieldsDeductionPreviousPayment();
@@ -165,6 +166,27 @@
                             me.changeFieldValue(elId, suggestion.value);
                         }
                     });
+                },
+
+                calculFieldsAdditionMarket: function (){
+                    var me = this,
+                        total_market_amount = (me.$el.find("#total_market_amount").val() !== '') ? parseFloat(me.$el.find("#total_market_amount").val()) : 0,
+                        total_modify_market_amount = (me.$el.find("#total_modify_market_amount").val() !== '') ? parseFloat(me.$el.find("#total_modify_market_amount").val()) : 0,
+                        addition_market_amount;
+
+                    if (total_market_amount === 0 && total_modify_market_amount === 0) {
+                        me.$el.find('#addition_market_amount').val(0);
+                        return 0;
+                    }
+                    
+                    addition_market_amount = total_market_amount + total_modify_market_amount;
+
+                    if (addition_market_amount !== parseFloat(me.$el.find('#addition_market_amount').val())) {
+                        me.$el.find('#addition_market_amount').val(addition_market_amount);
+                        me.changeFieldValue('addition_market_amount', addition_market_amount);
+                    }
+
+                    return addition_market_amount;
                 },
 
                 calculFieldsMarket: function ($dfd){
@@ -523,6 +545,12 @@
                     res = 0;
                     console.log(elId);
                     switch (elId) {
+                        case 'total_market_amount' :
+                        case 'total_modify_market_amount' :
+                            res = me.calculFieldsAdditionMarket(); 
+                            console.log('AdditionMarket',res);
+                            break;
+
                         case 'market_amount' :
                         case 'modify_market_amount' :
                             res = me.calculFieldsMarket($.Deferred()); 

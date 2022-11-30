@@ -49,6 +49,8 @@ class Monitoring extends Model
         'work_site_lot_company_id' => null,
         'name'=> '',
         'date'=> '2022-01-01 00:00:00',
+        'total_market_amount'=> 0,
+        'total_modify_market_amount'=> 0,
         'market_amount'=> 0,
         'modify_market_amount'=> 0,
         'rate_vat'=> 0,

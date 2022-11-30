@@ -44,14 +44,15 @@
                     });*/
 
                     Livewire.on('work-site-lot-company-settings-form-success', request => {
-                        window.location.replace("/monitoring/work-site-lot-company/" + request.data.id + '/edit');
+                        // console.log(request)
+                        window.location.replace("/monitoring/work-site-lot-company/" + request.id + '/edit');
                     });
 
-                    Livewire.on('monitoring-settings-form-success', request => {
+                    Livewire.on('payment-settings-form-success', request => {
                         me.data.workSiteLotCompany.settings.setId(request.work_site_lot_company_id);
                     });
 
-                    Livewire.on('monitoring-form-without-workSiteLotCompanyid', request => {
+                    Livewire.on('payment-form-without-workSiteLotCompanyid', request => {
                         // Virer les Chantiers si le numéro de Client n'est pas spécifié
                         $('#monitoringGrid').addClass('d-none');
                         //$('.input-text').addClass('input-disabled');

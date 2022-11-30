@@ -47,7 +47,7 @@ class WorkSiteLotCompany extends Model
         'client_id' => 0,
         'work_site_id' => null,
         'lot_id' => null,
-        'company_id' => 0,
+        'company_id' => null,
         'monitoring_id' => null,
         //'customer_id' => '',
         'name' => '',

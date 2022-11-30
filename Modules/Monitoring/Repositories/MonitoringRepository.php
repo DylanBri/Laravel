@@ -63,6 +63,18 @@ class MonitoringRepository extends Repository
             $mon->save();
         }
 
+        $depo = Monitoring::query()
+                ->selectRaw("monitorings.deposit AS deposit")
+                ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
+                ->where('monitorings.parent_id', '=', NULL);
+        $deposit = $depo->get();
+
+        if(!$deposit->isEmpty()) {
+            $depos = $deposit[0]->deposit;
+            $moni = $monitoring;
+            $moni->deposit = $depos;
+            $moni->save();
+        }
         return $monitoring;
     }
 
@@ -156,7 +168,7 @@ class MonitoringRepository extends Repository
     public static function getById(int $id)
     {
         $monitoring = Monitoring::query()
-        ->select(['monitorings.*', 'work_site_lot_company.name AS work_site_lot_company_name'])
+        ->select(['monitorings.*', 'work_site_lot_company.name AS work_site_lot_company_name', 'work_site_lot_company.work_site_id AS work_site_id', 'work_site_lot_company.lot_id AS lot_id', 'work_site_lot_company.company_id AS company_id'])
         ->find($id);
 
         return $monitoring;
@@ -169,7 +181,7 @@ class MonitoringRepository extends Repository
     public static function getList(array $validatedData) : Collection
     {
         $query = Monitoring::query()
-        ->select(['monitorings.*', 'work_site_lot_company.name AS work_site_lot_company_name']);
+        ->select(['monitorings.*', 'work_site_lot_company.name AS work_site_lot_company_name', 'work_site_lot_company.work_site_id AS work_site_id', 'work_site_lot_company.lot_id AS lot_id', 'work_site_lot_company.company_id AS company_id']);
 
         $monitorings = self::queryFilterAndOrder($query, $validatedData, "monitorings.id", "monitorings.name")
             ->get();
@@ -188,7 +200,7 @@ class MonitoringRepository extends Repository
     public static function getPaginate(int $currentPage, int $perPage, array $validatedData)
     {
         $query = Monitoring::query()
-        ->select(['monitorings.*', 'work_site_lot_company.name AS work_site_lot_company_name']);
+        ->select(['monitorings.*', 'work_site_lot_company.name AS work_site_lot_company_name', 'work_site_lot_company.work_site_id AS work_site_id', 'work_site_lot_company.lot_id AS lot_id', 'work_site_lot_company.company_id AS company_id']);
 
         $monitorings = self::queryFilterAndOrder($query, $validatedData, "monitorings.id")
             ->paginate($perPage, ['*'], 'page', $currentPage);
@@ -203,7 +215,7 @@ class MonitoringRepository extends Repository
     public static function search(array $validatedData)
     {
         $query = Monitoring::query()
-            ->select(['monitoring.*', 'work_site_lot_company.name AS work_site_lot_company_name']);
+            ->select(['monitorings.*', 'work_site_lot_company.name AS work_site_lot_company_name', 'work_site_lot_company.work_site_id AS work_site_id', 'work_site_lot_company.lot_id AS lot_id', 'work_site_lot_company.company_id AS company_id']);
 
         $monitorings = self::queryFilterAndOrder($query, $validatedData, "monitorings.id")->get();
 

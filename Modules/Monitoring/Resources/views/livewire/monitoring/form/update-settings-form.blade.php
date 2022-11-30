@@ -76,6 +76,13 @@
                         <input id="total_market_amount" type="number" class="form-input input-text" wire:model.defer="monitoring.total_market_amount" step=".01"/>
                         @error('monitoring.total_market_amount') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
+
+                    <!-- Total_market_amount -->
+                    <div class="flex-1 mr-2">
+                        <label for="addition_market_amount">{{ __('monitoring::monitoring.Tot_market_amount') }}</label>
+                        <input id="addition_market_amount" type="number" class="form-input input-text input-disabled" wire:model.defer="monitoring.addition_market_amount" step=".01" disabled/>
+                        @error('monitoring.addition_market_amount') <span class="text-error">{{ $message }}</span> @enderror
+                    </div>
                 </div>
 
                 <div class="col-span-6 sm:col-span-4 flex">
@@ -92,15 +99,21 @@
                         <input id="market_amount" type="number" class="form-input input-text" wire:model.defer="monitoring.market_amount" step=".01"/>
                         @error('monitoring.market_amount') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
-                </div>
-
-                
-                <div class="col-span-6 sm:col-span-4 flex">
+                    
                     <!-- Tot_market_amount -->
                     <div class="flex-1 mr-2">
                         <label for="tot_market_amount">{{ __('monitoring::monitoring.Tot_market_amount') }}</label>
-                        <input id="tot_market_amount" type="number" class="form-input input-text" wire:model.defer="monitoring.tot_market_amount" step=".01" disabled/>
+                        <input id="tot_market_amount" type="number" class="form-input input-text input-disabled" wire:model.defer="monitoring.tot_market_amount" step=".01" disabled/>
                         @error('monitoring.tot_market_amount') <span class="text-error">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+              
+                <div class="col-span-6 sm:col-span-4 flex">         
+                    <!-- Deposit -->
+                    <div class="flex-1 mr-2">
+                        <label for="deposit">{{ __('monitoring::monitoring.Deposit') }}</label>
+                        <input id="deposit" type="number" class="form-input input-text" wire:model.defer="monitoring.deposit" step=".01"/>
+                        @error('monitoring.deposit') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="flex-1 mr-2">
@@ -113,13 +126,6 @@
 
                 
                 <div class="col-span-6 sm:col-span-4 flex">
-                    <!-- Deposit -->
-                    <div class="flex-1 mr-2">
-                        <label for="deposit">{{ __('monitoring::monitoring.Deposit') }}</label>
-                        <input id="deposit" type="number" class="form-input input-text" wire:model.defer="monitoring.deposit" step=".01"/>
-                        @error('monitoring.deposit') <span class="text-error">{{ $message }}</span> @enderror
-                    </div>
-
                     <!-- Account_percent -->
                     <div class="flex-1 mr-2">
                         <label for="account_percent">{{ __('monitoring::monitoring.Account_percent') }}</label>
@@ -129,8 +135,8 @@
 
                     <!-- Account -->
                     <div class="flex-1 mr-2">
-                        <label for="account"></label>
-                        <input id="account" type="number" class="form-input input-text mt-3" wire:model.defer="monitoring.account" step=".01"/>
+                        <label for="account">{{ __('monitoring::monitoring.Account') }}</label>
+                        <input id="account" type="number" class="form-input input-text" wire:model.defer="monitoring.account" step=".01"/>
                         @error('monitoring.account') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
                     
@@ -143,16 +149,14 @@
 
                     <!-- Account_management -->
                     <div class="flex-1 mr-2">
-                        <label for="account_management"></label>
-                        <input id="account_management" type="number" class="form-input input-text mt-3" wire:model.defer="monitoring.account_management" step=".01"/>
+                        <label for="account_management">{{ __('monitoring::monitoring.Account_management') }}</label>
+                        <input id="account_management" type="number" class="form-input input-text" wire:model.defer="monitoring.account_management" step=".01"/>
                         @error('monitoring.account_management') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
                 </div>
 
                 
-                <div class="col-span-6 sm:col-span-4 flex">
-                    
-                
+                <div class="col-span-6 sm:col-span-4 flex">                                  
                     <!-- Bank_guarantee -->
                     <div class="flex-1 mr-2">
                         <label for="bank_guarantee">{{ __('monitoring::monitoring.Bank_guarantee') }}</label>
@@ -165,15 +169,15 @@
                 <div class="col-span-6 sm:col-span-4 flex">
                     <!-- Retention_money_percent -->
                     <div class="flex-1 mr-2">
-                        <label for="retention_money_percent">{{ __('monitoring::monitoring.Retention_money_percent') }} en %</label>
+                        <label for="retention_money_percent">{{ __('monitoring::monitoring.Retention_money_percent') }}</label>
                         <input id="retention_money_percent" type="number" class="form-input input-text" wire:model.defer="monitoring.retention_money_percent" step=".01"/>
                         @error('monitoring.retention_money_percent') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
 
                     <!-- Retention_money -->
                     <div class="flex-1 mr-2">
-                        <label for="retention_money">{{ __('monitoring::monitoring.Retention_money_percent') }}</label>
-                        <input id="retention_money" type="number" class="form-input input-text mt-3" wire:model.defer="monitoring.retention_money" step=".01"/>
+                        <label for="retention_money">{{ __('monitoring::monitoring.Retention_money') }}</label>
+                        <input id="retention_money" type="number" class="form-input input-text" wire:model.defer="monitoring.retention_money" step=".01"/>
                         @error('monitoring.retention_money') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
                 </div>
@@ -181,7 +185,7 @@
                 <div class="col-span-6 sm:col-span-4 flex">
                     <!-- Doc_penality_percent -->
                     <div class="flex-1 mr-2">
-                        <label for="doc_penality_percent">{{ __('monitoring::monitoring.Doc_penality_percent') }} en %</label>
+                        <label for="doc_penality_percent">{{ __('monitoring::monitoring.Doc_penality_percent') }}</label>
                         <input id="doc_penality_percent" type="number" class="form-input input-text" wire:model.defer="monitoring.doc_penality_percent" step=".01"/>
                         @error('monitoring.doc_penality_percent') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
@@ -189,7 +193,7 @@
                     <!-- Doc_penality -->
                     <div class="flex-1 mr-2">
                         <label for="doc_penality">{{ __('monitoring::monitoring.Doc_penality_percent') }}</label>
-                        <input id="doc_penality" type="number" class="form-input input-text mt-3" wire:model.defer="monitoring.doc_penality" step=".01"/>
+                        <input id="doc_penality" type="number" class="form-input input-text" wire:model.defer="monitoring.doc_penality" step=".01"/>
                         @error('monitoring.doc_penality') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
 

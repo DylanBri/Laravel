@@ -54,6 +54,7 @@ class UpdateSettingsForm extends Component
         'monitoring.date'=> 'nullable|date_format:Y-m-d H:i:s',
         'monitoring.total_market_amount'=> 'nullable|numeric',
         'monitoring.total_modify_market_amount'=> 'nullable|numeric',
+        'monitoring.addition_market_amount'=> 'nullable|numeric',
         'monitoring.market_amount'=> 'nullable|numeric',
         'monitoring.modify_market_amount'=> 'nullable|numeric',
         'monitoring.tot_market_amount'=> 'nullable|numeric',

@@ -11,6 +11,7 @@
                 btnAdd: true,
                 btnModify: true,
                 btnDelete: false,
+                btnPayment: true,
                 data: {
                     workSiteId: 0,
                     lotId:0,
@@ -35,6 +36,7 @@
                     "click .toggleSort": "sortField",
                     "change .filter": "filterField",
                     "dblclick .backgrid tr": "seeItem",
+                    "click .btnPayment": "showPayment",
                 },
 
                 afterInitialize: function () {
@@ -182,6 +184,14 @@
                             title: "<?php echo __("actions.Delete"); ?>"
                         });
                     }
+                    if (me.btnPayment) {
+                        buttons.push({
+                            btnClass: "btnPayment btn-toggle-modal btn-primary-border",
+                            modelId: model.get('id'),
+                            imgClass: "fa fa-credit-card",
+                            title: "<?php echo __("company::company.Payment"); ?>"
+                        });
+                    }
                     return template({buttons: buttons});
                 },
 
@@ -301,6 +311,15 @@
                     }*/
                     window.location.replace("/monitoring/work-site-lot-company/" + id + "/edit");
                     //me.renderModal(id, false, false)
+                },
+
+                showPayment: function (e) {
+                    var me = this, $target = $(e.target), $targetP = $target.parent(),
+                    userId = ($target.data('id') === undefined) ? $targetP.data('id') : $target.data('id');
+                    /*if (My.isSuperAdmin === null && !My.Right.AndProfile.includes('ADDUSR')) {
+                    return;
+                    }*/
+                    window.location.replace("/customer/user/" + userId);
                 },
 
                 formSubmit: function () {
