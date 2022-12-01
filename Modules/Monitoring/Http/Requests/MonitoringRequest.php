@@ -45,6 +45,7 @@ class MonitoringRequest extends FormRequest
             'cumul_work_sit_lot_company'=> 'nullable|numeric',
             'cumul_monitoring_previous'=> 'nullable|numeric',
             'progress'=> 'nullable|numeric',
+            'is_progress' => 'bail|required|boolean',
             'balance_du'=> 'nullable|numeric',
             'deduction_previous_payment' =>'nullable|numeric',
             'enabled' => 'bail|required|boolean',

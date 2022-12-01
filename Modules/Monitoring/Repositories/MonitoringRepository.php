@@ -36,12 +36,12 @@ class MonitoringRepository extends Repository
             $wslc->save();
         }
 
-        $test = Monitoring::query()
+        $test1 = Monitoring::query()
                 ->selectRaw("SUM(monitorings.amount_to_pay) as cumul_monitoring_previous")
                 ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
                 ->where('monitorings.date', '<=', $monitoring->date)
                 ->groupBy('work_site_lot_company_id');
-        $sum1 = $test->get();
+        $sum1 = $test1->get();
         
         if(!$sum1->isEmpty()) {
             $cumul1 = $sum1[0]->cumul_monitoring_previous;
@@ -76,6 +76,19 @@ class MonitoringRepository extends Repository
             $moni->save();
         }
         return $monitoring;
+
+        // Remplissage automatique du champs Marché de base
+        $wslc_amount_ttc = Monitoring::query()
+                        ->selectRaw("work_site_lot_company.amount_ttc AS total_market")
+                        ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id);
+        $total_market = $wslc_amount_ttc->get();
+        if(!$total_market->IsEmpty()) {
+            $total_market_amount = $total_market[0]->total_market;
+            dd($total_market_amount);
+            $monit = $monitoring;
+            $monit->total_market_amount = $total_market_amount;
+            //$monit->save();
+        }
     }
 
      /**
@@ -94,7 +107,6 @@ class MonitoringRepository extends Repository
                 ->join('monitorings', 'work_site_lot_company.id', '=', 'monitorings.work_site_lot_company_id')
                 ->groupBy('work_site_lot_company_id');
         $sum_amount = $query->get();
-
         if (!$sum_amount->isEmpty()) {
             $cumul_to_pay = $sum_amount[0]->sum_amount_to_pay;
             $m = $monitoring->workSiteLotCompany;
@@ -117,12 +129,12 @@ class MonitoringRepository extends Repository
             $mo->save();
         }
 
+        // Mise en place de la herarchisation
         $maxId = Monitoring::query()
                 ->selectRaw("MAX(monitorings.id) AS parent_id")
                 ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
                 ->where('monitorings.id', '<', $monitoring->id);
         $idParent = $maxId->get();
-
         if(!$idParent->isEmpty()) {
             $parentId = $idParent[0]->parent_id;
             $mon = $monitoring;
@@ -130,18 +142,31 @@ class MonitoringRepository extends Repository
             $mon->save();
         }
 
+        // Remplissage automatique de l'acompte
         $depo = Monitoring::query()
                 ->selectRaw("monitorings.deposit AS deposit")
                 ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
                 ->where('monitorings.parent_id', '=', NULL);
         $deposit = $depo->get();
-
         if(!$deposit->isEmpty()) {
             $depos = $deposit[0]->deposit;
             $moni = $monitoring;
             $moni->deposit = $depos;
             $moni->save();
         }
+
+        // Remplissage automatique du champs Marché de base
+        $wslc_amount_ttc = Monitoring::query()
+                        ->selectRaw("work_site_lot_company.amount_ttc AS total_market")
+                        ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id);
+        $total_market = $wslc_amount_ttc->get();
+        if(!$total_market->IsEmpty()) {
+            $total_market_amount = $total_market[0]->total_market;
+            $monit = $monitoring;
+            $monit->total_market_amount = $total_market_amount;
+            $monit->save();
+        }
+
 
         return $monitoring;
     }

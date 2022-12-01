@@ -34,9 +34,8 @@ class UpdateSettingsForm extends Component
 
     /**
      * @var boolean $isEdit
-     *
-     * public $isEdit;
      */
+    public $isEdit;
 
     protected $rules = [
         'monitoring.client_id' => 'bail|required|integer',
@@ -71,6 +70,7 @@ class UpdateSettingsForm extends Component
         'monitoring.doc_penality_percent'=> 'nullable|numeric',
         'monitoring.doc_penality'=> 'nullable|numeric',
         'monitoring.work_penality'=> 'nullable|numeric',
+        'monitoring.is_progress'=> 'nullable|boolean',
         'monitoring.progress'=> 'nullable|numeric',
         'monitoring.balance_du' => 'nullable|numeric',
         'monitoring.payment_amount_ttc'=> 'nullable|numeric',
@@ -95,7 +95,7 @@ class UpdateSettingsForm extends Component
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function mount(int $workSiteLotCompanyId = 0, int $monitoringId = 0, bool $isModal = false)
+    public function mount(int $workSiteLotCompanyId = 0, int $monitoringId = 0, bool $isModal = false, bool $isEdit = false)
     {
         $workSiteLotCompany = WorkSiteLotCompanyRepository::getById($workSiteLotCompanyId);
         
@@ -115,7 +115,7 @@ class UpdateSettingsForm extends Component
         }
         
         $this->isModal = $isModal;
-        //$this->isEdit = $isEdit;
+        $this->isEdit = $isEdit;
         $this->emit('monitoring-settings-form-mount', $this->monitoring);
     }
 

@@ -34,7 +34,7 @@ class PaymentRepository extends Repository
     {
         $payment->update($datas);
 
-        // Suomme des paiements par lot non effectué avant la demande 
+        // Somme des paiements par lot non effectué avant la demande 
         $query = Payment::query()
                 ->selectRaw('SUM(payments.amount_ttc) as sum_amount')
                     ->join('work_site_lot_company', 'monitorings.work_site_lot_company_id', '=', 'work_site_lot_company.id')
@@ -42,7 +42,7 @@ class PaymentRepository extends Repository
                     ->where('work_site_lot_company.id', '=', $payment->monitoring->work_site_lot_company_id)
                     ->where('payments.payment_date', '<', $payment->payment_request_date)
                     ->groupBy('monitorings.work_site_lot_company_id');
-        dd($query->get());
+        //dd($query->get());
 
         return $payment;
     }

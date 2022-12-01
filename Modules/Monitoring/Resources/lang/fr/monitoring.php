@@ -32,6 +32,7 @@ return[
     'Work_penality'=> 'Pénalités travaux',
     'Balance' => 'Solde',
     'Progress'=> 'Avancement (%)',
+    'Is_progress' => 'Manuel',
     'Deposit_recovery' => 'Récupération d\'acompte',
     'Balance_du' => 'Solde dû',
     'Deduction_previous_payment' => 'Déduction des propositions de règlement antérieurs',

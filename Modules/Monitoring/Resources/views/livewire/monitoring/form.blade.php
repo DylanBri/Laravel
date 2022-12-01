@@ -14,7 +14,7 @@
                 
         <button type="button" class="btn btn-primary btnBack ml-6">{{ __('Return') }}</button>
 
-        {{-- <div>
+        <div>
             <div class="body-content" id="workSiteLotCompanyGrid">
                 @livewire('components.grid')
             </div>
@@ -31,13 +31,13 @@
                     <button class="btn-form-save btn-primary ml-3 mr-3" type="button">{{ __('Save') }}</button>
                 @endslot
             @endcomponent
-        </div> --}}
+        </div>
 
         @livewire('components.alert', ['elId' => 'monitoring-form-alert-success', 'type' => 'alert-success'])
     </div>
 
     @include('monitoring::livewire.monitoring.form-js')
-    {{-- @include('monitoring::livewire.monitoring.work-site-lot-company.grid-js') --}}
+    @include('monitoring::livewire.monitoring.work-site-lot-company.grid-ts-js')
 
     @section('style')
     <link href="{{ asset('css/monitoring.css') }}" rel="stylesheet">

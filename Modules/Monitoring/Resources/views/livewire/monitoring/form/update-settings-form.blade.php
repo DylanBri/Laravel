@@ -63,18 +63,18 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-4 flex">
+                    <!-- Market_amount -->
+                    <div class="flex-1 mr-2">
+                        <label for="total_market_amount">{{ __('monitoring::monitoring.Total_market_amount') }}</label>
+                        <input id="total_market_amount" type="number" class="form-input input-text input-disabled" wire:model.defer="monitoring.total_market_amount" disabled step=".01"/>
+                        @error('monitoring.total_market_amount') <span class="text-error">{{ $message }}</span> @enderror
+                    </div>
+
                     <!-- Modify_market_amount -->
                     <div class="flex-1 mr-2">
                         <label for="total_modify_market_amount">{{ __('monitoring::monitoring.Total_modify_market_amount') }}</label>
                         <input id="total_modify_market_amount" type="number" class="form-input input-text" wire:model.defer="monitoring.total_modify_market_amount" step=".01"/>
                         @error('monitoring.total_modify_market_amount') <span class="text-error">{{ $message }}</span> @enderror
-                    </div>
-
-                    <!-- Market_amount -->
-                    <div class="flex-1 mr-2">
-                        <label for="total_market_amount">{{ __('monitoring::monitoring.Total_market_amount') }}</label>
-                        <input id="total_market_amount" type="number" class="form-input input-text" wire:model.defer="monitoring.total_market_amount" step=".01"/>
-                        @error('monitoring.total_market_amount') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
 
                     <!-- Total_market_amount -->
@@ -86,18 +86,18 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-4 flex">
-                    <!-- Modify_market_amount -->
-                    <div class="flex-1 mr-2">
-                        <label for="modify_market_amount">{{ __('monitoring::monitoring.Modify_market_amount') }}</label>
-                        <input id="modify_market_amount" type="number" class="form-input input-text" wire:model.defer="monitoring.modify_market_amount" step=".01"/>
-                        @error('monitoring.modify_market_amount') <span class="text-error">{{ $message }}</span> @enderror
-                    </div>
-
                     <!-- Market_amount -->
                     <div class="flex-1 mr-2">
                         <label for="market_amount">{{ __('monitoring::monitoring.Market_amount') }}</label>
                         <input id="market_amount" type="number" class="form-input input-text" wire:model.defer="monitoring.market_amount" step=".01"/>
                         @error('monitoring.market_amount') <span class="text-error">{{ $message }}</span> @enderror
+                    </div>
+                    
+                    <!-- Modify_market_amount -->
+                    <div class="flex-1 mr-2">
+                        <label for="modify_market_amount">{{ __('monitoring::monitoring.Modify_market_amount') }}</label>
+                        <input id="modify_market_amount" type="number" class="form-input input-text" wire:model.defer="monitoring.modify_market_amount" step=".01"/>
+                        @error('monitoring.modify_market_amount') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
                     
                     <!-- Tot_market_amount -->
@@ -192,7 +192,7 @@
 
                     <!-- Doc_penality -->
                     <div class="flex-1 mr-2">
-                        <label for="doc_penality">{{ __('monitoring::monitoring.Doc_penality_percent') }}</label>
+                        <label for="doc_penality">{{ __('monitoring::monitoring.Doc_penality') }}</label>
                         <input id="doc_penality" type="number" class="form-input input-text" wire:model.defer="monitoring.doc_penality" step=".01"/>
                         @error('monitoring.doc_penality') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
@@ -206,6 +206,15 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-4 flex">
+                    <!-- Is_staged -->
+                    <div class="mr-2"><div style="margin-top: 25px">    
+                        @component('components.toggle-checkbox', [
+                        'id' => 'is_progress', 'modelField' => 'monitoring.is_progress', 'label' => 'monitoring::monitoring.Is_progress'
+                        ])
+                        @endcomponent
+                        @error('monitoring.is_progress') <span class="text-error">{{ $message }}</span> @enderror
+                    </div></div>
+
                     <!-- Progress -->
                     <div class="flex-1 mr-2">
                         <label for="progress">{{ __('monitoring::monitoring.Progress') }}</label>

@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 'doc_penality_percent': 0,
                 'doc_penality': 0,
                 'work_penality': 0,
+                'is_progress': 0,
                 'progress' : 0,
                 'balance_du' : 0,
                 'deduction_previous_payment' : 0,

@@ -12,6 +12,7 @@
                     workSiteLotCompanyId: 0,
                     elAlert: '#monitoring-settings-form-alert-success',
                     isModal: false,
+                    isEdit: false,
                     parent: null
                 },
                 data: {
@@ -30,14 +31,21 @@
                 },
 
                 afterInitialize: function () {
-                    var me = this;
+                    var me = this, pathname = document.location.pathname.split('/');
+                    if (pathname[pathname.length-1] !== '') {
+                        me.attributes.isEdit = (pathname[pathname.length-1] === 'edit');
+                    } else {
+                        me.attributes.isEdit = false;
+                    }
                     me.attributes.id = (me.attributes.id === undefined) ? 0 : me.attributes.id;
-                    me.setId(me.attributes.id);
+                    me.setId(me.attributes.id, me.attributes.workSiteLotCompanyId);
                 },
 
                 afterRender: function () {
                     var me = this, 
                         $dfdMarket = $.Deferred(),
+                        $dfdAdditionMarket = $.Deferred(),
+                        $dfdPregress = $.Deferred(),
                         $dfdAccount = $.Deferred(),
                         $dfdAccountMng = $.Deferred(),
                         $dfdRetentionMon = $.Deferred(),
@@ -67,8 +75,9 @@
                             me.attributes.parent.toggleModal();
                         }
 
-                        me.calculFieldsAdditionMarket();
                         me.calculFieldsMarket($dfdMarket);
+                        me.calculFieldsAdditionMarket($dfdAdditionMarket);
+                        $.when($dfdAdditionMarket).then(function () {me.calculFieldsProgress($dfdPregress)});
                         me.calculFieldsDepositRecovery();
                         me.calculFieldsDeductionPreviousPayment();
                         $.when($dfdMarket).then(function () {
@@ -168,7 +177,31 @@
                     });
                 },
 
-                calculFieldsAdditionMarket: function (){
+                calculFieldsProgress: function ($dfd) {
+                    var me = this,
+                        addition_market_amount = (me.$el.find("#addition_market_amount").val() !== '') ? parseFloat(me.$el.find("#addition_market_amount").val()) : 0,
+                        tot_market_amount = (me.$el.find("#tot_market_amount").val() !== '') ? parseFloat(me.$el.find("#tot_market_amount").val()) : 0,
+                        progress;
+                    
+                    if (addition_market_amount === 0 && tot_market_amount === 0) {
+                        me.$el.find('#progress').val(0);
+                        return 0;
+                    }
+                    if(!me.model.attributes.is_progress) {
+                        progress = roundWith((tot_market_amount / addition_market_amount) * 100,0);
+                        if (progress !== parseFloat(me.$el.find('#progress').val())) {
+                            me.$el.find('#progress').val(progress);
+                            me.changeFieldValue('progress', progress);
+                        }
+                    }; 
+                    
+                    console.log(progress);
+                    
+                    $dfd.resolve();
+                    return progress;
+                },
+
+                calculFieldsAdditionMarket: function ($dfd){
                     var me = this,
                         total_market_amount = (me.$el.find("#total_market_amount").val() !== '') ? parseFloat(me.$el.find("#total_market_amount").val()) : 0,
                         total_modify_market_amount = (me.$el.find("#total_modify_market_amount").val() !== '') ? parseFloat(me.$el.find("#total_modify_market_amount").val()) : 0,
@@ -186,6 +219,7 @@
                         me.changeFieldValue('addition_market_amount', addition_market_amount);
                     }
 
+                    $dfd.resolve();
                     return addition_market_amount;
                 },
 
@@ -547,7 +581,7 @@
                     switch (elId) {
                         case 'total_market_amount' :
                         case 'total_modify_market_amount' :
-                            res = me.calculFieldsAdditionMarket(); 
+                            res = me.calculFieldsAdditionMarket($.Deferred()); 
                             console.log('AdditionMarket',res);
                             break;
 
@@ -556,11 +590,17 @@
                             res = me.calculFieldsMarket($.Deferred()); 
                             console.log('Market',res);
                             break;
+                        
+                        case 'addition_market_amount':
+                        case 'tot_market_amount' :
+                            res = me.calculFieldsProgress($.Deferred());
+                            console.log('progress', res);
+                            break;
 
                         case 'doc_penality' : 
                         case 'doc_penality_percent' : 
                             (me.data.nbRunsDocPenality === 0 ? me.calculFieldsDocPenality(elId) : me.data.nbRunsDocPenality = 0);
-                            console.log("doc_pen", elId);
+                            console.log("doc_pen", res, elId);
                             break;
 
                         case 'retention_money' : 
@@ -648,7 +688,7 @@
                     }
 
                     //Mise à jour des infos
-                    Livewire.emit('monitoring-settings-form-update', me.attributes.workSiteLotCompanyId, me.attributes.id,  me.attributes.isModal);
+                    Livewire.emit('monitoring-settings-form-update', me.attributes.workSiteLotCompanyId, me.attributes.id,  me.attributes.isModal, me.attributes.isEdit);
                 },
 
                 formSubmit: function () {
