@@ -20,7 +20,7 @@ class CreateCrmCustomersTable extends Migration
             $table->string('gender')->nullable();
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
-            $table->string('fax')->nullable();
+            $table->string('email')->nullable();
 
             $table->timestamps();
         });

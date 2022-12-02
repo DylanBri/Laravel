@@ -9,7 +9,7 @@ return[
     'Name' => 'Nom',
     'Gender' => 'Civilité',
     'Phone' => 'Téléphone',
-    'Fax'=> 'Télécopie',
+    'Email'=> 'Email',
     'See' => 'Consulter le client',
     'Add' => 'Ajouter un client',
     'Modify' => 'Modifier le client',

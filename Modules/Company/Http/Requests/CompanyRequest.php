@@ -28,7 +28,7 @@ class CompanyRequest extends FormRequest
             'siret'=> 'nullable|max:14',
             'classification'=> 'nullable|max:255',
             'code_ape'=> 'nullable|max:5',
-            'fax'=> 'nullable|max:255',
+            'email'=> 'nullable|max:255',
             'insurance'=> 'nullable|max:255',
             'enabled' => 'bail|required|boolean',
             'suppressed' => 'bail|required|boolean'

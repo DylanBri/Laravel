@@ -11,8 +11,6 @@
                 @livewire('monitoring::monitoring.form.update-settings-form',[0])
             </div>
         </div>
-                
-        <button type="button" class="btn btn-primary btnBack ml-6">{{ __('Return') }}</button>
 
         <div>
             <div class="body-content" id="workSiteLotCompanyGrid">

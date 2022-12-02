@@ -4,24 +4,18 @@ namespace Modules\Company\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Customer\Entities\Address;
 
-class Company extends Model
+class Contact extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'client_id',
-        'title', 
-        'name',
-        'address_id',
+        'compnay_id',
+        'firstname', 
+        'lastname',
         'phone',
-        'supervisor',
-        'siret',
-        'classification',
-        'code_ape',
         'email',
-        'insurance',
         'enabled',
         'suppressed'
     ];
@@ -33,16 +27,11 @@ class Company extends Model
      */
     protected $attributes = [
         'client_id' => 0,
-        'address_id' => null,
-        'title' => '', 
-        'name'=> '',
+        'company_id' => null,
+        'firstname' => '', 
+        'lastname'=> '',
         'phone'=> '',
-        'supervisor'=> '',
-        'siret'=> '',
-        'classification'=> '',
-        'code_ape'=> '',
         'email'=> '',
-        'insurance'=> '',
         'enabled' => 1,
         'suppressed' => 0
     ];
@@ -56,14 +45,14 @@ class Company extends Model
     {
         return (new static)->newQuery()
         ->where('companies.client_id', session('clientId'))
-        ->join('addresses', 'companies.address_id', '=', 'addresses.id');
+        ->join('companies', 'contacts.company_id', '=', 'companies.id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function address()
+    public function company()
     {
-        return $this->belongsTo(Address::class);
+        return $this->belongsTo(Company::class);
     }
 }

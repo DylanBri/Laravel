@@ -13,8 +13,6 @@
                 btnDelete: false,
                 btnPayment: true,
                 data: {
-                    workSiteId: 0,
-                    lotId:0,
                     monitoringId: 0,
                     alert: null,
                     loading: null,
@@ -207,14 +205,15 @@
                     if (me.data.workSiteLotCompany.settings === null) {
                         me.data.workSiteLotCompany.settings = new App.Module.Monitoring.View.WorkSiteLotCompany.Settings({
                             attributes: {
-                                workSiteId: me.data.workSiteId,
+                                monitoringId: me.data.monitoringId,
                                 isModal: true,
                                 isEdit: me.data.isEdit,
                                 parent: me
                             }
                         });
+                        console.log(me.data);
                     }
-                    me.data.workSiteLotCompany.settings.setId((id === null) ? 0 : id, me.data.workSiteId);
+                    me.data.workSiteLotCompany.settings.setId((id === null) ? 0 : id, me.data.monitoringId);
                 },
 
                 renderModal: function (id, isNew, isModify) {

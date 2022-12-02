@@ -75,13 +75,13 @@
         <div>
             @component('components.short-frame',
                 [
-                    'bgColorHeader' => 'bg-red-600',
+                    'bgColorHeader' => 'bg-amber-600',
                     'icon' => 'fa-credit-card',
-                    'iconColor' => 'text-red-400',
+                    'iconColor' => 'text-amber-400',
                     'label' => 'company::payment.List',
                     'buttons' => [[
                         'url' => '/company/payment',
-                        'classes' => 'bg-red-400 hover:bg-red-600',
+                        'classes' => 'bg-amber-400 hover:bg-amber-600',
                         'label' => 'actions.See'
                     ]]
                 ])

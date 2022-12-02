@@ -18,7 +18,7 @@ class CustomerRequest extends FormRequest
             'name' => 'bail|required|max:255',
             'gender' => 'nullable|max:255',
             'phone' => 'nullable|max:50',
-            'fax' => 'nullable|max:50',
+            'email' => 'nullable|max:50',
 
             'address_1' => 'bail|required|max:255',
             'address_2' => 'nullable|max:255',

@@ -58,6 +58,11 @@
                     me.render();
                 },
 
+                afterRender: function () {
+                    var me = this;
+                    me.$el.find('.grid-content').before("<h6 class='text-center'><?php echo __("monitoring::monitoring.List"); ?></h6>");
+                },
+
                 initColumns: function () {
                     var me = this;
 

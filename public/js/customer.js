@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
         'name': '',
         'gender': '',
         'phone': '',
-        'fax': ''
+        'email': ''
       },
       urlRoot: "/customer",
       parse: function parse(resp) {

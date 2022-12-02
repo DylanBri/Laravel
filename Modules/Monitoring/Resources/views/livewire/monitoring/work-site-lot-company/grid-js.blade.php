@@ -319,7 +319,7 @@
                     /*if (My.isSuperAdmin === null && !My.Right.AndProfile.includes('ADDUSR')) {
                     return;
                     }*/
-                    window.location.replace("/customer/user/" + userId);
+                    window.location.replace("/monitoring/work-site-lot-company/" + userId + "/payment");
                 },
 
                 formSubmit: function () {

@@ -16,7 +16,7 @@ class Customer extends Model
         'name',
         'gender',
         'phone',
-        'fax'
+        'email'
     ];
 
     /**
@@ -30,7 +30,7 @@ class Customer extends Model
         'name' => '',
         'gender' => '',
         'phone' => '',
-        'fax' => ''
+        'email' => ''
     ];
 
     /**

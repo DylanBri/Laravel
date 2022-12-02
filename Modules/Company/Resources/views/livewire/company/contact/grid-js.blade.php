@@ -3,21 +3,22 @@
         $(document).on('app.ready', function () {
             if (App.Module.Company === undefined) App.Module.Company = {};
             if (App.Module.Company.View === undefined) App.Module.Company.View = {};
-            if (App.Module.Company.View.Company === undefined) App.Module.Company.View.Company = {};
-            App.Module.Company.View.Company.Grid = App.View.Grid.extend({
-                el: "#companyGrid",
-                collection: new App.Module.Company.Collection.Pageable.Companies(),
+            if (App.Module.Company.View.Contact === undefined) App.Module.Company.View.Contact = {};
+            App.Module.Company.View.Contact.Grid = App.View.Grid.extend({
+                el: "#contactGrid",
+                collection: new App.Module.Company.Collection.Pageable.Contacts(),
                 btnSee: true,
                 btnAdd: true,
                 btnModify: true,
                 btnDelete: false,
                 data: {
+                    //CompanyId: 0,
                     alert: null,
                     loading: null,
                     modal: null,
                     stateSettings: true, // false,
                     model: null,
-                    company: {
+                    contact: {
                         settings: null,
                     }
                 },
@@ -36,8 +37,14 @@
 
                 afterInitialize: function () {
                     var me = this;
+
                     me.initGrid();
                     me.render();
+                },
+
+                afterRender: function () {
+                    var me = this;
+                    me.$el.find('.grid-content').before("<h6 class='text-center'><?php echo __("company::contact.List"); ?></h6>");
                 },
 
                 initColumns: function () {
@@ -55,35 +62,35 @@
 
                     me.columns = [
                         {
-                            label: "<?php echo __("company::company.Id"); ?>",
+                            label: "<?php echo __("company::contact.Id"); ?>",
                             name: 'id',
                             cell: 'string',
                             sortable: true,
                             editable: false,
                             filterable: true,
-                            filterName: 'companies.id',
+                            filterName: 'contacts.id',
                             filterType: 'string',
                             headerCell: App.View.HeaderCell.MenuHeader
                         },
                         {
-                            label: "<?php echo __("company::company.Name"); ?>",
-                            name: 'name',
+                            label: "<?php echo __("company::contact.Firstname"); ?>",
+                            name: 'firstname',
                             cell: 'string',
                             sortable: true,
-                            editable: false,
+                            editable: true,
                             filterable: true,
-                            filterName: 'companies.name',
+                            filterName: 'contacts.firstname',
                             filterType: 'string',
                             headerCell: App.View.HeaderCell.MenuHeader
                         },
                         {
-                            label: "<?php echo __("company::company.Phone"); ?>",
-                            name: 'phone',
+                            label: "<?php echo __("company::contact.Lastname"); ?>",
+                            name: 'lastname',
                             cell: 'string',
                             sortable: true,
-                            editable: false,
+                            editable: true,
                             filterable: true,
-                            filterName: 'companies.phone',
+                            filterName: 'contacts.lastname',
                             filterType: 'string',
                             headerCell: App.View.HeaderCell.MenuHeader
                         },
@@ -98,6 +105,31 @@
                         }
                     ]
                 },
+
+                /* reload: function () {
+                    var me = this;
+                    if (me.grid !== null) {
+                        toggleLoading();
+                        me.$el.find(".grid-content").empty().append(me.grid.render().el);
+                        me.renderBtnPaginator();
+                        me.collection.state.currentPage = 1;
+                        me.collection.setSorting(null, -1, {});
+                        me.collection.clearFilters();
+
+                        // Filters
+                        if (me.data.CompanyId > 0) {
+                            me.collection.setFilters([{
+                                field: 'contacts.company_id',
+                                value: me.data.CompanyId,
+                                type: 'number'
+                            }]);
+                        }
+
+                        me.collection.fetch().always(function () {
+                            toggleLoading();
+                        });
+                    }
+                }, */
 
                 tplBtnAction: function (model) {
                     var me = this, template = Handlebars.compile($("#btnAction-tpl").html()), buttons = [];
@@ -145,27 +177,27 @@
 
                 renderSettings: function (id) {
                     var me = this;
-                    if (me.data.company.settings === null) {
-                        me.data.company.settings = new App.Module.Company.View.Company.Settings({
+                    if (me.data.contact.settings === null) {
+                        me.data.contact.settings = new App.Module.Company.View.Contact.Settings({
                             attributes: {
                                 isModal: true,
                                 parent: me
                             }
                         });
                     }
-                    me.data.company.settings.setId((id === null) ? 0 : id);
+                    me.data.contact.settings.setId((id === null) ? 0 : id);
                 },
 
                 renderModal: function (id, isNew, isModify) {
-                    var me = this, txtSee = "<?php echo __('company::company.See'); ?>",
-                        txtAdd = "<?php echo __('company::company.Add'); ?>",
-                        txtModify = "<?php echo __('company::company.Modify'); ?>";
+                    var me = this, txtSee = "<?php echo __('company::contact.See'); ?>",
+                        txtAdd = "<?php echo __('company::contact.Add'); ?>",
+                        txtModify = "<?php echo __('company::contact.Modify'); ?>";
 
                     if (me.data.modal === null) {
                         me.data.modal = new App.View.Component.Modal({
-                            el: '#companyModalContainer',
+                            el: '#contactModalContainer',
                             attributes: {
-                                elModal: '#companyModal'
+                                elModal: '#contactModal'
                             }
                         });
                         /*me.data.modal.$el.find('.modal-content').accordion({
@@ -178,7 +210,7 @@
                         });*/
 
                         me.data.modal.$el.find(".btn-form-save").on('click', function () {
-                            me.data.company.settings.formSubmit();
+                            me.data.contact.settings.formSubmit();
                         });
                         me.data.modal.$el.find(".btn-modal-header").on('click', function () {
                             me.refresh();
@@ -192,7 +224,7 @@
                     if (isModify || isNew) me.data.modal.$el.find(".btn-form-save").removeClass('hidden');
                     me.data.modal.$el.find(".btn-alert-close").click();
 
-                    me.data.model = new App.Module.Company.Model.Company();
+                    me.data.model = new App.Module.Company.Model.Contact();
                     if (id !== null) me.data.model.set('id', id);
                     me.renderSettings(id);
 
@@ -224,8 +256,8 @@
                     /*if (My.isSuperAdmin === null && !My.Right.AndProfile.includes('UPDUSR')) {
                         return;
                     }*/
-                    if (window.confirm("<?php echo __('company::company.Delete') ?>")) {
-                        me.data.model = new App.Module.Company.Model.Company();
+                    if (window.confirm("<?php echo __('company::contact.Delete') ?>")) {
+                        me.data.model = new App.Module.Company.Model.Contact();
                         if (id !== null) me.data.model.set('id', id);
                         me.renderSettings(id);
                         me.setModel('suppressed', true);
@@ -239,12 +271,12 @@
                     /*if (My.isSuperAdmin === null && !My.Right.AndProfile.includes('SEEUSR')) {
                         return;
                     }*/
-                    window.location.replace("company/" + id + "/edit");
-                    //me.renderModal(id, false, false)
+                    // window.location.replace("/user/view/" + id + "/read");
+                    me.renderModal(id, false, false)
                 },
 
                 formSubmit: function () {
-                    Livewire.emit('submitForm');
+                    Livewire.emit('contactSubmitForm');
                 },
 
                 setModel: function (id, value) {
@@ -253,7 +285,7 @@
                 },
 
                 saveModel: function () {
-                    var me = this, token = me.data.company.settings.$el.find('[name=_token]').val();
+                    var me = this, token = me.data.contact.settings.$el.find('[name=_token]').val();
                     me.$el.find('input[type=submit]').prop('disabled', true);
                     
                     if (me.data.stateSettings) {
@@ -262,7 +294,7 @@
                             .done(function (r) {
                                 if (me.data.alert === null) {
                                     me.data.alert = new App.View.Component.Alert({
-                                        el: '#company-form-alert-success',
+                                        el: '#contact-form-alert-success',
                                         attributes: {
                                             title: ''
                                         }
@@ -271,19 +303,19 @@
                                     me.data.alert.closeAlert();
                                     me.data.alert.render();
                                 }
-                                Livewire.emit('company-form-success', r.data);
-                                me.data.company.settings.triggerSuccess(r.data);
+                                Livewire.emit('contact-form-success', r.data);
+                                me.data.contact.settings.triggerSuccess(r.data);
                                 me.data.modal.$el.find(".btn-toggle-modal")[0].click();
                             })
                             .fail(function (r) {
                                 var errors = r.responseJSON.errors;
-                                Livewire.emit('company-form-error', errors);
-                                me.data.company.settings.triggerErrors(errors);
+                                Livewire.emit('contact-form-error', errors);
+                                me.data.contact.settings.triggerErrors(errors);
                             });
                     }
                 }
             });
-            new App.Module.Company.View.Company.Grid();
+            new App.Module.Company.View.Contact.Grid();
         });
     });
 </script>

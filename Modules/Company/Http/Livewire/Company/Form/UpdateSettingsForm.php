@@ -39,7 +39,7 @@ class UpdateSettingsForm extends Component
         'company.siret'=> 'nullable|max:14',
         'company.classification'=> 'nullable|max:255',
         'company.code_ape'=> 'nullable|max:5',
-        'company.fax'=> 'nullable|max:255',
+        'company.email'=> 'nullable|max:255',
         'company.insurance'=> 'nullable|max:255',
     ];
 

@@ -29,6 +29,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
             Route::get('/list/work-site-lot-company/{id}', 'PaymentController@getByWorkSiteLotCompany')->where('id', '[0-9]+');
         });
         Route::resource('payment', 'PaymentController');
+
+         // Contact
+         Route::prefix('contact')->group(function() {
+            Route::get('/byId/{id}', 'ContactController@getById')->where('id', '[0-9]+');
+            Route::get('/list/pageable', 'ContactController@getPaginate');
+            Route::get('/list', 'ContactController@getList');
+            Route::get('/list/search', 'ContactController@showSearch')->name('Contact.listing');
+            Route::get('/search', 'ContactController@search');
+        });
+        Route::resource('contact', 'ContactController');
     });
     Route::resource('company', 'CompanyController');
 });

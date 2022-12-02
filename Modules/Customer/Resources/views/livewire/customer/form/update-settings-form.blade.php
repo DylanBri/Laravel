@@ -35,11 +35,11 @@
                             @error('customer.phone') <span class="text-error">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Fax -->
+                        <!-- Email -->
                         <div class="flex-1 mr-2">
-                            <label for="fax">{{ __('customer::customer.Fax') }}</label>
-                            <input id="fax" type="text" class="form-input input-text" wire:model.defer="customer.fax"/>
-                            @error('customer.fax') <span class="text-error">{{ $message }}</span> @enderror
+                            <label for="email">{{ __('customer::customer.Email') }}</label>
+                            <input id="email" type="text" class="form-input input-text" wire:model.defer="customer.email"/>
+                            @error('customer.email') <span class="text-error">{{ $message }}</span> @enderror
                         </div>
                     </div>
                 </div>

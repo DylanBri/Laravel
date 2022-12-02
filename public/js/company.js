@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
         'siret': '',
         'classification': '',
         'code_ape': '',
-        'fax': '',
+        'email': '',
         'insurance': '',
         'client_id': 0,
         'enabled': 1,

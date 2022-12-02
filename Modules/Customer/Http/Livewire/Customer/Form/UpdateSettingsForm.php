@@ -39,7 +39,7 @@ class UpdateSettingsForm extends Component
         'customer.name' => 'bail|required|max:255',
         'customer.gender' => 'nullable|max:255',
         'customer.phone' => 'nullable|max:50',
-        'customer.fax' => 'nullable|max:50',
+        'customer.email' => 'nullable|max:50',
     ];
 
     protected $listeners = [
