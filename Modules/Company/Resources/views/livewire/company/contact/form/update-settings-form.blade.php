@@ -1,7 +1,7 @@
 <x-jet-form-simple id="contactSettingsForm" submit="validateContactSettingsInformation">
     <x-slot name="form">
         @csrf
-        <div class="md:grid md:gap-6 md:grid-cols-3">
+        <div class="md:grid md:gap-6 md:grid-cols-2">
             <div class="mt-5 md:mt-0">
                 <!-- Id -->
                 <div class="col-span-6 sm:col-span-4">
@@ -13,15 +13,15 @@
                 <!-- Firstname -->
                 <div class="col-span-6 sm:col-span-4">
                     <label for="firstname">{{ __('company::contact.Firstname') }}</label>
-                    <input id="firstname" type="number" class="form-input input-text" wire:model.defer="contact.firstname" step=".01"/>
+                    <input id="firstname" type="text" class="form-input input-text" wire:model.defer="contact.firstname"/>
                     @error('contact.firstname') <span class="text-error">{{ $message }}</span> @enderror
                 </div>
 
                 <!-- Lastname -->
                 <div class="col-span-6 sm:col-span-4">
-                    <label for="lasstname">{{ __('company::contact.Laststname') }}</label>
-                    <input id="lasstname" type="number" class="form-input input-text" wire:model.defer="contact.lasstname" step=".01"/>
-                    @error('contact.lasstname') <span class="text-error">{{ $message }}</span> @enderror
+                    <label for="lastname">{{ __('company::contact.Lastname') }}</label>
+                    <input id="lastname" type="text" class="form-input input-text" wire:model.defer="contact.lastname"/>
+                    @error('contact.lastname') <span class="text-error">{{ $message }}</span> @enderror
                 </div>
             </div>
             <div class="mt-5 md:mt-0">

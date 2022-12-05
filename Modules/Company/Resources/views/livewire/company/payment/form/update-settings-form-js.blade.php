@@ -64,6 +64,7 @@
 
                     //Après la validation du formulaire
                     Livewire.on('payment-settings-form-validate', request => {
+                        console.log('request', request);
                         if (me.attributes.parent === null || me.attributes.parent === undefined) {
                             me.saveModel();
                         } else {

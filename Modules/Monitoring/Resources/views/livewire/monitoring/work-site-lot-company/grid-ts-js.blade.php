@@ -205,6 +205,7 @@
                     if (me.data.workSiteLotCompany.settings === null) {
                         me.data.workSiteLotCompany.settings = new App.Module.Monitoring.View.WorkSiteLotCompany.Settings({
                             attributes: {
+                                type: 1,
                                 monitoringId: me.data.monitoringId,
                                 isModal: true,
                                 isEdit: me.data.isEdit,

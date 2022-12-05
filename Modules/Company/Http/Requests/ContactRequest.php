@@ -15,9 +15,10 @@ class ContactRequest extends FormRequest
     {
         return [
             'client_id' => 'nullable|integer',
-            'company_id' => 'nullable|integer',
-            'firstname' => 'nullable|max:255', 
-            'lastname'=> 'nullable|max:255',
+            'company_id' => 'bail|required|integer',
+            'company_name' => 'bail|required|string',
+            'firstname' => 'bail|required|max:255', 
+            'lastname'=> 'bail|required|max:255',
             'phone'=> 'nullable|max:50',
             'email'=> 'nullable|max:50',
             'enabled' => 'bail|required|boolean',

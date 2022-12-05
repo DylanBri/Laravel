@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
         App.Module.Company.Model.Contact = App.Model.Model.extend({
             defaults: {
                 id: null,
-                'client_id' : '',
-                'company_id' : '',
+                'client_id' : 0,
+                'company_id' : null,
                 'company_name': '',
                 'firstname' : '',
                 'lastname' : '',

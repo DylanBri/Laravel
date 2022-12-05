@@ -54,18 +54,6 @@ class PaymentObserver
     {
         if (Auth::user() !== null) {
             //dd(Auth::user());
-
-            $monitoring = $payment->monitoring;
-            $query = $monitoring->payments()
-                ->selectRaw('SUM(amount_ttc) as sum_amount')
-                ->join('monitorings', 'payments.monitoring_id', "=", 'monitorings.id')
-                ->whereColumn('payment_date', "<=", 'monitorings.date')
-                ->groupBy('monitoring_id');
-            $query1 = $query->get();
-            if(!$query1->isEmpty()) {
-                $monitoring->deduction_previous_payment = $query[0]->sum_amount;
-                $monitoring->saveQuietly();
-            }
         }
         
         LogQueueRepository::create([

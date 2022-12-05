@@ -34,9 +34,9 @@ class Payment extends Model
      */
     protected $attributes = [
         'client_id' => 0,
-        'customer_id' => 0,
-        'company_id' => 0,
-        'monitoring_id' => 0,
+        'customer_id' => null,
+        'company_id' => null,
+        'monitoring_id' => null,
         'name' => '',
         'payment_request_date' => '2022-01-01 00:00:00',
         'amount_ttc' => '',

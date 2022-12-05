@@ -24,15 +24,16 @@ class UpdateSettingsForm extends Component
      */
     public $isModal;
 
-    protected $return = [
+    protected $rules = [
         'contact.client_id' => 'nullable|integer',
         'contact.company_id' => 'nullable|integer',
+        'contact.company_name' => 'nullable|string',
         'contact.firstname' => 'nullable|max:255', 
         'contact.lastname'=> 'nullable|max:255',
         'contact.phone'=> 'nullable|max:50',
         'contact.email'=> 'nullable|max:50',
-        'contact.enabled' => 'bail|required|boolean',
-        'contact.suppressed' => 'bail|required|boolean'
+        'contact.enabled' => 'nullable|boolean',
+        'contact.suppressed' => 'nullable|boolean'
     ];
 
     protected $listeners = [
@@ -80,7 +81,7 @@ class UpdateSettingsForm extends Component
     public function validateContactSettingsInformation()
     {
         $validateData = $this->validate();
-
+        
         $this->authorize('create', [Auth::user()]);
         $this->authorize('update', [Auth::user(), $this->contact]);
 

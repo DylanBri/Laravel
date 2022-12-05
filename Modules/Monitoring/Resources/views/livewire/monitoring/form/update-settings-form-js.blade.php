@@ -79,7 +79,6 @@
                         me.calculFieldsAdditionMarket($dfdAdditionMarket);
                         $.when($dfdAdditionMarket).then(function () {me.calculFieldsProgress($dfdPregress)});
                         me.calculFieldsDepositRecovery();
-                        me.calculFieldsDeductionPreviousPayment();
                         $.when($dfdMarket).then(function () {
                             me.calculFieldsAccount("account_percent", $dfdAccount);
                             $.when($dfdAccount).then(function () {
@@ -516,27 +515,6 @@
                     }
 
                     return balance_du;
-                },
-
-                calculFieldsDeductionPreviousPayment: function (){
-                    var me = this,
-                        deposit = (me.$el.find("#deposit").val() !== '') ? parseFloat(me.$el.find("#deposit").val()) : 0,
-                        cumul_monitoring_previous = me.model.attributes.cumul_monitoring_previous,
-                        deduction_previous_payment = 0;
-
-                        if(deposit === 0 || cumul_monitoring_previous === 0) {
-                            me.$el.find('#deduction_previous_payment').val(0);
-                            return 0;
-                        }
-
-                        deduction_previous_payment = roundWith(cumul_monitoring_previous - deposit,2);
-
-                    if (deduction_previous_payment !== parseFloat(me.$el.find('#deduction_previous_payment').val())) {
-                        me.$el.find('#deduction_previous_payment').val(deduction_previous_payment);
-                        me.changeFieldValue('deduction_previous_payment', deduction_previous_payment);
-                    }
-
-                    return deduction_previous_payment;
                 },
 
                 calculFieldsAmountToPay: function (){

@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
         App.Module.Company.Model.Payment = App.Model.Model.extend({
             defaults: {
                 id: null,
-                'client_id' : '',
-                'customer_id' : '',
+                'client_id' : 0,
+                'customer_id' : null,
                 'customer_name' : '',
                 'company_id' : '',
                 'company_name': '',

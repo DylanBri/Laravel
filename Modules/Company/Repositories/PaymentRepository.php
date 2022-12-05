@@ -34,15 +34,18 @@ class PaymentRepository extends Repository
     {
         $payment->update($datas);
 
-        // Somme des paiements par lot non effectué avant la demande 
-        $query = Payment::query()
-                ->selectRaw('SUM(payments.amount_ttc) as sum_amount')
-                    ->join('work_site_lot_company', 'monitorings.work_site_lot_company_id', '=', 'work_site_lot_company.id')
-                    ->where('payments.is_done', '=', '0')
-                    ->where('work_site_lot_company.id', '=', $payment->monitoring->work_site_lot_company_id)
-                    ->where('payments.payment_date', '<', $payment->payment_request_date)
-                    ->groupBy('monitorings.work_site_lot_company_id');
-        //dd($query->get());
+        $monitoring = $payment->monitoring;
+        $query = $monitoring->payments()
+            ->selectRaw('SUM(amount_ttc) as sum_amount')
+            ->join('monitorings', 'payments.monitoring_id', "=", 'monitorings.id')
+            ->whereColumn('payment_date', "<=", 'monitorings.date')
+            ->groupBy('monitoring_id');
+        $query1 = $query->get();
+        dd($monitoring);
+        if(!$query1->isEmpty()) {
+            $monitoring->deduction_previous_payment = $query[0]->sum_amount;
+            $monitoring->saveQuietly();
+        }
 
         return $payment;
     }

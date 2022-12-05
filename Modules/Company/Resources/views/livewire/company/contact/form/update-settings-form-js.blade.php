@@ -36,7 +36,7 @@
                     me.renderAutocompleteCompany();
 
                     //Après le remplissage du formulaire
-                    Livewire.on('payment-settings-form-mount', hydrate => {
+                    Livewire.on('contact-settings-form-mount', hydrate => {
                         if (me.model !== null) me.model.remove();
                         me.model = new App.Module.Company.Model.Contact(hydrate);
                         if (hydrate !== null) {

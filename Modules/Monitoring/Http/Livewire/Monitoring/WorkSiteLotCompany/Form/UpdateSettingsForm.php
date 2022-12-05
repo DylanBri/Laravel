@@ -73,7 +73,7 @@ class UpdateSettingsForm extends Component
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function mount(int $workSiteLotCompanyId = 0, int $workSiteId = 0, bool $isModal = false, $isEdit = false)
+    public function mount(int $workSiteLotCompanyId = 0, int $type = 0, int $workSiteId = 0, bool $isModal = false, $isEdit = false)
     {
         $workSite = WorkSiteRepository::getById($workSiteId);
 

@@ -9,6 +9,7 @@
                 el: '#workSiteLotCompanySettingsForm',
                 attributes: {
                     id: 0,
+                    type: 0,
                     workSiteId: 0,
                     elAlert: '#work-site-lot-company-settings-form-alert-success',
                     isModal: false,
@@ -34,7 +35,8 @@
                         me.attributes.isEdit = false;
                     }
                     me.attributes.id = (me.attributes.id === undefined) ? 0 : me.attributes.id;
-                    me.setId(me.attributes.id, me.attributes.workSiteId);
+                    me.attributes.type = (me.attributes.type === undefined) ? 0 : me.attributes.type;
+                    me.setId(me.attributes.id, me.attributes.workSiteId, me.attributes.type);
                 },
 
                 afterRender: function () {
@@ -151,17 +153,20 @@
                     me.changeFieldValue(e.currentTarget.id, e.currentTarget.checked);
                 },
 
-                setId: function (id, workSiteId) {
+                setId: function (id, workSiteId, type) {
                     var me = this;
                     me.attributes.workSiteId = (workSiteId === null || workSiteId === undefined)? 0 : workSiteId;
                     me.attributes.id = (id === null || id === undefined)? 0 : id;
+                    me.attributes.type = (type === null || type === undefined)? 0 : type;
                     if (!me.data.alreadyRender) {
                         me.data.alreadyRender = true;
                         me.render();
                     }
 
+                    console.log(me.attributes, type);
+
                     //Mise à jour des infos
-                    Livewire.emit('work-site-lot-company-settings-form-update', me.attributes.id, me.attributes.workSiteId, me.attributes.isModal, me.attributes.isEdit);
+                    Livewire.emit('work-site-lot-company-settings-form-update', me.attributes.id, me.attributes.type, me.attributes.workSiteId, me.attributes.isModal, me.attributes.isEdit);
                 },
 
                 formSubmit: function () {
