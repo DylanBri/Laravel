@@ -11,6 +11,7 @@
                     id: 0,
                     elAlert: '#company-settings-form-alert-success',
                     isModal: false,
+                    isEdit: false,
                     parent: null
                 },
                 data: {
@@ -25,7 +26,12 @@
                 },
 
                 afterInitialize: function () {
-                    var me = this;
+                    var me = this, pathname = document.location.pathname.split('/');
+                    if (pathname[pathname.length-1] !== '') {
+                        me.attributes.isEdit = (pathname[pathname.length-1] === 'edit');
+                    } else {
+                        me.attributes.isEdit = false;
+                    }
                     me.attributes.id = (me.attributes.id === undefined) ? 0 : me.attributes.id;
                     me.setId(me.attributes.id);
                 },
@@ -81,7 +87,7 @@
                     }
 
                     //Mise à jour des infos
-                    Livewire.emit('company-settings-form-update', me.attributes.id, me.attributes.isModal);
+                    Livewire.emit('company-settings-form-update', me.attributes.id, me.attributes.isModal, me.attributes.isEdit);
                 },
 
                 formSubmit: function () {

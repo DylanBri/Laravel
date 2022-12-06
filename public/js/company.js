@@ -23,6 +23,28 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
 /***/ }),
 
+/***/ "./Modules/Company/Resources/assets/js/collections/Contacts.js":
+/*!*********************************************************************!*\
+  !*** ./Modules/Company/Resources/assets/js/collections/Contacts.js ***!
+  \*********************************************************************/
+/***/ (() => {
+
+"use strict";
+
+
+document.addEventListener('DOMContentLoaded', function (e) {
+  $(document).on('app.ready', function () {
+    if (App.Module.Company === undefined) App.Module.Company = {};
+    if (App.Module.Company.Collection === undefined) App.Module.Company.Collection = {};
+    App.Module.Company.Collection.Contacts = App.Collection.Collection.extend({
+      model: App.Module.Company.Model.Contact,
+      url: "/company/contact/list"
+    });
+  });
+});
+
+/***/ }),
+
 /***/ "./Modules/Company/Resources/assets/js/collections/Payments.js":
 /*!*********************************************************************!*\
   !*** ./Modules/Company/Resources/assets/js/collections/Payments.js ***!
@@ -62,6 +84,29 @@ document.addEventListener('DOMContentLoaded', function (e) {
     App.Module.Company.Collection.Pageable.Companies = App.Collection.Pageable.Pageable.extend({
       model: App.Module.Company.Model.Company,
       url: "/company/list/pageable"
+    });
+  });
+});
+
+/***/ }),
+
+/***/ "./Modules/Company/Resources/assets/js/collections/pageable/Contacts.js":
+/*!******************************************************************************!*\
+  !*** ./Modules/Company/Resources/assets/js/collections/pageable/Contacts.js ***!
+  \******************************************************************************/
+/***/ (() => {
+
+"use strict";
+
+
+document.addEventListener('DOMContentLoaded', function (e) {
+  $(document).on('app.ready', function () {
+    if (App.Module.Company === undefined) App.Module.Company = {};
+    if (App.Module.Company.Collection === undefined) App.Module.Company.Collection = {};
+    if (App.Module.Company.Collection.Pageable === undefined) App.Module.Company.Collection.Pageable = {};
+    App.Module.Company.Collection.Pageable.Contacts = App.Collection.Pageable.Pageable.extend({
+      model: App.Module.Company.Model.Contact,
+      url: "/company/contact/list/pageable"
     });
   });
 });
@@ -127,6 +172,44 @@ document.addEventListener('DOMContentLoaded', function (e) {
         'suppressed': 0
       },
       urlRoot: "/company",
+      parse: function parse(resp) {
+        // TODO
+        // resp.category = new App.Model.UserCategory(resp.userCategory);
+        return resp;
+      }
+    });
+  });
+});
+
+/***/ }),
+
+/***/ "./Modules/Company/Resources/assets/js/models/Contact.js":
+/*!***************************************************************!*\
+  !*** ./Modules/Company/Resources/assets/js/models/Contact.js ***!
+  \***************************************************************/
+/***/ (() => {
+
+"use strict";
+
+
+document.addEventListener('DOMContentLoaded', function (e) {
+  $(document).on('app.ready', function () {
+    if (App.Module.Company === undefined) App.Module.Company = {};
+    if (App.Module.Company.Model === undefined) App.Module.Company.Model = {};
+    App.Module.Company.Model.Contact = App.Model.Model.extend({
+      defaults: {
+        id: null,
+        'client_id': '',
+        'company_id': '',
+        'company_name': '',
+        'firstname': '',
+        'lastname': '',
+        'phone': '',
+        'email': '',
+        'enabled': 1,
+        'suppressed': 0
+      },
+      urlRoot: "/company/contact",
       parse: function parse(resp) {
         // TODO
         // resp.category = new App.Model.UserCategory(resp.userCategory);
@@ -228,6 +311,12 @@ __webpack_require__(/*! ./models/Payment */ "./Modules/Company/Resources/assets/
 __webpack_require__(/*! ./collections/Payments */ "./Modules/Company/Resources/assets/js/collections/Payments.js");
 
 __webpack_require__(/*! ./collections/pageable/Payments */ "./Modules/Company/Resources/assets/js/collections/pageable/Payments.js");
+
+__webpack_require__(/*! ./models/Contact */ "./Modules/Company/Resources/assets/js/models/Contact.js");
+
+__webpack_require__(/*! ./collections/Contacts */ "./Modules/Company/Resources/assets/js/collections/Contacts.js");
+
+__webpack_require__(/*! ./collections/pageable/Contacts */ "./Modules/Company/Resources/assets/js/collections/pageable/Contacts.js");
 })();
 
 /******/ })()

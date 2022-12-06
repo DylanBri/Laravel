@@ -22,6 +22,18 @@ class PaymentRepository extends Repository
         $payment->fill($datas);
         $payment->save();
 
+        $monitoring = $payment->monitoring;
+        $query = Payment::query()
+            ->selectRaw('SUM(payments.amount_ttc) as sum_amount')
+            ->join('work_site_lot_company', 'monitorings.work_site_lot_company_id', "=", 'work_site_lot_company.id')
+            ->where('payment_date', "<", $monitoring->date)
+            ->groupBy('monitorings.work_site_lot_company_id');
+        $query1 = $query->get();
+        if(!$query1->isEmpty()) {
+            $monitoring->deduction_previous_payment = $query1[0]->sum_amount - $monitoring->deposit;
+            $monitoring->saveQuietly();
+        }
+
         return $payment;
     }
 
@@ -35,15 +47,14 @@ class PaymentRepository extends Repository
         $payment->update($datas);
 
         $monitoring = $payment->monitoring;
-        $query = $monitoring->payments()
-            ->selectRaw('SUM(amount_ttc) as sum_amount')
-            ->join('monitorings', 'payments.monitoring_id', "=", 'monitorings.id')
-            ->whereColumn('payment_date', "<=", 'monitorings.date')
-            ->groupBy('monitoring_id');
+        $query = Payment::query()
+            ->selectRaw('SUM(payments.amount_ttc) as sum_amount')
+            ->join('work_site_lot_company', 'monitorings.work_site_lot_company_id', "=", 'work_site_lot_company.id')
+            ->where('payment_date', "<", $monitoring->date)
+            ->groupBy('monitorings.work_site_lot_company_id');
         $query1 = $query->get();
-        dd($monitoring);
         if(!$query1->isEmpty()) {
-            $monitoring->deduction_previous_payment = $query[0]->sum_amount;
+            $monitoring->deduction_previous_payment = $query1[0]->sum_amount - $monitoring->deposit;
             $monitoring->saveQuietly();
         }
 
@@ -61,6 +72,18 @@ class PaymentRepository extends Repository
         $payment->delete();
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+        $monitoring = $payment->monitoring;
+        $query = Payment::query()
+            ->selectRaw('SUM(payments.amount_ttc) as sum_amount')
+            ->join('work_site_lot_company', 'monitorings.work_site_lot_company_id', "=", 'work_site_lot_company.id')
+            ->where('payment_date', "<", $monitoring->date)
+            ->groupBy('monitorings.work_site_lot_company_id');
+        $query1 = $query->get();
+        if(!$query1->isEmpty()) {
+            $monitoring->deduction_previous_payment = $query1[0]->sum_amount - $monitoring->deposit;
+            $monitoring->saveQuietly();
+        }
     }
 
     /**

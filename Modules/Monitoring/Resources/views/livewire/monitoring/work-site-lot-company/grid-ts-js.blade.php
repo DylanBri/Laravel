@@ -212,9 +212,9 @@
                                 parent: me
                             }
                         });
-                        console.log(me.data);
+                        console.log(me.data.workSiteLotCompany.settings.attributes);
                     }
-                    me.data.workSiteLotCompany.settings.setId((id === null) ? 0 : id, me.data.monitoringId);
+                    me.data.workSiteLotCompany.settings.setId((id === null) ? 0 : id, me.data.monitoringId, me.data.workSiteLotCompany.settings.attributes.type);
                 },
 
                 renderModal: function (id, isNew, isModify) {

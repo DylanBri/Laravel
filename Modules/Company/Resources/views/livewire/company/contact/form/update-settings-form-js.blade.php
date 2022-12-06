@@ -8,6 +8,7 @@
                 model: new App.Module.Company.Model.Contact(),
                 el: '#contactSettingsForm',
                 attributes: {
+                    companyId: 0,
                     id: 0,
                     elAlert: '#contact-settings-form-alert-success',
                     isModal: false,
@@ -27,7 +28,7 @@
                 afterInitialize: function () {
                     var me = this;
                     me.attributes.id = (me.attributes.id === undefined) ? 0 : me.attributes.id;
-                    me.setId(me.attributes.id);
+                    me.setId(me.attributes.id, me.attributes.companyId);
                 },
 
                 afterRender: function () {
@@ -96,16 +97,18 @@
                     me.changeFieldValue(e.currentTarget.id, e.currentTarget.checked);
                 },
 
-                setId: function (id) {
+                setId: function (id, companyId) {
                     var me = this;
                     me.attributes.id = (id === null || id === undefined)? 0 : id;
+                    me.attributes.companyId = (companyId === null || companyId === undefined)? 0 : companyId;
                     if (!me.data.alreadyRender) {
                         me.data.alreadyRender = true;
                         me.render();
                     }
+                    console.log(companyId);
 
                     //Mise à jour des infos
-                    Livewire.emit('contact-settings-form-update', me.attributes.id, me.attributes.isModal);
+                    Livewire.emit('contact-settings-form-update', me.attributes.companyId, me.attributes.id, me.attributes.isModal);
                 },
 
                 formSubmit: function () {

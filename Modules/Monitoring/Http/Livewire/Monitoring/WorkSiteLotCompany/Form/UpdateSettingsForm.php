@@ -9,6 +9,7 @@ use Modules\Monitoring\Entities\WorkSiteLotCompany;
 use Modules\Monitoring\Repositories\WorkSiteLotCompanyRepository;
 use Modules\Monitoring\Entities\WorkSite;
 use Modules\Monitoring\Repositories\WorkSiteRepository;
+use Modules\Monitoring\Repositories\MonitoringRepository;
 use Modules\Monitoring\Entities\Lot;
 use Modules\Monitoring\Repositories\LotRepository;
 
@@ -31,6 +32,13 @@ class UpdateSettingsForm extends Component
     public $workSite;
 
     /**
+     * The component's state.
+     *
+     * @var Monitoring
+     */
+    public $monitoring;
+
+    /**
      * @var boolean $isModal
      */
     public $isModal;
@@ -51,6 +59,7 @@ class UpdateSettingsForm extends Component
         'workSiteLotCompany.monitoring_id' => 'nullable|integer',
         //workSiteLotCompany.customer_id' => 'nullable|integer',
         'workSiteLotCompany.name' => 'nullable|max:255',
+        'workSiteLotCompany.type' => 'nullable|max:1',
         'workSiteLotCompany.amount_ttc' => 'nullable|numeric',
         'workSiteLotCompany.cumul_monitoring' => 'nullable|numeric',
         'workSiteLotCompany.cumul_payment' => 'nullable|numeric',
@@ -67,15 +76,18 @@ class UpdateSettingsForm extends Component
      * Prepare the component.
      * @param int $workSiteLotCompanyId
      * @param int $workSiteId
+     * @param int $monitoringId
      * @param bool $isModal
      * @param bool $isEdit
      *
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function mount(int $workSiteLotCompanyId = 0, int $type = 0, int $workSiteId = 0, bool $isModal = false, $isEdit = false)
+    public function mount(int $workSiteLotCompanyId = 0, int $monitoringId = 0, int $type = 0, int $workSiteId = 0, bool $isModal = false, $isEdit = false)
     {
         $workSite = WorkSiteRepository::getById($workSiteId);
+
+        $monitoring = MonitoringRepository::getById($monitoringId);
 
         /** @var WorkSiteLotCompany $workSiteLotCompany */
         $workSiteLotCompany = WorkSiteLotCompanyRepository::getById($workSiteLotCompanyId);
@@ -91,7 +103,13 @@ class UpdateSettingsForm extends Component
             $this->workSiteLotCompany->setAttribute('work_site_id', $workSiteId);
             $this->workSiteLotCompany->setAttribute('work_site_name', $workSite->name);
         }
+        
+        if ($workSiteLotCompany === null && $monitoringId > 0 && $monitoring !== null) {
+            $this->workSiteLotCompany->setAttribute('monitoring_id', $monitoringId);
+            $this->workSiteLotCompany->setAttribute('monitoring_name', $monitoring->name);
+        }
 
+        $this->type = $type;
         $this->isModal = $isModal;
         $this->isEdit = $isEdit;
         $this->emit('work-site-lot-company-settings-form-mount', $this->workSiteLotCompany);
@@ -116,6 +134,7 @@ class UpdateSettingsForm extends Component
     public function validateWorkSiteLotCompanySettingsInformation()
     {
         $validateData = $this->validate();
+        //dd($validateData);
         
         $this->authorize('create', [Auth::user()]);
         $this->authorize('update', [Auth::user(), $this->workSiteLotCompany]);

@@ -12,10 +12,11 @@
                 btnModify: true,
                 btnDelete: false,
                 data: {
-                    //CompanyId: 0,
+                    companyId: 0,
                     alert: null,
                     loading: null,
                     modal: null,
+                    isEdit: null,
                     stateSettings: true, // false,
                     model: null,
                     contact: {
@@ -36,7 +37,21 @@
                 },
 
                 afterInitialize: function () {
-                    var me = this;
+                    var me = this, pathname = document.location.pathname.split('/');
+                    if (pathname.length > 5 && isInt(pathname[5]) && pathname[4] === 'company') {
+                        me.data.companyId = parseInt(pathname[5]);if (pathname.length > 6 && pathname[6] !== '') {
+                            me.data.isEdit = (pathname[6] === 'edit');
+                        }
+                    } else if (pathname.length > 2 && isInt(pathname[2]) && pathname[1] === 'company') {
+                        me.data.companyId = parseInt(pathname[2]);
+                        if (pathname.length > 3 && pathname[3] !== '') {
+                            me.data.isEdit = (pathname[3] === 'edit');
+                        }
+                    }
+                    if (me.data.isEdit === false) {
+                        me.btnAdd = false;
+                        me.btnModify = false;
+                    }
 
                     me.initGrid();
                     me.render();
@@ -106,7 +121,7 @@
                     ]
                 },
 
-                /* reload: function () {
+                reload: function () {
                     var me = this;
                     if (me.grid !== null) {
                         toggleLoading();
@@ -129,7 +144,7 @@
                             toggleLoading();
                         });
                     }
-                }, */
+                },
 
                 tplBtnAction: function (model) {
                     var me = this, template = Handlebars.compile($("#btnAction-tpl").html()), buttons = [];
@@ -180,12 +195,13 @@
                     if (me.data.contact.settings === null) {
                         me.data.contact.settings = new App.Module.Company.View.Contact.Settings({
                             attributes: {
+                                companyId: me.data.companyId,
                                 isModal: true,
                                 parent: me
                             }
                         });
                     }
-                    me.data.contact.settings.setId((id === null) ? 0 : id);
+                    me.data.contact.settings.setId((id === null) ? 0 : id, me.data.companyId,);
                 },
 
                 renderModal: function (id, isNew, isModify) {

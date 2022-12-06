@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
             Route::get('/list', 'ContactController@getList');
             Route::get('/list/search', 'ContactController@showSearch')->name('Contact.listing');
             Route::get('/search', 'ContactController@search');
+            Route::get('/list/company/{id}', 'ContactController@showByCompanyId')->where('id', '[0-9]+');
         });
         Route::resource('contact', 'ContactController');
     });

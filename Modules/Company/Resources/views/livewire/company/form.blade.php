@@ -12,30 +12,30 @@
             </div>
         </div>
 
-        {{-- <div>
-            <div class="body-content" id="workSiteGrid">
+        <div>
+            <div class="body-content" id="contactGrid">
                 @livewire('components.grid')
             </div>
         </div>
     
         @livewire('components.loading')
     
-        <div id="workSiteModalContainer">
-            @component('livewire.components.modal', ['elModal' => 'workSiteModal', 'size' => 'md', 'title' => ''])
-                @livewire('monitoring::monitoring.work-site.form.update-settings-form', [0, true])
+        <div id="contactModalContainer">
+            @component('livewire.components.modal', ['elModal' => 'contactModal', 'size' => 'md', 'title' => ''])
+                @livewire('company::company.contact.form.update-settings-form', [0, true])
     
                 @slot('footer')
-                    @livewire('components.alert', ['elId' => 'work-site-form-alert-success', 'type' => 'alert-success'])
+                    @livewire('components.alert', ['elId' => 'contact-form-alert-success', 'type' => 'alert-success'])
                     <button class="btn-form-save btn-primary ml-3 mr-3" type="button">{{ __('Save') }}</button>
                 @endslot
             @endcomponent
-        </div> --}}
+        </div>
 
         @livewire('components.alert', ['elId' => 'company-form-alert-success', 'type' => 'alert-success'])
     </div>
 
     @include('company::livewire.company.form-js')
-    {{-- @include('monitoring::livewire.monitoring.work-site.grid-js') --}}
+    @include('company::livewire.company.contact.grid-js')
 
     @section('style')
     <link href="{{ asset('css/company.css') }}" rel="stylesheet">

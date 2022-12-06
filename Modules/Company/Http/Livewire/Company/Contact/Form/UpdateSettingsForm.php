@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\Company\Entities\Contact;
 use Modules\Company\Repositories\ContactRepository;
+use Modules\Company\Repositories\CompanyRepository;
 
 class UpdateSettingsForm extends Component
 {
@@ -18,6 +19,13 @@ class UpdateSettingsForm extends Component
      * @var Contact
      */
     public $contact;
+    
+    /**
+     * The component's state.
+     *
+     * @var Company
+     */
+    public $company;
 
     /**
      * @var boolean $isModal
@@ -27,7 +35,7 @@ class UpdateSettingsForm extends Component
     protected $rules = [
         'contact.client_id' => 'nullable|integer',
         'contact.company_id' => 'nullable|integer',
-        'contact.company_name' => 'nullable|string',
+        'contact.company_name' => 'nullable|max:255',
         'contact.firstname' => 'nullable|max:255', 
         'contact.lastname'=> 'nullable|max:255',
         'contact.phone'=> 'nullable|max:50',
@@ -46,18 +54,26 @@ class UpdateSettingsForm extends Component
     /**
      * Prepare the component.
      * @param int $contactId
+     * @param int $companyId
      * @param bool $isModal
      *
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function mount(int $contactId, bool $isModal = false)
+    public function mount(int $companyId = 0, int $contactId, bool $isModal = false)
     {
+        $company = CompanyRepository::getById($companyId);
         /** @var Contact $contact */
         $contact = ContactRepository::getById($contactId);
 
         $this->authorize('view', [Auth::user(), $contact]);
         $this->contact = ($contact === null) ? new Contact() : $contact;
+
+        if ($contact === null && $companyId > 0 && $company !== null) {
+            $this->contact->setAttribute('company_id', $companyId);
+            $this->contact->setAttribute('company_name', $company->name);
+        }
+
         $this->isModal = $isModal;
         $this->emit('contact-settings-form-mount', $this->contact);
     }
@@ -81,6 +97,7 @@ class UpdateSettingsForm extends Component
     public function validateContactSettingsInformation()
     {
         $validateData = $this->validate();
+        dd($validateData);
         
         $this->authorize('create', [Auth::user()]);
         $this->authorize('update', [Auth::user(), $this->contact]);

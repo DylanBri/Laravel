@@ -227,4 +227,15 @@ class ContactController extends Controller
 
         return response()->json($contact);
     }
+
+    /**
+     * Display a listing of the resource.
+     * @param int $companyId
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function showByCompanyId(int $companyId) {
+        $this->authorize('viewAny', [Auth::user()]);
+        return view('company::livewire.company.contact.grid', ['companyId' => $companyId]);
+    }
 }

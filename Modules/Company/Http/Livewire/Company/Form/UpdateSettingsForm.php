@@ -24,6 +24,11 @@ class UpdateSettingsForm extends Component
      */
     public $isModal;
 
+    /**
+     * @var boolean $isModal
+     */
+    public $isEdit;
+
     protected $rules = [
         'company.id' => 'nullable|integer',
         'company.title' => 'nullable|max:255', 
@@ -58,7 +63,7 @@ class UpdateSettingsForm extends Component
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function mount(int $companyId, bool $isModal = false)
+    public function mount(int $companyId, bool $isModal = false, bool $isEdit = false)
     {
         /** @var Company $company */
         $company = CompanyRepository::getById($companyId);
@@ -66,6 +71,7 @@ class UpdateSettingsForm extends Component
         $this->authorize('view', [Auth::user(), $company]);
         $this->company = ($company === null) ? new Company() : $company;
         $this->isModal = $isModal;
+        $this->isEdit = $isEdit;
         $this->emit('company-settings-form-mount', $this->company);
     }
 
