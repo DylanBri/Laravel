@@ -19,13 +19,6 @@
                         <input id="name" type="text" class="form-input input-text" wire:model.defer="workSiteLotCompany.name"/>
                         @error('workSiteLotCompany.name') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
-
-                    <!-- Type -->
-                    <div class="flex-1 mr-2">
-                        <label for="type">{{ __('monitoring::work-site-lot-company.Type') }}</label>
-                        <input id="type" type="text" class="form-input input-text" wire:model.defer="workSiteLotCompany.type"/>
-                        @error('workSiteLotCompany.type') <span class="text-error">{{ $message }}</span> @enderror
-                    </div>
                 </div>
 
                 <div class="col-span-6 sm:col-span-4 flex">
@@ -36,13 +29,6 @@
                             <label for="lot_name">{{ __('monitoring::monitoring.Lot_name') }}</label>
                             <input id="lot_name" type="text" class="form-input input-text" wire:model.defer="workSiteLotCompany.lot_name"/>
                             @error('workSiteLotCompany.lot_name') <span class="text-error">{{ $message }}</span> @enderror
-                        </div>
-
-                        <!-- Monitoring_Name -->
-                        <div class="flex-1 mr-2">
-                            <label for="monitoring_id">{{ __('monitoring::monitoring.Monitoring_id') }}</label>
-                            <input id="monitoring_id" type="text" class="form-input input-text" wire:model.defer="workSiteLotCompany.monitoring_id"/>
-                            @error('workSiteLotCompany.monitoring_name') <span class="text-error">{{ $message }}</span> @enderror
                         </div>
 
                         <!-- Work_site_Name -->

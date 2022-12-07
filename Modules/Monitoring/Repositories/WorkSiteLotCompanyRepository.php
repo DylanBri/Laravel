@@ -22,22 +22,56 @@ class WorkSiteLotCompanyRepository extends Repository
         $workSiteLotCompany->fill($datas);
         $workSiteLotCompany->save();
 
+        // Totalistion du Chantier : Somme des montants des lots (wslc)
+        $ws = $workSiteLotCompany->workSite;
         $query = WorkSiteLotCompany::query()
                 ->selectRaw("SUM(work_site_lot_company.amount_ttc) as sum_amount")
                 ->where('work_site_id', $workSiteLotCompany->work_site_id)
+                ->where("work_site_lot_company.type", "=", 0)
                 ->groupBy('work_site_id');
         $wslc = $query->get();
-
         if (!$wslc->isEmpty()) {
             $cumul = $wslc[0]->sum_amount;
-            $ws = $workSiteLotCompany->workSite;
             $ws->cumul = $cumul;
-            $ws->save();
-        }
-        else{
-            $ws = $workSiteLotCompany->workSite;
+            $ws->saveQuietly();
+        } else{
             $ws->cumul = 0;
-            $ws->save();
+            $ws->saveQuietly();
+        }
+
+        // Remplissage du champs cumul_work_sit_lot_company : Somme des montants des travaux supplémentairs (wslc.type=1)
+        $monitoring = $workSiteLotCompany->monitoring;
+        $amount_ts = WorkSiteLotCompany::query()
+                ->selectRaw("SUM(work_site_lot_company.amount_ttc) as amount_ts")
+                ->where('monitorings.id', $workSiteLotCompany->monitoring_id)
+                ->where("work_site_lot_company.type", "=", 1)
+                ->whereNotNull("monitorings.id")
+                ->groupBy('monitorings.id');
+        $cumul_ts = $amount_ts->get();
+        if (!$cumul_ts->isEmpty()) {
+            $cumul_work_sit_lot_company = $cumul_ts[0]->amount_ts;
+            $monitoring->cumul_work_sit_lot_company = $cumul_work_sit_lot_company;
+            $monitoring->saveQuietly();
+        }else {
+            $cumul_work_sit_lot_company = 0;
+            $monitoring->cumul_work_sit_lot_company = $cumul_work_sit_lot_company;
+            $monitoring->saveQuietly();
+        }
+
+        // Remplissage du champs cumul_work_sit_lot_company_previous
+        $monitoring = $workSiteLotCompany->monitoring;
+        $cumul_ts_previous = $monitoring
+                            ->selectRaw("monitorings.cumul_work_sit_lot_company")
+                            ->where("monitorings.id", "=", $monitoring->parent_id);
+        $test = $cumul_ts_previous->get();
+        if (!$test->isEmpty()) {
+            $cumul_previous_ts = $test[0]->cumul_work_sit_lot_company; 
+            $monitoring->cumul_work_sit_lot_company_previous = $cumul_previous_ts;
+            $monitoring->saveQuietly();
+        } else {
+            $cumul_previous_ts = 0; 
+            $monitoring->cumul_work_sit_lot_company_previous = $cumul_previous_ts;
+            $monitoring->saveQuietly();
         }
 
         return $workSiteLotCompany;
@@ -52,23 +86,58 @@ class WorkSiteLotCompanyRepository extends Repository
     {
         $workSiteLotCompany->update($datas);
 
+        // Totalistion du Chantier : Somme des montants des lots (wslc)
+        $ws = $workSiteLotCompany->workSite;
         $query = WorkSiteLotCompany::query()
                 ->selectRaw("SUM(work_site_lot_company.amount_ttc) as sum_amount")
                 ->where('work_site_id', $workSiteLotCompany->work_site_id)
+                ->where("work_site_lot_company.type", "=", 0)
                 ->groupBy('work_site_id');
         $wslc = $query->get();
-
         if (!$wslc->isEmpty()) {
             $cumul = $wslc[0]->sum_amount;
-            $ws = $workSiteLotCompany->workSite;
             $ws->cumul = $cumul;
-            $ws->save();
-        }
-        else{
-            $ws = $workSiteLotCompany->workSite;
+            $ws->saveQuietly();
+        } else{
             $ws->cumul = 0;
-            $ws->save();
+            $ws->saveQuietly();
         }
+
+        // Remplissage du champs cumul_work_sit_lot_company : Somme des montants des travaux supplémentairs (wslc.type=1)
+        $monitoring = $workSiteLotCompany->monitoring;
+        $amount_ts = WorkSiteLotCompany::query()
+                ->selectRaw("SUM(work_site_lot_company.amount_ttc) as amount_ts")
+                ->where('monitorings.id', $workSiteLotCompany->monitoring_id)
+                ->where("work_site_lot_company.type", "=", 1)
+                ->whereNotNull("monitorings.id")
+                ->groupBy('monitorings.id');
+        $cumul_ts = $amount_ts->get();
+        if (!$cumul_ts->isEmpty()) {
+            $cumul_work_sit_lot_company = $cumul_ts[0]->amount_ts;
+            $monitoring->cumul_work_sit_lot_company = $cumul_work_sit_lot_company;
+            $monitoring->saveQuietly();
+        }else {
+            $cumul_work_sit_lot_company = 0;
+            $monitoring->cumul_work_sit_lot_company = $cumul_work_sit_lot_company;
+            $monitoring->saveQuietly();
+        }
+
+        // Remplissage du champs cumul_work_sit_lot_company_previous
+        $monitoring = $workSiteLotCompany->monitoring;
+        $cumul_ts_previous = $monitoring
+                            ->selectRaw("monitorings.cumul_work_sit_lot_company")
+                            ->where("monitorings.id", "=", $monitoring->parent_id);
+        $test = $cumul_ts_previous->get();
+        if (!$test->isEmpty()) {
+            $cumul_previous_ts = $test[0]->cumul_work_sit_lot_company; 
+            $monitoring->cumul_work_sit_lot_company_previous = $cumul_previous_ts;
+            $monitoring->saveQuietly();
+        } else {
+            $cumul_previous_ts = 0; 
+            $monitoring->cumul_work_sit_lot_company_previous = $cumul_previous_ts;
+            $monitoring->saveQuietly();
+        }
+        
 
         return $workSiteLotCompany;
     }

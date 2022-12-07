@@ -73,7 +73,7 @@
                     <!-- Modify_market_amount -->
                     <div class="flex-1 mr-2">
                         <label for="total_modify_market_amount">{{ __('monitoring::monitoring.Total_modify_market_amount') }}</label>
-                        <input id="total_modify_market_amount" type="number" class="form-input input-text" wire:model.defer="monitoring.total_modify_market_amount" step=".01"/>
+                        <input id="total_modify_market_amount" type="number" class="form-input input-text input-disabled" wire:model.defer="monitoring.total_modify_market_amount" step=".01" disabled/>
                         @error('monitoring.total_modify_market_amount') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
 

@@ -14,6 +14,7 @@
                 btnPayment: true,
                 data: {
                     monitoringId: 0,
+                    typeId: 1,
                     alert: null,
                     loading: null,
                     modal: null,
@@ -39,9 +40,19 @@
 
                 afterInitialize: function () {
                     var me = this, pathname = document.location.pathname.split('/');
-                    if (pathname.length > 5 && isInt(pathname[5]) && pathname[4] === 'monitoring') {
-                        me.data.monitoringId = parseInt(pathname[5]);
+                    if (pathname.length > 5 && isInt(pathname[5]) && pathname[4] === 'type') {
+                        me.data.typeId = parseInt(pathname[5]);
                         if (pathname.length > 6 && pathname[6] !== '') {
+                            me.data.isEdit = (pathname[6] === 'edit');
+                        }
+                    } else if (pathname.length > 5 && isInt(pathname[5]) && pathname[4] === 'monitoring') {
+                        me.data.monitoringId = parseInt(pathname[5]);
+                        if (pathname.length > 7 && isInt(pathname[7]) && pathname[6] === 'type') {
+                            me.data.typeId = parseInt(pathname[7]);
+                            if (pathname.length > 8 && pathname[8] !== '') {
+                                me.data.isEdit = (pathname[8] === 'edit');
+                            }
+                        } else if (pathname.length > 6 && pathname[6] !== '') {
                             me.data.isEdit = (pathname[6] === 'edit');
                         }
                     } else if (pathname.length > 2 && isInt(pathname[2])) {
@@ -60,7 +71,40 @@
 
                 afterRender: function () {
                     var me = this;
-                    me.$el.find('.grid-content').before("<h6 class='text-center'><?php echo __("monitoring::work-site-lot-company.List"); ?></h6>");
+                    me.$el.find('.grid-content').before("<h6 class='text-center'><?php echo __("monitoring::work-site-lot-company.ListTS"); ?></h6>");
+                },
+
+                reload: function () {
+                    var me = this;
+                    if (me.grid !== null) {
+                        toggleLoading();
+                        me.$el.find(".grid-content").empty().append(me.grid.render().el);
+                        me.renderBtnPaginator();
+                        me.collection.state.currentPage = 1;
+                        me.collection.setSorting(null, -1, {});
+                        me.collection.clearFilters();
+
+                        // Filters
+                        if (me.data.monitoringId > 0) {
+                            me.collection.setFilters([{
+                                field: 'work_site_lot_company.monitoring_id',
+                                value: me.data.monitoringId,
+                                type: 'number'
+                            }]);
+                        }
+
+                        if (me.data.typeId > 0) {
+                            me.collection.setFilters([{
+                                field: 'work_site_lot_company.type',
+                                value: me.data.typeId,
+                                type: 'number'
+                            }]);
+                        }
+
+                        me.collection.fetch().always(function () {
+                            toggleLoading();
+                        });
+                    }
                 },
 
                 initColumns: function () {
@@ -131,31 +175,6 @@
                     ]
                 },
 
-                reload: function () {
-                    var me = this;
-                    if (me.grid !== null) {
-                        toggleLoading();
-                        me.$el.find(".grid-content").empty().append(me.grid.render().el);
-                        me.renderBtnPaginator();
-                        me.collection.state.currentPage = 1;
-                        me.collection.setSorting(null, -1, {});
-                        me.collection.clearFilters();
-
-                        // Filters
-                        if (me.data.monitoringId > 0) {
-                            me.collection.setFilters([{
-                                field: 'work_site_lot_company.monitoring_id',
-                                value: me.data.monitoringId,
-                                type: 'number'
-                            }]);
-                        }
-
-                        me.collection.fetch().always(function () {
-                            toggleLoading();
-                        });
-                    }
-                },
-
                 tplBtnAction: function (model) {
                     var me = this, template = Handlebars.compile($("#btnAction-tpl").html()), buttons = [];
                     if (me.btnSee) {
@@ -205,22 +224,21 @@
                     if (me.data.workSiteLotCompany.settings === null) {
                         me.data.workSiteLotCompany.settings = new App.Module.Monitoring.View.WorkSiteLotCompany.Settings({
                             attributes: {
-                                type: 1,
                                 monitoringId: me.data.monitoringId,
+                                typeId: me.data.typeId,
                                 isModal: true,
                                 isEdit: me.data.isEdit,
                                 parent: me
                             }
                         });
-                        console.log(me.data.workSiteLotCompany.settings.attributes);
                     }
-                    me.data.workSiteLotCompany.settings.setId((id === null) ? 0 : id, me.data.monitoringId, me.data.workSiteLotCompany.settings.attributes.type);
+                    me.data.workSiteLotCompany.settings.setId((id === null) ? 0 : id, me.data.monitoringId, null, me.data.typeId);
                 },
 
                 renderModal: function (id, isNew, isModify) {
-                    var me = this, txtSee = "<?php echo __('monitoring::work-site-lot-company.See'); ?>",
-                        txtAdd = "<?php echo __('monitoring::work-site-lot-company.Add'); ?>",
-                        txtModify = "<?php echo __('monitoring::work-site-lot-company.Modify'); ?>";
+                    var me = this, txtSee = "<?php echo __('monitoring::work-site-lot-company.SeeTS'); ?>",
+                        txtAdd = "<?php echo __('monitoring::work-site-lot-company.AddTS'); ?>",
+                        txtModify = "<?php echo __('monitoring::work-site-lot-company.ModifyTS'); ?>";
 
                     if (me.data.modal === null) {
                         me.data.modal = new App.View.Component.Modal({

@@ -27,6 +27,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
             Route::get('/list/search', 'PaymentController@showSearch')->name('Payment.listing');
             Route::get('/search', 'PaymentController@search');
             Route::get('/list/work-site-lot-company/{id}', 'PaymentController@getByWorkSiteLotCompany')->where('id', '[0-9]+');
+            Route::get('/list/monitoring/{id}', 'PaymentController@getByMonitoring')->where('id', '[0-9]+');
         });
         Route::resource('payment', 'PaymentController');
 

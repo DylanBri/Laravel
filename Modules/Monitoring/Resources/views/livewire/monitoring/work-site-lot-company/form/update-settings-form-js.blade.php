@@ -9,7 +9,7 @@
                 el: '#workSiteLotCompanySettingsForm',
                 attributes: {
                     id: 0,
-                    type: 0,
+                    typeId: 0,
                     monitoringId: 0,
                     workSiteId: 0,
                     elAlert: '#work-site-lot-company-settings-form-alert-success',
@@ -36,8 +36,8 @@
                         me.attributes.isEdit = false;
                     }
                     me.attributes.id = (me.attributes.id === undefined) ? 0 : me.attributes.id;
-                    me.attributes.type = (me.attributes.type === undefined) ? 0 : me.attributes.type;
-                    me.setId(me.attributes.id, me.attributes.workSiteId, me.attributes.type);
+                    me.attributes.typeId = (me.attributes.typeId === undefined) ? 0 : me.attributes.typeId;
+                    me.setId(me.attributes.id, me.attributes.workSiteId, me.attributes.typeId);
                 },
 
                 afterRender: function () {
@@ -154,21 +154,20 @@
                     me.changeFieldValue(e.currentTarget.id, e.currentTarget.checked);
                 },
 
-                setId: function (id, monitoringId, workSiteId, type) {
+                setId: function (id, monitoringId, workSiteId, typeId) {
                     var me = this;
+                    console.log(typeId)
                     me.attributes.workSiteId = (workSiteId === null || workSiteId === undefined)? 0 : workSiteId;
                     me.attributes.id = (id === null || id === undefined)? 0 : id;
-                    me.attributes.type = (type === null || type === undefined)? 0 : type;
+                    me.attributes.typeId = (typeId === null || typeId === undefined)? 0 : typeId;
                     me.attributes.monitoringId = (monitoringId === null || monitoringId === undefined)? 0 : monitoringId;
                     if (!me.data.alreadyRender) {
                         me.data.alreadyRender = true;
                         me.render();
                     }
 
-                    console.log(me.attributes, type, monitoringId);
-
                     //Mise à jour des infos
-                    Livewire.emit('work-site-lot-company-settings-form-update', me.attributes.id, me.attributes.monitoringId, me.attributes.type, me.attributes.workSiteId, me.attributes.isModal, me.attributes.isEdit);
+                    Livewire.emit('work-site-lot-company-settings-form-update', me.attributes.id, me.attributes.monitoringId, me.attributes.typeId, me.attributes.workSiteId, me.attributes.isModal, me.attributes.isEdit);
                 },
 
                 formSubmit: function () {

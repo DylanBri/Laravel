@@ -65,6 +65,37 @@
                     me.$el.find('.grid-content').before("<h6 class='text-center'><?php echo __("monitoring::work-site-lot-company.List"); ?></h6>");
                 },
 
+                reload: function () {
+                    var me = this;
+                    if (me.grid !== null) {
+                        toggleLoading();
+                        me.$el.find(".grid-content").empty().append(me.grid.render().el);
+                        me.renderBtnPaginator();
+                        me.collection.state.currentPage = 1;
+                        me.collection.setSorting(null, -1, {});
+                        me.collection.clearFilters();
+
+                        // Filters
+                        if (me.data.workSiteId > 0) {
+                            me.collection.setFilters([{
+                                field: 'work_site_lot_company.work_site_id',
+                                value: me.data.workSiteId,
+                                type: 'number'
+                            }]);
+                        }
+
+                        me.collection.setFilters([{
+                            field: 'work_site_lot_company.type',
+                            value: 0,
+                            type: 'number'
+                        }]);
+
+                        me.collection.fetch().always(function () {
+                            toggleLoading();
+                        });
+                    }
+                },
+
                 initColumns: function () {
                     var me = this;
 
@@ -133,31 +164,6 @@
                     ]
                 },
 
-                reload: function () {
-                    var me = this;
-                    if (me.grid !== null) {
-                        toggleLoading();
-                        me.$el.find(".grid-content").empty().append(me.grid.render().el);
-                        me.renderBtnPaginator();
-                        me.collection.state.currentPage = 1;
-                        me.collection.setSorting(null, -1, {});
-                        me.collection.clearFilters();
-
-                        // Filters
-                        if (me.data.workSiteId > 0) {
-                            me.collection.setFilters([{
-                                field: 'work_site_lot_company.work_site_id',
-                                value: me.data.workSiteId,
-                                type: 'number'
-                            }]);
-                        }
-
-                        me.collection.fetch().always(function () {
-                            toggleLoading();
-                        });
-                    }
-                },
-
                 tplBtnAction: function (model) {
                     var me = this, template = Handlebars.compile($("#btnAction-tpl").html()), buttons = [];
                     if (me.btnSee) {
@@ -222,7 +228,7 @@
                             }
                         });
                     }
-                    me.data.workSiteLotCompany.settings.setId((id === null) ? 0 : id, me.data.workSiteId);
+                    me.data.workSiteLotCompany.settings.setId((id === null) ? 0 : id, null, me.data.workSiteId, 0);
                 },
 
                 renderModal: function (id, isNew, isModify) {

@@ -39,7 +39,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
             Route::get('/list/search', 'WorkSiteLotCompanyController@showSearch')->name('work-site-lot-company.listing');
             Route::get('/search', 'WorkSiteLotCompanyController@search');
             Route::get('/list/work-site/{id}', 'WorkSiteLotCompanyController@showByWorkSite')->where('id', '[0-9]+');
-            Route::get('/list/monitoring/{id}', 'WorkSiteLotCompanyController@showBymonitoring')->where('id', '[0-9]+');
+            Route::get('/list/monitoring/{id}', 'WorkSiteLotCompanyController@showByMonitoring')->where('id', '[0-9]+');
+            Route::get('/list/type/{id}', 'WorkSiteLotCompanyController@showByType')->where('id', '[0-9]+');
+            Route::get('/list/monitoring/{monitoringId}/type/{typeId}', 'WorkSiteLotCompanyController@showByMonitoringAndType')
+                ->where('monitoringId', '[0-9]+')->where('typeId', '[0-9]+');
             Route::get('/{id}/payment', 'WorkSiteLotCompanyController@getPayments')->where('id', '[0-9]+');
         });
         Route::resource('work-site-lot-company', 'WorkSiteLotCompanyController'); 

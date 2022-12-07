@@ -241,6 +241,18 @@ class WorkSiteLotCompanyController extends Controller
         return view('monitoring::livewire.monitoring.work-site-lot-company.grid-ts', ['monitornigId' => $monitornigId]);
     }
 
+    public function showByType(int $typeId)
+    {
+        $this->authorize('viewAny', [Auth::user()]);
+        return view('monitoring::livewire.monitoring.work-site-lot-company.grid-ts', ['typeId' => $typeId]);
+    }
+
+    public function showByMonitoringAndType(int $monitornigId, int $typeId)
+    {
+        $this->authorize('viewAny', [Auth::user()]); 
+        return view('monitoring::livewire.monitoring.work-site-lot-company.grid-ts', ['monitornigId' => $monitornigId, 'typeId' => $typeId]);
+    }
+
     public function getPayments($id)
     {
         $this->authorize('view', [Auth::user(), $id]);

@@ -43,6 +43,7 @@
 
                 afterRender: function () {
                     var me = this, 
+                        $dfTotalModifyMarketAmount = $.Deferred(),
                         $dfdMarket = $.Deferred(),
                         $dfdAdditionMarket = $.Deferred(),
                         $dfdPregress = $.Deferred(),
@@ -76,9 +77,16 @@
                         }
 
                         me.calculFieldsMarket($dfdMarket);
-                        me.calculFieldsAdditionMarket($dfdAdditionMarket);
-                        $.when($dfdAdditionMarket).then(function () {me.calculFieldsProgress($dfdPregress)});
                         me.calculFieldsDepositRecovery();
+                        me.calculFieldsTotalModifyMarketAmount($dfTotalModifyMarketAmount);
+                        
+                        $.when($dfTotalModifyMarketAmount).then(function () {
+                            me.calculFieldsAdditionMarket($dfdAdditionMarket);
+                            $.when($dfdAdditionMarket).then(function () {
+                                me.calculFieldsProgress($dfdPregress)
+                            });  
+                        })
+                        
                         $.when($dfdMarket).then(function () {
                             me.calculFieldsAccount("account_percent", $dfdAccount);
                             $.when($dfdAccount).then(function () {
@@ -198,6 +206,26 @@
                     
                     $dfd.resolve();
                     return progress;
+                },
+
+                calculFieldsTotalModifyMarketAmount: function ($dfd) {
+                    var me = this,
+                        cumul_work_sit_lot_company = me.model.attributes.cumul_work_sit_lot_company,
+                        cumul_work_sit_lot_company_previous = me.model.attributes.cumul_work_sit_lot_company_previous,
+                        total_modify_market_amount;
+                    
+                    if (cumul_work_sit_lot_company === 0 && cumul_work_sit_lot_company_previous === 0) {
+                        me.$el.find('#addition_market_amount').val(0);
+                        return 0;
+                    }
+                    total_modify_market_amount = cumul_work_sit_lot_company + cumul_work_sit_lot_company_previous;
+                    if (total_modify_market_amount !== parseFloat(me.$el.find('#total_modify_market_amount').val())) {
+                        me.$el.find('#total_modify_market_amount').val(total_modify_market_amount);
+                        me.changeFieldValue('total_modify_market_amount', total_modify_market_amount);
+                    }
+
+                    $dfd.resolve();
+                    return total_modify_market_amount;
                 },
 
                 calculFieldsAdditionMarket: function ($dfd){
@@ -624,9 +652,6 @@
                             res = me.calculFieldsDepositRecovery();
                             console.log("Deposit_recovery : ", res, elId);
                             if(elId === 'deposit'){
-                                res = me.calculFieldsDeductionPreviousPayment();
-                                console.log('Deduction_previous_payment', res, elId);
-
                                 res1 = me.calculFieldsBalanceDu();
                                 console.log("balance_du : ", res1, elId);
                             }

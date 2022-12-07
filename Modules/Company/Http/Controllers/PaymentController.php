@@ -236,4 +236,15 @@ class PaymentController extends Controller
         $this->authorize('viewAny', [Auth::user()]);
         return view('company::livewire.company.payment.grid', ['workSiteLotCompanyId' => $workSiteLotCompanyId]);
     }
+
+    /**
+     * Display a listing of the resource.
+     * @param int $workSiteLotCompanyId
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function getByMonitoring(int $monitoringId) {
+        $this->authorize('viewAny', [Auth::user()]);
+        return view('company::livewire.company.payment.grid', ['monitoringId' => $monitoringId]);
+    }
 }

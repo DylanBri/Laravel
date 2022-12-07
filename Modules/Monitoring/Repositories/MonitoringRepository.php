@@ -23,12 +23,12 @@ class MonitoringRepository extends Repository
         $monitoring->fill($datas);
         $monitoring->save();
 
+        // Somme des montant de suivi à payer trier par lot
         $query = $monitoring->workSiteLotCompany()
                 ->selectRaw("SUM(monitorings.amount_to_pay) as sum_amount_to_pay")
                 ->join('monitorings', 'work_site_lot_company.id', '=', 'monitorings.work_site_lot_company_id')
                 ->groupBy('work_site_lot_company_id');
         $test = $query->get();
-
         if (!$test->isEmpty()) {
             $cumul = $test[0]->sum_amount_to_pay;
             $wslc = $monitoring->workSiteLotCompany;
@@ -36,13 +36,13 @@ class MonitoringRepository extends Repository
             $wslc->save();
         }
 
+        // Somme du montant des suivi précédent 
         $test1 = Monitoring::query()
                 ->selectRaw("SUM(monitorings.amount_to_pay) as cumul_monitoring_previous")
                 ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
                 ->where('monitorings.date', '<=', $monitoring->date)
                 ->groupBy('work_site_lot_company_id');
         $sum1 = $test1->get();
-        
         if(!$sum1->isEmpty()) {
             $cumul1 = $sum1[0]->cumul_monitoring_previous;
             $mo = $monitoring->cumul_monitoring_previous;
@@ -50,12 +50,12 @@ class MonitoringRepository extends Repository
             $monitoring->save();
         }
 
+        // Mise en place de la hiérarchisation
         $maxId = Monitoring::query()
                 ->selectRaw("MAX(monitorings.id) AS parent_id")
                 ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
                 ->where('monitorings.id', '<', $monitoring->id);
         $idParent = $maxId->get();
-
         if(!$idParent->isEmpty()) {
             $parentId = $idParent[0]->parent_id;
             $mon = $monitoring;
@@ -63,12 +63,12 @@ class MonitoringRepository extends Repository
             $mon->save();
         }
 
+        // Remplissage automatique de l'acompte
         $depo = Monitoring::query()
                 ->selectRaw("monitorings.deposit AS deposit")
                 ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
                 ->where('monitorings.parent_id', '=', NULL);
         $deposit = $depo->get();
-
         if(!$deposit->isEmpty()) {
             $depos = $deposit[0]->deposit;
             $moni = $monitoring;
@@ -84,10 +84,10 @@ class MonitoringRepository extends Repository
         $total_market = $wslc_amount_ttc->get();
         if(!$total_market->IsEmpty()) {
             $total_market_amount = $total_market[0]->total_market;
-            dd($total_market_amount);
+            //dd($total_market_amount);
             $monit = $monitoring;
             $monit->total_market_amount = $total_market_amount;
-            //$monit->save();
+            $monit->save();
         }
     }
 
@@ -101,9 +101,9 @@ class MonitoringRepository extends Repository
         //dd($monitoring, $datas);
         $monitoring->update($datas);
 
-        // Somme des paiements par lot
+        // Somme des montant de suivi à payer trier par lot
         $query = $monitoring->workSiteLotCompany()
-                ->selectRaw("SUM(monitorings.amount_to_pay) as sum_amount_to_pay")
+                ->selectRaw("SUM(monitorings.amount_to_pay) AS sum_amount_to_pay")
                 ->join('monitorings', 'work_site_lot_company.id', '=', 'monitorings.work_site_lot_company_id')
                 ->groupBy('work_site_lot_company_id');
         $sum_amount = $query->get();
@@ -114,7 +114,7 @@ class MonitoringRepository extends Repository
             $m->save();
         }
 
-        // Somme des paiements précèdent le suivi
+        // Somme du montant des suivi précédent 
         $req = Monitoring::query()
                ->selectRaw("SUM(monitorings.amount_to_pay) as cumul_monitoring_previous")
                ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
@@ -129,7 +129,7 @@ class MonitoringRepository extends Repository
             $mo->save();
         }
 
-        // Mise en place de la herarchisation
+        // Mise en place de la hiérarchisation
         $maxId = Monitoring::query()
                 ->selectRaw("MAX(monitorings.id) AS parent_id")
                 ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)

@@ -59,7 +59,7 @@ class UpdateSettingsForm extends Component
         'workSiteLotCompany.monitoring_id' => 'nullable|integer',
         //workSiteLotCompany.customer_id' => 'nullable|integer',
         'workSiteLotCompany.name' => 'nullable|max:255',
-        'workSiteLotCompany.type' => 'nullable|max:1',
+        'workSiteLotCompany.type' => 'nullable|boolean',
         'workSiteLotCompany.amount_ttc' => 'nullable|numeric',
         'workSiteLotCompany.cumul_monitoring' => 'nullable|numeric',
         'workSiteLotCompany.cumul_payment' => 'nullable|numeric',
@@ -75,15 +75,16 @@ class UpdateSettingsForm extends Component
     /**
      * Prepare the component.
      * @param int $workSiteLotCompanyId
-     * @param int $workSiteId
      * @param int $monitoringId
+     * @param int $typeId
+     * @param int $workSiteId
      * @param bool $isModal
      * @param bool $isEdit
      *
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function mount(int $workSiteLotCompanyId = 0, int $monitoringId = 0, int $type = 0, int $workSiteId = 0, bool $isModal = false, $isEdit = false)
+    public function mount(int $workSiteLotCompanyId = 0, int $monitoringId = 0, int $typeId = 0, int $workSiteId = 0, bool $isModal = false, $isEdit = false)
     {
         $workSite = WorkSiteRepository::getById($workSiteId);
 
@@ -98,18 +99,21 @@ class UpdateSettingsForm extends Component
         /* if ($workSiteLotCompany === null) {
             $this->emit('work-site-lot-company-form-without-customerid');
         } */
-
-        if ($workSiteLotCompany === null && $workSiteId > 0 && $workSite !== null) {
-            $this->workSiteLotCompany->setAttribute('work_site_id', $workSiteId);
-            $this->workSiteLotCompany->setAttribute('work_site_name', $workSite->name);
-        }
         
-        if ($workSiteLotCompany === null && $monitoringId > 0 && $monitoring !== null) {
-            $this->workSiteLotCompany->setAttribute('monitoring_id', $monitoringId);
-            $this->workSiteLotCompany->setAttribute('monitoring_name', $monitoring->name);
+        if ($workSiteLotCompany === null) {
+            if ($workSiteId > 0 && $workSite !== null) {
+                $this->workSiteLotCompany->setAttribute('work_site_id', $workSiteId);
+                $this->workSiteLotCompany->setAttribute('work_site_name', $workSite->name);
+            }
+            
+            if ($monitoringId > 0 && $monitoring !== null) {
+                $this->workSiteLotCompany->setAttribute('monitoring_id', $monitoringId);
+                $this->workSiteLotCompany->setAttribute('monitoring_name', $monitoring->name);
+            }
+            
+            $this->workSiteLotCompany->setAttribute('type', $typeId);
         }
 
-        $this->type = $type;
         $this->isModal = $isModal;
         $this->isEdit = $isEdit;
         $this->emit('work-site-lot-company-settings-form-mount', $this->workSiteLotCompany);
