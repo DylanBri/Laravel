@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 //'customer_id': '',
                 'monitoring_id': '',
                 'name': '',
-                'type': '',
+                'is_type': 0,
                 'amount_ttc': 0,
                 'cumul_payment': 0,
                 'cumul_monitoring': 0,

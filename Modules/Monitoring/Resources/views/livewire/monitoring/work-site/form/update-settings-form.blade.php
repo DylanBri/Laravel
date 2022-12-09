@@ -3,15 +3,13 @@
         @csrf
         <div class="md:grid md:gap-6 md:grid-cols-1">
             <div class="mt-5 md:mt-0">
-                <div class="col-span-6 sm:col-span-4 flex"> 
-                    <div class="">
+                <div class="col-span-6 sm:col-span-4 flex">
                         <!-- Id -->
                         <div class="w-20 mr-2">
                             <label for="id">{{ __('monitoring::work-site.Id') }}</label>
                             <input id="id" type="text" class="form-input input-text input-disabled" disabled wire:model.defer="workSite.id"/>
                             @error('workSite.id') <span class="text-error">{{ $message }}</span> @enderror
                         </div>
-                    </div>
 
                     <!-- Name -->
                     <div class="flex-1 mr-2">
@@ -73,7 +71,7 @@
         </div>
         <div>
             <label for="cumul">{{ __('monitoring::work-site.Cumul') }}</label>
-            <input id="cumul" type="text" class="form-input input-text input-disabled" wire:model.defer="workSite.cumul"/>
+            <input id="cumul" type="number" class="form-input input-text input-disabled" disabled wire:model.defer="workSite.cumul" step="0.01"/>
             @error('workSite.cumul') <span class="text-error">{{ $message }}</span> @enderror
         </div>
     </x-slot>

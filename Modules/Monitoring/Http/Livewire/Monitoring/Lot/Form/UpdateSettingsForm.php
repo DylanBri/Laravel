@@ -35,7 +35,7 @@ class UpdateSettingsForm extends Component
         'lot-settings-form-update' => 'mount',
         'lot-settings-form-success' => 'showSuccessUpdate',
         'lot-settings-form-error' => 'showErrorUpdate',
-        'submitForm' => 'validateLotSettingsInformation'
+        'lotSubmitForm' => 'validateLotSettingsInformation'
     ];
 
     /**

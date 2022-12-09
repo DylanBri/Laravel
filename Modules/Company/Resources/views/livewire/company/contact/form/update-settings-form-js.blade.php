@@ -105,7 +105,6 @@
                         me.data.alreadyRender = true;
                         me.render();
                     }
-                    console.log(companyId);
 
                     //Mise à jour des infos
                     Livewire.emit('contact-settings-form-update', me.attributes.companyId, me.attributes.id, me.attributes.isModal);

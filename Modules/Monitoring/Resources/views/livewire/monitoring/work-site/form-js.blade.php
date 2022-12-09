@@ -52,7 +52,6 @@
                     });
 
                     Livewire.on('work-site-form-without-customerid', request => {
-                        // Virer les Chantiers si le numéro de Client n'est pas spécifié
                         $('#workSiteLotCompanyGrid').addClass('d-none');
                         $('.input-text').addClass('input-disabled');
                         $('.input-text').attr('disabled', '');

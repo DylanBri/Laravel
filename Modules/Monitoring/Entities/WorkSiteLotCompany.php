@@ -22,7 +22,7 @@ class WorkSiteLotCompany extends Model
         //'customer_id',
         'monitoring_id',
         'name',
-        'type',
+        'is_type',
         'amount_ttc',
         'cumul_monitoring',
         'cumul_payment',
@@ -51,7 +51,7 @@ class WorkSiteLotCompany extends Model
         'monitoring_id' => null,
         //'customer_id' => '',
         'name' => '',
-        'type' => 0,
+        'is_type' => 0,
         'amount_ttc' => 0,
         'cumul_monitoring' => 0,
         'cumul_payment' => 0,
@@ -99,6 +99,7 @@ class WorkSiteLotCompany extends Model
     }
 
     /**
+     * TS
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function monitoring()

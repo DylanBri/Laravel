@@ -13,9 +13,7 @@
                         settings: null,
                     }
                 },
-                events: {
-                    "click .btnBack": "historyBack"
-                },
+                events: {},
 
                 afterInitialize: function () {
                     var me = this, pathname = document.location.pathname.split('/');
@@ -54,17 +52,12 @@
                     });
 
                     Livewire.on('work-site-form-without-customerid', request => {
-                        // Virer les Chantiers si le numéro de Client n'est pas spécifié
                         $('#workSiteLotCompanyGrid').addClass('d-none');
                         $('.input-text').addClass('input-disabled');
                         $('.input-text').attr('disabled', '');
                         $('.btn-primary').attr('hidden', 'true');
                     });
                 },
-
-                historyBack : function () {
-                    return window.history.back()
-                }
             });
             new App.Module.Monitoring.View.Monitoring.Form();
         });

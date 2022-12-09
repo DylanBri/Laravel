@@ -123,7 +123,7 @@ class WorkSiteLotCompanyController extends Controller
             throw new \RuntimeException('Does Not Exist');
         }
 
-        $this->authorize('delete', [Auth::user(), $lot]);
+        $this->authorize('delete', [Auth::user(), $workSiteLotCompany]);
 
         WorkSiteLotCompanyRepository::delete($workSiteLotCompany);
 
@@ -241,16 +241,16 @@ class WorkSiteLotCompanyController extends Controller
         return view('monitoring::livewire.monitoring.work-site-lot-company.grid-ts', ['monitornigId' => $monitornigId]);
     }
 
-    public function showByType(int $typeId)
+    public function showByType(int $isType)
     {
         $this->authorize('viewAny', [Auth::user()]);
-        return view('monitoring::livewire.monitoring.work-site-lot-company.grid-ts', ['typeId' => $typeId]);
+        return view('monitoring::livewire.monitoring.work-site-lot-company.grid-ts', ['isType' => $isType]);
     }
 
-    public function showByMonitoringAndType(int $monitornigId, int $typeId)
+    public function showByMonitoringAndType(int $monitornigId, int $isType)
     {
         $this->authorize('viewAny', [Auth::user()]); 
-        return view('monitoring::livewire.monitoring.work-site-lot-company.grid-ts', ['monitornigId' => $monitornigId, 'typeId' => $typeId]);
+        return view('monitoring::livewire.monitoring.work-site-lot-company.grid-ts', ['monitornigId' => $monitornigId, 'isType' => $isType]);
     }
 
     public function getPayments($id)

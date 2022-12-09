@@ -100,4 +100,12 @@ class Monitoring extends Model
     {
         return $this->belongsTo(WorkSiteLotCompany::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function workSiteLotCompanys()
+    {
+        return $this->hasMany(WorkSiteLotCompany::class);
+    }
 }

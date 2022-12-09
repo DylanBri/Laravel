@@ -68,9 +68,11 @@ class CustomerRepository extends Repository
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-        $customer->addresses()->delete();
+        $customer->address()->delete();
 
         $customer->delete();
+
+        $customer->workSites()->delete();
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }

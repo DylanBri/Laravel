@@ -44,7 +44,7 @@ class UpdateSettingsForm extends Component
         'workSite.address1' => 'nullable|max:255',
         'workSite.address2' => 'nullable|max:255',
         'workSite.city' => 'nullable|max:255',
-        'workSite.zip_code' => 'nullable|max:10',
+        'workSite.zip_code' => 'nullable|regex:/^\d{5}(?:[-\s]\d{4})?$/',
         'workSite.country' => 'nullable|max:50',
         'workSite.id' => 'nullable|integer',
         'workSite.name'=> 'nullable|max:255',

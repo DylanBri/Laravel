@@ -66,4 +66,12 @@ class Company extends Model
     {
         return $this->belongsTo(Address::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class);
+    }
 }

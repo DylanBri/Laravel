@@ -18,11 +18,11 @@ class CustomerRequest extends FormRequest
             'name' => 'bail|required|max:255',
             'gender' => 'nullable|max:255',
             'phone' => 'nullable|max:50',
-            'email' => 'nullable|max:50',
+            'email' => 'nullable|email',
 
             'address_1' => 'bail|required|max:255',
             'address_2' => 'nullable|max:255',
-            'zip_code' => 'bail|required|max:10',
+            'zip_code' => 'bail|required|regex:/^\d{5}(?:[-\s]\d{4})?$/',
             'city' => 'bail|required|max:50',
             'country' => 'nullable|max:50',
         ];

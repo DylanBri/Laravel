@@ -3,48 +3,53 @@
         @csrf
         <div class="md:grid md:gap-6 md:grid-cols-1">
             <div class="mt-5 md:mt-0">
-                <div class="col-span-6 sm:col-span-4 flex"> 
-                    <div class="flex-1 flex">
+                <div class="col-span-6 sm:col-span-4 flex">
+                    <div class="flex">
                         <!-- Id -->
-                        <div class="flex-1 mr-2">
+                        <div class="w-20 mr-2">
                             <label for="id">{{ __('customer::customer.Id') }}</label>
-                            <input id="id" type="text" class="form-input input-text input-disabled" disabled wire:model.defer="customer.id"/>
+                            <input id="id" type="text" class="form-input input-text input-disabled" disabled 
+                                wire:model.defer="customer.id"/>
                             @error('customer.id') <span class="text-error">{{ $message }}</span> @enderror
                         </div> 
 
-                        <!-- Gender -->
+                        <!-- Name -->
                         <div class="flex-1 mr-2">
-                            <label for="gender">{{ __('customer::customer.Gender') }}</label>
-                            <input id="gender" type="text" class="form-input input-text" wire:model.defer="customer.gender"/>
-                            @error('customer.gender') <span class="text-error">{{ $message }}</span> @enderror
+                            <label for="name">{{ __('customer::customer.Name') }}</label>
+                            <input id="name" type="text" class="form-input input-text" 
+                                wire:model.defer="customer.name"/>
+                            @error('customer.name') <span class="text-error">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
-                    <!-- Name -->
+                    <!-- Email -->
                     <div class="flex-1 mr-2">
-                        <label for="name">{{ __('customer::customer.Name') }}</label>
-                        <input id="name" type="text" class="form-input input-text" wire:model.defer="customer.name"/>
-                        @error('customer.name') <span class="text-error">{{ $message }}</span> @enderror
+                        <label for="email">{{ __('customer::customer.Email') }}</label>
+                        <input id="email" type="email" class="form-input input-text" 
+                            wire:model.defer="customer.email"/>
+                        @error('customer.email') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="flex-1 flex">
                         <!-- Phone -->
                         <div class="flex-1 mr-2">
                             <label for="phone">{{ __('customer::customer.Phone') }}</label>
-                            <input id="phone" type="text" class="form-input input-text" wire:model.defer="customer.phone"/>
+                            <input id="phone" type="text" class="form-input input-text" 
+                                wire:model.defer="customer.phone"/>
                             @error('customer.phone') <span class="text-error">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Email -->
+                        <!-- Gender -->
                         <div class="flex-1 mr-2">
-                            <label for="email">{{ __('customer::customer.Email') }}</label>
-                            <input id="email" type="text" class="form-input input-text" wire:model.defer="customer.email"/>
-                            @error('customer.email') <span class="text-error">{{ $message }}</span> @enderror
+                            <label for="gender">{{ __('customer::customer.Gender') }}</label>
+                            <input id="gender" type="text" class="form-input input-text" 
+                                wire:model.defer="customer.gender"/>
+                            @error('customer.gender') <span class="text-error">{{ $message }}</span> @enderror
                         </div>
                     </div>
                 </div>
 
-                <div class="col-span-6 sm:col-span-4 flex"> 
+                <div class="col-span-6 sm:col-span-4 flex">
                     <!-- Address -->
                     <div class="flex-1 mr-2">
                         <label for="address_1">{{ __('customer::address.Address 1') }}</label>
@@ -67,7 +72,7 @@
                             <label for="zip_code">{{ __('customer::address.Zip Code') }}</label>
                             <input id="zip_code" type="text" class="form-input input-text"
                                 wire:model.defer="customer.zip_code"/>
-                                @error('customer.zip_code') <span class="text-error">{{ $message }}</span> @enderror
+                            @error('customer.zip_code') <span class="text-error">{{ $message }}</span> @enderror
                         </div>
 
                         <!-- City -->
@@ -75,7 +80,7 @@
                             <label for="city">{{ __('customer::address.City') }}</label>
                             <input id="city" type="text" class="form-input input-text" 
                                 wire:model.defer="customer.city"/>
-                                @error('customer.city') <span class="text-error">{{ $message }}</span> @enderror
+                            @error('customer.city') <span class="text-error">{{ $message }}</span> @enderror
                         </div>
                     </div>
                 </div>

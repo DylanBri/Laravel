@@ -14,7 +14,7 @@
                 btnPayment: true,
                 data: {
                     monitoringId: 0,
-                    typeId: 1,
+                    isType: 1,
                     alert: null,
                     loading: null,
                     modal: null,
@@ -41,14 +41,14 @@
                 afterInitialize: function () {
                     var me = this, pathname = document.location.pathname.split('/');
                     if (pathname.length > 5 && isInt(pathname[5]) && pathname[4] === 'type') {
-                        me.data.typeId = parseInt(pathname[5]);
+                        me.data.isType = parseInt(pathname[5]);
                         if (pathname.length > 6 && pathname[6] !== '') {
                             me.data.isEdit = (pathname[6] === 'edit');
                         }
                     } else if (pathname.length > 5 && isInt(pathname[5]) && pathname[4] === 'monitoring') {
                         me.data.monitoringId = parseInt(pathname[5]);
                         if (pathname.length > 7 && isInt(pathname[7]) && pathname[6] === 'type') {
-                            me.data.typeId = parseInt(pathname[7]);
+                            me.data.isType = parseInt(pathname[7]);
                             if (pathname.length > 8 && pathname[8] !== '') {
                                 me.data.isEdit = (pathname[8] === 'edit');
                             }
@@ -93,10 +93,10 @@
                             }]);
                         }
 
-                        if (me.data.typeId > 0) {
+                        if (me.data.isType > 0) {
                             me.collection.setFilters([{
-                                field: 'work_site_lot_company.type',
-                                value: me.data.typeId,
+                                field: 'work_site_lot_company.is_type',
+                                value: me.data.isType,
                                 type: 'number'
                             }]);
                         }
@@ -225,14 +225,15 @@
                         me.data.workSiteLotCompany.settings = new App.Module.Monitoring.View.WorkSiteLotCompany.Settings({
                             attributes: {
                                 monitoringId: me.data.monitoringId,
-                                typeId: me.data.typeId,
+                                isType: me.data.isType,
                                 isModal: true,
                                 isEdit: me.data.isEdit,
                                 parent: me
                             }
                         });
                     }
-                    me.data.workSiteLotCompany.settings.setId((id === null) ? 0 : id, me.data.monitoringId, null, me.data.typeId);
+                    console.log('grid-ts > renderSettings type : ' + me.data.isType);
+                    me.data.workSiteLotCompany.settings.setId((id === null) ? 0 : id, me.data.monitoringId, null, me.data.isType);
                 },
 
                 renderModal: function (id, isNew, isModify) {

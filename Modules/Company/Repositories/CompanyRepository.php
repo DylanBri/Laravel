@@ -68,7 +68,11 @@ class CompanyRepository extends Repository
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
+        $company->address()->delete();
+
         $company->delete();
+
+        $company->contacts()->delete();
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }

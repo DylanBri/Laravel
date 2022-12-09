@@ -25,7 +25,7 @@ class WorkSiteLotCompanyRequest extends FormRequest
             'monitoring_id' => 'nullable|integer',
             //'customer_id' => 'nullable|integer',
             'name' => 'bail|required|max:255',
-            'type' => 'nullable|max:255',
+            'is_type' => 'nullable|max:255',
             'amount_ttc' => 'bail|required|numeric',
             'cumul_monitoring' => 'nullable|numeric',
             'cumul_payment' => 'nullable|numeric',

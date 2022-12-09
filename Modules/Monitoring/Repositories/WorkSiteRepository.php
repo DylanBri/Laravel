@@ -67,6 +67,8 @@ class WorkSiteRepository extends Repository
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
+        $worksite->address()->delete();
+
         $worksite->delete();
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');

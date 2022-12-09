@@ -42,7 +42,6 @@
                     //Après le remplissage du formulaire
                     Livewire.on('company-settings-form-mount', hydrate => {
                         if (me.model !== null) me.model.remove();
-                        console.log(hydrate);
                         me.model = new App.Module.Company.Model.Company(hydrate);
                         if (hydrate !== null) {
                             if (me.attributes.parent !== null && me.attributes.parent !== undefined) {

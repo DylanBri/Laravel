@@ -62,7 +62,7 @@
             </div>
         </div>
         
-        <div>
+        <div id="cumulMonitoring">
             <label for="cumul">{{ __('monitoring::work-site.Cumul') }}</label>
             <input id="cumul" type="number" class="form-input input-text input-disabled" disabled wire:model.defer="workSiteLotCompany.cumul_monitoring"/>
             @error('workSiteLotCompany.cumul_monitoring') <span class="text-error">{{ $message }}</span> @enderror

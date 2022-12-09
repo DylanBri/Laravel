@@ -14,8 +14,8 @@ class AddressRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_id' => 'nullable|integer',
-            'address1' => 'nullable|max:255',
+            'client_id' => 'nullable|integer',
+            'address1' => 'bail|required|max:255',
             'address2' => 'nullable|max:255',
             'zip_code' => 'bail|required|regex:/^\d{5}(?:[-\s]\d{4})?$/',
             'city' => 'bail|required|max:50',

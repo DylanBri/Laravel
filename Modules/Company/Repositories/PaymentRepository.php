@@ -22,7 +22,9 @@ class PaymentRepository extends Repository
         $payment->fill($datas);
         $payment->save();
 
+        
         $monitoring = $payment->monitoring;
+        
         $query = Payment::query()
             ->selectRaw('SUM(payments.amount_ttc) as sum_amount')
             ->join('work_site_lot_company', 'monitorings.work_site_lot_company_id', "=", 'work_site_lot_company.id')
@@ -56,8 +58,8 @@ class PaymentRepository extends Repository
             ->where("payments.is_done", "=", "1")
             ->groupBy('monitorings.work_site_lot_company_id');
         $query1 = $query->get();
+        dd($query1);
         if(!$query1->isEmpty()) {
-            $monitoring->payment_amount_ttc = $query1[0]->sum_amount;
             $monitoring->deduction_previous_payment = $query1[0]->sum_amount - $monitoring->deposit;
             $monitoring->saveQuietly();
         }

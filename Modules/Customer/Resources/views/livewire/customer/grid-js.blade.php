@@ -10,7 +10,7 @@
                 btnSee: true,
                 btnAdd: true,
                 btnModify: true,
-                btnDelete: false,
+                btnDelete: true,
                 data: {
                     alert: null,
                     loading: null,
@@ -225,11 +225,15 @@
                         return;
                     }*/
                     if (window.confirm('<?php echo __('customer::customer.Delete') ?>')) {
-                        me.data.model = new App.Module.Customer.Model.Customer();
-                        if (id !== null) me.data.model.set('id', id);
-                        me.renderSettings(id);
-                        me.setModel('suppressed', true);
-                        me.saveModel();
+                        //me.data.model = new App.Module.Customer.Model.Customer();
+                        //if (id !== null) me.data.model.set('id', id);
+                        App.Api.delete('/customer/' + id, {'_token': $('[name=_token]').val()})
+                        .done(function() {
+                            me.reload();
+                        });
+                        //me.renderSettings(id);
+                        //me.setModel('suppressed', true);
+                        //me.saveModel();
                     }
                 },
 
@@ -245,11 +249,10 @@
                 },
 
                 actionDoubleClick: function (e) {
-    
                     var me = this, $target = $(e.target), 
                         $targetP = $target.parent().find('.btnSee'),
                         id = ($target.data('id') === undefined) ? $targetP.data('id') : $target.data('id');
-                    /*if (My.isSuperAdmin === null && !My.Right.AndProfile.includes('SEEUSR')) {
+                        /*if (My.isSuperAdmin === null && !My.Right.AndProfile.includes('SEEUSR')) {
                         return;
                     }*/
                     window.location.replace("/customer/" + id + "/edit");

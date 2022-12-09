@@ -190,7 +190,7 @@
                         tot_market_amount = (me.$el.find("#tot_market_amount").val() !== '') ? parseFloat(me.$el.find("#tot_market_amount").val()) : 0,
                         progress;
                     
-                    if (addition_market_amount === 0 && tot_market_amount === 0) {
+                    if (tot_market_amount === 0 && addition_market_amount === 0) {
                         me.$el.find('#progress').val(0);
                         return 0;
                     }
@@ -201,8 +201,6 @@
                             me.changeFieldValue('progress', progress);
                         }
                     }; 
-                    
-                    console.log(progress);
                     
                     $dfd.resolve();
                     return progress;
@@ -280,18 +278,15 @@
                         tot_market_amount = (me.$el.find("#tot_market_amount").val() !== '') ? parseFloat(me.$el.find("#tot_market_amount").val()) : 0;
 
                     if ((account_percent === 0 && account === 0) || tot_market_amount === 0) {
-                        console.log('les champs sont à 0');
                         me.$el.find('#account').val(0);
                         me.$el.find('#account_percent').val(0);
                         return 0;
                     }
 
                     if (property === 'account_percent') {
-                        console.log("Calculer la valeur du champs account");
                         account = roundWith((account_percent / 100) * tot_market_amount,2);
                     }
                     else if (property === 'account') {
-                        console.log("Calculer la valeur du champs account_percent");
                         account_percent = (tot_market_amount === 0 ? 0 : roundWith((account / tot_market_amount) * 100,2));
                     }
                     else {
@@ -302,20 +297,17 @@
                     me.data.nbRunsAccount = 1;
                     if ((property === 'account_percent')) { 
                         if (account !== parseFloat(me.$el.find("#account").val())) {
-                            console.log("Changer le champs account");
                             me.$el.find('#account').val(account);
                             me.changeFieldValue('account', account);
                         }
                     }
                     else if ((property === 'account')) {
                         if (account_percent !== parseFloat(me.$el.find("#account_percent").val())) {
-                            console.log("Changer le champs account_percent");
                             me.$el.find('#account_percent').val(account_percent);
                             me.changeFieldValue('account_percent', account_percent); 
                         }
                     }
                     else {
-                        console.log('Mettre les champs account et account_percent à 0');
                         me.$el.find('#account').val(0);
                         me.$el.find('#account_percent').val(0);
                     }
@@ -330,10 +322,8 @@
                         account_management_percent = (me.$el.find("#account_management_percent").val() !== '') ? parseFloat(me.$el.find("#account_management_percent").val()) : 0,
                         account_management = (me.$el.find("#account_management").val() !== '') ? parseFloat(me.$el.find("#account_management").val()) : 0;
                         account = (me.$el.find("#account").val() !== '') ? parseFloat(me.$el.find("#account").val()) : 0;
-                        console.log(property);
                     
                     if ((account_management_percent === 0 && account_management === 0) || account === 0) {
-                        console.log("cas d\'erreur");
                         me.$el.find('#account_management').val(0);
                         me.$el.find('#account_management_percent').val(0);
                         return 0;
@@ -341,13 +331,11 @@
                 
                     if (property === 'account_management_percent') {
                         //if (account_management !== parseFloat(me.$el.find("#account_management").val())) {
-                        console.log("Calculer la valeur du champs account_management");
                         account_management = roundWith((account_management_percent / 100) * account,2);
                         //}
                     }
                     else if (property === 'account_management') {
                         //if (account_management_percent !== parseFloat(me.$el.find("#account_management_percent").val())) {
-                        console.log("Calculer la valeur du champs account_management_percent");
                         account_management_percent = roundWith((account === 0 ? 0 : (account_management / account) * 100),2);
                         //}
                     }
@@ -382,22 +370,18 @@
                         tot_market_amount = (me.$el.find("#tot_market_amount").val() !== '') ? parseFloat(me.$el.find("#tot_market_amount").val()) : 0;
 
                     if ((retention_money_percent === 0 && retention_money === 0) || tot_market_amount === 0) {
-                        console.log("cas d\'erreur, les champs retention_money ou retention_money_percent ne sont pas remplis");
                         me.$el.find('#retention_money').val(0);
                         me.$el.find('#retention_money_percent').val(0);
                         return 0;
                     }
                 
                     if (property === 'retention_money_percent') {
-                        console.log("calcule du champs retention_money");
                         retention_money = roundWith((retention_money_percent / 100) * tot_market_amount,2);
                     }
                     else if (property === 'retention_money') {
-                        console.log("calcule du champs retention_money_percent");
                         retention_money_percent = roundWith((tot_market_amount === 0 ? 0 : (retention_money / tot_market_amount) * 100),2);
                     }
                     else {
-                        console.log("test");
                         retention_money = 0;
                         retention_money_percent = 0;
                     }
@@ -405,20 +389,17 @@
                     me.data.nbRunsRetentionMoney = 1;
                     if (property === 'retention_money_percent') { 
                         if (retention_money !== parseFloat(me.$el.find("#retention_money").val())) {
-                            console.log("change la valeur du champs retention_money");
                             me.$el.find('#retention_money').val(retention_money);
                             me.changeFieldValue('retention_money', retention_money);
                         }
                     }
                     else if (property === 'retention_money') {
                         if (retention_money_percent !== parseFloat(me.$el.find("#retention_money_percent").val())) {
-                            console.log("change la valeur du champs retention_money_percent");
                             me.$el.find('#retention_money_percent').val(retention_money_percent);
                             me.changeFieldValue('retention_money_percent', retention_money_percent); 
                         }
                     }
                     else {
-                        console.log("Mise à 0");
                         me.$el.find('#retention_money').val(0);
                         me.$el.find('#retention_money_percent').val(0);
                     }
@@ -471,7 +452,6 @@
                         deposit = (me.$el.find("#deposit").val() !== '') ? parseFloat(me.$el.find("#deposit").val()) : 0,
                         progress = (me.$el.find("#progress").val() !== '') ? parseFloat(me.$el.find("#progress").val()) : 0,
                         deposit_recovery;
-                    console.log(deposit); 
                     if (progress === 0 || deposit === 0) {
                         me.$el.find('#deposit_recovery').val(0);
                         return 0;
@@ -504,7 +484,6 @@
                     balance = roundWith(tot_market_amount - (account + account_management + retention_money),2);
 
                     if (balance !== parseFloat(me.$el.find('#balance').val())) {
-                        console.log("Changement de la valeur balance");
                         me.$el.find('#balance').val(balance);
                         me.changeFieldValue('balance', balance);
                     }
@@ -523,13 +502,11 @@
                         balance_du;
                     
                     if (parent_id === null) {
-                        console.log('parent_id est null');
                         me.$el.find('#balance_du').val(deposit);
                         me.changeFieldValue('balance_du', deposit);
                         return deposit;
                     }
                     else if (balance === 0 && deposit_recovery === 0) {
-                        console.log('les données à 0');
                         me.$el.find('#balance_du').val(0);
                         return 0;
                     }
@@ -537,7 +514,6 @@
                     balance_du = roundWith(balance - deposit_recovery,2);
 
                     if (balance_du !== parseFloat(me.$el.find('#balance_du').val())) {
-                        console.log('ici');
                         me.$el.find('#balance_du').val(balance_du);
                         me.changeFieldValue('balance_du', balance_du);
                     }
@@ -606,20 +582,20 @@
                         case 'doc_penality' : 
                         case 'doc_penality_percent' : 
                             (me.data.nbRunsDocPenality === 0 ? me.calculFieldsDocPenality(elId) : me.data.nbRunsDocPenality = 0);
-                            console.log("doc_pen", res, elId);
+                            console.log("doc_pen", res);
                             break;
 
                         case 'retention_money' : 
                         case 'retention_money_percent' : 
                             if (me.data.nbRunsRetentionMoney === 0) { 
                                 res = me.calculFieldsRetentionMoney(elId, $.Deferred());
-                                console.log("Retention_money : ", res, elId); 
+                                console.log("Retention_money : ", res); 
                             } else { 
                                 me.data.nbRunsRetentionMoney = 0 
                             }
                             if (elId === 'retention_money') {
                                 res = me.calculFieldsBalance($.Deferred());
-                                console.log("Balance : ", res, elId);
+                                console.log("Balance : ", res);
                             }
                             break;
                         
@@ -627,13 +603,13 @@
                         case 'account_percent' : 
                             if (me.data.nbRunsAccount === 0) { 
                                 res = me.calculFieldsAccount(elId, $.Deferred());
-                                console.log("Account : ", res, elId);
+                                console.log("Account : ", res);
                             } else { 
                                 me.data.nbRunsAccount = 0 
                             }
                             if (elId === 'account') {
                                 res = me.calculFieldsBalance($.Deferred());
-                                console.log("Balance : ", res, elId);
+                                console.log("Balance : ", res);
                             }
                             break;
 
@@ -641,7 +617,7 @@
                         case 'account_management_percent' : 
                             if (me.data.nbRunsAccountManagement === 0) { 
                                 res = me.calculFieldsAccountManagement(elId, $.Deferred());
-                                console.log("Account_management : ", res, elId);
+                                console.log("Account_management : ", res);
                             } else { 
                                 me.data.nbRunsAccountManagement = 0 
                             }
@@ -650,17 +626,17 @@
                         case 'deposit' : 
                         case 'progress' :
                             res = me.calculFieldsDepositRecovery();
-                            console.log("Deposit_recovery : ", res, elId);
+                            console.log("Deposit_recovery : ", res);
                             if(elId === 'deposit'){
                                 res1 = me.calculFieldsBalanceDu();
-                                console.log("balance_du : ", res1, elId);
+                                console.log("balance_du : ", res1);
                             }
                             break;
                         
                         case 'balance' :
                         case 'deposit_recovery' : 
                             res = me.calculFieldsBalanceDu();
-                            console.log("balance_du : ", res, elId);
+                            console.log("balance_du : ", res);
                             break;
 
                         case 'balance_du' : 

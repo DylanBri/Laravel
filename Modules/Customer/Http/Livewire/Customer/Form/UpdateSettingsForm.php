@@ -33,13 +33,13 @@ class UpdateSettingsForm extends Component
         'customer.id' => 'nullable|integer',
         'customer.address_1' => 'bail|required|max:255',
         'customer.address_2' => 'nullable|max:255',
-        'customer.zip_code' => 'bail|required|max:10',
+        'customer.zip_code' => 'bail|required|regex:/^\d{5}(?:[-\s]\d{4})?$/',
         'customer.city' => 'bail|required|max:50',
         'customer.country' => 'nullable|max:50',
         'customer.name' => 'bail|required|max:255',
         'customer.gender' => 'nullable|max:255',
         'customer.phone' => 'nullable|max:50',
-        'customer.email' => 'nullable|max:50',
+        'customer.email' => 'nullable|email',
     ];
 
     protected $listeners = [

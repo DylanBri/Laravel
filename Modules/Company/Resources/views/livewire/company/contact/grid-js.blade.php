@@ -10,7 +10,7 @@
                 btnSee: true,
                 btnAdd: true,
                 btnModify: true,
-                btnDelete: false,
+                btnDelete: true,
                 data: {
                     companyId: 0,
                     alert: null,
@@ -33,7 +33,7 @@
                     "change #pageSize": "changePageSize",
                     "click .toggleSort": "sortField",
                     "change .filter": "filterField",
-                    "dblclick .backgrid tr": "actionDoubleClick"
+                    "dblclick .backgrid tr": "seeItem"
                 },
 
                 afterInitialize: function () {
@@ -273,16 +273,21 @@
                         return;
                     }*/
                     if (window.confirm("<?php echo __('company::contact.Delete') ?>")) {
-                        me.data.model = new App.Module.Company.Model.Contact();
-                        if (id !== null) me.data.model.set('id', id);
-                        me.renderSettings(id);
-                        me.setModel('suppressed', true);
-                        me.saveModel();
+                        //me.data.model = new App.Module.Company.Model.Contact();
+                        //if (id !== null) me.data.model.set('id', id);
+                        App.Api.delete('/company/contact/' + id, {'_token': $('[name=_token]').val()})
+                        .done(function() {
+                            me.reload();
+                        });
+                        //me.renderSettings(id);
+                        //me.setModel('suppressed', true);
+                        //me.saveModel();
                     }
                 },
 
                 seeItem: function (e) {
-                    var me = this, $target = $(e.target), $targetP = $target.parent(),
+                    var me = this, $target = $(e.target)
+                        $targetP = ($target.hasClass('.btnSee') ? $target.parent() : $target.parent().parent().find('.btnSee')),
                         id = ($target.data('id') === undefined) ? $targetP.data('id') : $target.data('id');
                     /*if (My.isSuperAdmin === null && !My.Right.AndProfile.includes('SEEUSR')) {
                         return;

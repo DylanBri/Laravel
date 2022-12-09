@@ -39,7 +39,7 @@ class UpdateSettingsForm extends Component
         'contact.firstname' => 'nullable|max:255', 
         'contact.lastname'=> 'nullable|max:255',
         'contact.phone'=> 'nullable|max:50',
-        'contact.email'=> 'nullable|max:50',
+        'contact.email'=> 'nullable|email',
         'contact.enabled' => 'nullable|boolean',
         'contact.suppressed' => 'nullable|boolean'
     ];
@@ -97,7 +97,6 @@ class UpdateSettingsForm extends Component
     public function validateContactSettingsInformation()
     {
         $validateData = $this->validate();
-        dd($validateData);
         
         $this->authorize('create', [Auth::user()]);
         $this->authorize('update', [Auth::user(), $this->contact]);

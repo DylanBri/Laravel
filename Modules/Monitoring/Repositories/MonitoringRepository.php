@@ -75,7 +75,6 @@ class MonitoringRepository extends Repository
             $moni->deposit = $depos;
             $moni->save();
         }
-        return $monitoring;
 
         // Remplissage automatique du champs Marché de base
         $wslc_amount_ttc = Monitoring::query()
@@ -84,11 +83,12 @@ class MonitoringRepository extends Repository
         $total_market = $wslc_amount_ttc->get();
         if(!$total_market->IsEmpty()) {
             $total_market_amount = $total_market[0]->total_market;
-            //dd($total_market_amount);
             $monit = $monitoring;
             $monit->total_market_amount = $total_market_amount;
             $monit->save();
         }
+
+        return $monitoring;
     }
 
      /**
@@ -178,6 +178,8 @@ class MonitoringRepository extends Repository
     public static function delete(Monitoring $monitoring)
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        $monitoring->workSiteLotCompanys()->delete();
 
         $monitoring->delete();
 

@@ -38,7 +38,6 @@
                     //Après le remplissage du formulaire
                     Livewire.on('lot-settings-form-mount', hydrate => {
                         if (me.model !== null) me.model.remove();
-                        console.log(hydrate);
                         me.model = new App.Module.Monitoring.Model.Lot(hydrate);
                         if (hydrate !== null) {
                             if (me.attributes.parent !== null && me.attributes.parent !== undefined) {

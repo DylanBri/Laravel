@@ -10,7 +10,7 @@
                 btnSee: true,
                 btnAdd: true,
                 btnModify: true,
-                btnDelete: false,
+                btnDelete: true,
                 btnPayment: true,
                 data: {
                     workSiteId: 0,
@@ -85,7 +85,7 @@
                         }
 
                         me.collection.setFilters([{
-                            field: 'work_site_lot_company.type',
+                            field: 'work_site_lot_company.is_type',
                             value: 0,
                             type: 'number'
                         }]);
@@ -300,11 +300,16 @@
                         return;
                     }*/
                     if (window.confirm('<?php echo __('monitoring::work-site.Delete') ?>')) {
-                        me.data.model = new App.Module.Monitoring.Model.WorkSiteLotCompany();
-                        if (id !== null) me.data.model.set('id', id);
-                        me.renderSettings(id);
-                        me.setModel('suppressed', true);
-                        me.saveModel();
+                        //me.data.model = new App.Module.Monitoring.Model.WorkSiteLotCompany();
+                        //if (id !== null) me.data.model.set('id', id);
+                        App.Api.delete('/monitoring/work-site-lot-company/' + id, {'_token': $('[name=_token]').val()})
+                        .done(function() {
+                            me.reload();
+                        });
+                        console.log('here');
+                        //me.renderSettings(id);
+                        //me.setModel('suppressed', true);
+                        //me.saveModel();
                     }
                 },
 

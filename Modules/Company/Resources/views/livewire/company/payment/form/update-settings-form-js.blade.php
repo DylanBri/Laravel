@@ -47,7 +47,6 @@
                         me.$el.find("#payment_date_show").val(moment(me.$el.find("#payment_date").val()).format('L'));
 
                         if (me.model !== null) me.model.remove();
-                        console.log(hydrate);
                         me.model = new App.Module.Company.Model.Payment(hydrate);
                         if (hydrate !== null) {
                             if (me.attributes.parent !== null && me.attributes.parent !== undefined) {

@@ -20,7 +20,7 @@ class ContactRequest extends FormRequest
             'firstname' => 'bail|required|max:255', 
             'lastname'=> 'bail|required|max:255',
             'phone'=> 'nullable|max:50',
-            'email'=> 'nullable|max:50',
+            'email'=> 'nullable|email',
             'enabled' => 'bail|required|boolean',
             'suppressed' => 'bail|required|boolean'
         ];

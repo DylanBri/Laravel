@@ -54,9 +54,9 @@
                     Livewire.on('monitoring-form-without-workSiteLotCompanyid', request => {
                         // Virer les Chantiers si le numéro de Client n'est pas spécifié
                         $('#monitoringGrid').addClass('d-none');
-                        //$('.input-text').addClass('input-disabled');
-                        //$('.input-text').attr('disabled', '');
-                        //$('.btn-primary').attr('hidden', 'true');
+                        $('.input-text').addClass('input-disabled');
+                        $('.input-text').attr('disabled', '');
+                        $('.btn-primary').attr('hidden', 'true');
                     });
                 }
             });

@@ -5,6 +5,7 @@ namespace Modules\Customer\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
+use Modules\Monitoring\Entities\WorkSite;
 
 class Customer extends Model
 {
@@ -51,6 +52,14 @@ class Customer extends Model
     public function address()
     {
         return $this->belongsTo(Address::class);
+    }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function workSites()
+    {
+        return $this->hasMany(WorkSite::class);
     }
 
     /*protected static function newFactory()

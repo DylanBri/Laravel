@@ -10,7 +10,7 @@
                 btnSee: true,
                 btnAdd: true,
                 btnModify: true,
-                btnDelete: false,
+                btnDelete: true,
                 data: {
                     workSiteLotCompanyId: 0,
                     alert: null,
@@ -257,11 +257,15 @@
                         return;
                     }*/
                     if (window.confirm("<?php echo __('company::payment.Delete') ?>")) {
-                        me.data.model = new App.Module.Company.Model.Payment();
-                        if (id !== null) me.data.model.set('id', id);
-                        me.renderSettings(id);
-                        me.setModel('suppressed', true);
-                        me.saveModel();
+                        //me.data.model = new App.Module.Company.Model.Payment();
+                        //if (id !== null) me.data.model.set('id', id);
+                        App.Api.delete('/company/payment/' + id, {'_token': $('[name=_token]').val()})
+                        .done(function() {
+                            me.reload();
+                        });
+                        //me.renderSettings(id);
+                        //me.setModel('suppressed', true);
+                        //me.saveModel();
                     }
                 },
 
