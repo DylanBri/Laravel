@@ -58,8 +58,8 @@ class PaymentRepository extends Repository
             ->where("payments.is_done", "=", "1")
             ->groupBy('monitorings.work_site_lot_company_id');
         $query1 = $query->get();
-        dd($query1);
         if(!$query1->isEmpty()) {
+            $monitoring->payment_amount_ttc = $query1[0]->sum_amount;
             $monitoring->deduction_previous_payment = $query1[0]->sum_amount - $monitoring->deposit;
             $monitoring->saveQuietly();
         }
@@ -87,6 +87,7 @@ class PaymentRepository extends Repository
             ->groupBy('monitorings.work_site_lot_company_id');
         $query1 = $query->get();
         if(!$query1->isEmpty()) {
+            $monitoring->payment_amount_ttc = $query1[0]->sum_amount;
             $monitoring->deduction_previous_payment = $query1[0]->sum_amount - $monitoring->deposit;
             $monitoring->saveQuietly();
         }

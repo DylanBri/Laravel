@@ -5,7 +5,7 @@
     }
 
     .toggle-checkbox {
-        @apply absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer;
+        @apply absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer mt-0;
     }
 
     .toggle-checkbox:checked {

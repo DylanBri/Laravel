@@ -39,5 +39,30 @@
                 return this;
             }
         });
+
+        App.View.Cell.DateTimeCell = window.Backgrid.DateCell.extend({
+            render: function () {
+                // Put what you want inside the cell (Can use .html if HTML formatting is needed)
+                this.$el.html(window.moment(this.model.get(this.column.get("name"))).format("L LTS"));
+                // MUST do this for the grid to not error out
+                return this;
+            }
+        });
+        
+        App.View.Cell.DateCell = window.Backgrid.DateCell.extend({
+            render: function () {
+                // Put what you want inside the cell (Can use .html if HTML formatting is needed)
+                this.$el.html(window.moment(this.model.get(this.column.get("name"))).format("L"));
+                // MUST do this for the grid to not error out
+                return this;
+            }
+        });
+        
+        App.View.Cell.NumberCell = window.Backgrid.NumberCell.extend({
+            decimalSeparator : ",",
+            orderSeparator : " "
+        });
+
+
     });
 </script>

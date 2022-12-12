@@ -146,7 +146,7 @@
                         {
                             label: "<?php echo __("monitoring::work-site-lot-company.Amount_ttc"); ?>",
                             name: 'amount_ttc',
-                            cell: 'string',
+                            cell: App.View.Cell.NumberCell,
                             sortable: false,
                             editable: false,
                             filterable: false,

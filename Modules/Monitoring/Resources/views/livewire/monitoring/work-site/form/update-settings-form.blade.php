@@ -52,18 +52,18 @@
                         @error('workSite.address2') <span class="text-error">{{ $message }}</span> @enderror
                     </div>
                     <div class="flex-1 flex">
-                        <!-- City -->
-                        <div class="flex-1 mr-2">
-                            <label for="city">{{ __('customer::address.City') }}</label>
-                            <input id="city" type="text" class="form-input input-text" wire:model.defer="workSite.city"/>
-                            @error('workSite.city') <span class="text-error">{{ $message }}</span> @enderror
-                        </div>
-
                         <!-- zip_code -->
                         <div class="flex-1 mr-2">
                             <label for="zip_code">{{ __('customer::address.Zip Code') }}</label>
                             <input id="zip_code" type="text" class="form-input input-text" wire:model.defer="workSite.zip_code"/>
                             @error('workSite.zip_code') <span class="text-error">{{ $message }}</span> @enderror
+                        </div>
+
+                        <!-- City -->
+                        <div class="flex-1 mr-2">
+                            <label for="city">{{ __('customer::address.City') }}</label>
+                            <input id="city" type="text" class="form-input input-text" wire:model.defer="workSite.city"/>
+                            @error('workSite.city') <span class="text-error">{{ $message }}</span> @enderror
                         </div>
                     </div>
                 </div>

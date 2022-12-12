@@ -155,7 +155,7 @@
                 },
 
                 formSubmit: function () {
-                    Livewire.emit('submitForm');
+                    Livewire.emit('lotSubmitForm');
                 },
 
                 triggerSuccess: function (result) {

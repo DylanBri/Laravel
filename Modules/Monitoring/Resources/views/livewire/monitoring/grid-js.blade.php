@@ -102,7 +102,7 @@
                         {
                             label: "<?php echo __("monitoring::monitoring.Date"); ?>",
                             name: 'date',
-                            cell: 'date',
+                            cell: App.View.Cell.DateCell,
                             sortable: true,
                             editable: false,
                             filterable: true,
@@ -113,7 +113,7 @@
                         {
                             label: "<?php echo __("monitoring::monitoring.Amount_to_pay"); ?>",
                             name: 'amount_to_pay',
-                            cell: 'number',
+                            cell: App.View.Cell.NumberCell,
                             sortable: false,
                             editable: false,
                             filterable: false,
@@ -124,7 +124,7 @@
                         {
                             label: "<?php echo __("monitoring::monitoring.Cumul_WorkSiteLotCompany"); ?>",
                             name: 'cumul_monitoring_previous',
-                            cell: 'number',
+                            cell: App.View.Cell.NumberCell,
                             sortable: false,
                             editable: false,
                             filterable: false,
