@@ -37,6 +37,7 @@ return[
     'Balance_du' => 'Solde dû',
     'Deduction_previous_payment' => 'Déduction des propositions de règlement antérieurs',
     'Cumul_WorkSiteLotCompany' => 'Cumul',
+    'Balance_to_pay' => 'Solde à régler sur l\'ensemble des propositions',
     'See' => 'Consulter le suivi',
     'Add' => 'Ajouter un suivi',
     'Modify' => 'Modifier le suivi',

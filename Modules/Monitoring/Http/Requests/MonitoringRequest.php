@@ -48,6 +48,8 @@ class MonitoringRequest extends FormRequest
             'is_progress' => 'bail|required|boolean',
             'balance_du'=> 'nullable|numeric',
             'deduction_previous_payment' =>'nullable|numeric',
+            'is_payed' => 'nullable|numeric',
+            'amount_monitoring_previous_not_payed' => 'nullable|numeric',
             'enabled' => 'bail|required|boolean',
             'suppressed' => 'bail|required|boolean',
         ];

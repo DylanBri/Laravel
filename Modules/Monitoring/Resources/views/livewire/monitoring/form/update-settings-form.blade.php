@@ -285,7 +285,12 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-4 flex">
-                    <!-- Solde_to_pay -->
+                    <!-- Balance_to_pay -->
+                    <div class="flex-1 mr-2 flex">
+                        <label class="mr-2 mt-3 w-2/3" for="balance_to_pay">{{ __('monitoring::monitoring.Balance_to_pay') }}</label>
+                        <input id="balance_to_pay" type="number" class="form-input input-text input-disabled w-1/3" wire:model.defer="monitoring.balance_to_pay" disabled step=".01"/>
+                        @error('monitoring.balance_to_pay') <span class="text-error">{{ $message }}</span> @enderror
+                    </div>
                 </div>
             </div>
         </div>

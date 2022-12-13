@@ -50,7 +50,10 @@
                         $dfdAccount = $.Deferred(),
                         $dfdAccountMng = $.Deferred(),
                         $dfdRetentionMon = $.Deferred(),
-                        $dfdBalance = $.Deferred();
+                        $dfdDepositRecovery = $.Deferred(),
+                        $dfdBalance = $.Deferred(),
+                        $dfdBalanceDu = $.Deferred(),
+                        $dfdAmountToPay = $.Deferred();
 
                     me.renderDatePicker('date');
                     //me.renderAutocompleteLot();
@@ -77,13 +80,15 @@
                         }
 
                         me.calculFieldsMarket($dfdMarket);
-                        me.calculFieldsDepositRecovery();
                         me.calculFieldsTotalModifyMarketAmount($dfTotalModifyMarketAmount);
                         
                         $.when($dfTotalModifyMarketAmount).then(function () {
                             me.calculFieldsAdditionMarket($dfdAdditionMarket);
                             $.when($dfdAdditionMarket).then(function () {
                                 me.calculFieldsProgress($dfdPregress)
+                                $.when($dfdPregress).then(function () {
+                                    me.calculFieldsDepositRecovery($dfdDepositRecovery);
+                                });
                             });  
                         })
                         
@@ -97,8 +102,14 @@
 
                             $.when($dfdAccount, $dfdAccountMng, $dfdRetentionMon).then(function () {
                                 me.calculFieldsBalance($dfdBalance);
-                                $.when($dfdBalance).then(function () {
-                                    me.calculFieldsBalanceDu();
+                            });
+                            $.when($dfdBalance, $dfdDepositRecovery).then(function () {
+                                me.calculFieldsBalanceDu($dfdBalanceDu);
+                                $.when($dfdBalanceDu).then(function () { 
+                                    me.calculFieldsAmountToPay($dfdAmountToPay);
+                                    $.when($dfdAmountToPay).then(function () { 
+                                        me.calculFieldsBalanceToPay();
+                                    });
                                 });
                             });
                         });
@@ -188,19 +199,27 @@
                     var me = this,
                         addition_market_amount = (me.$el.find("#addition_market_amount").val() !== '') ? parseFloat(me.$el.find("#addition_market_amount").val()) : 0,
                         tot_market_amount = (me.$el.find("#tot_market_amount").val() !== '') ? parseFloat(me.$el.find("#tot_market_amount").val()) : 0,
+                        is_progess = me.model.attributes.is_progress,
                         progress;
                     
-                    if (tot_market_amount === 0 && addition_market_amount === 0) {
+                    if ((tot_market_amount === 0 && addition_market_amount === 0) || (addition_market_amount === 0)) {
                         me.$el.find('#progress').val(0);
                         return 0;
                     }
-                    if(!me.model.attributes.is_progress) {
+                    
+                    
+                    if(is_progess === 1) {
+                        console.log('is_progess : ' + is_progess, 'Ne fais pas de calcul');
+                        progress = me.model.attributes.progress;
+                    } 
+                    else {
+                        console.log('is_progess : ' + is_progess, 'Fais le calcul');
                         progress = roundWith((tot_market_amount / addition_market_amount) * 100,0);
                         if (progress !== parseFloat(me.$el.find('#progress').val())) {
                             me.$el.find('#progress').val(progress);
                             me.changeFieldValue('progress', progress);
                         }
-                    }; 
+                    }
                     
                     $dfd.resolve();
                     return progress;
@@ -447,7 +466,7 @@
                     }
                 },
 
-                calculFieldsDepositRecovery: function (){
+                calculFieldsDepositRecovery: function ($dfd){
                     var me = this,
                         deposit = (me.$el.find("#deposit").val() !== '') ? parseFloat(me.$el.find("#deposit").val()) : 0,
                         progress = (me.$el.find("#progress").val() !== '') ? parseFloat(me.$el.find("#progress").val()) : 0,
@@ -463,6 +482,8 @@
                         me.$el.find('#deposit_recovery').val(deposit_recovery);
                         me.changeFieldValue('deposit_recovery', deposit_recovery);
                     }
+
+                    $dfd.resolve();
 
                     return roundWith(deposit_recovery,2);
                 },
@@ -493,7 +514,7 @@
                     return balance;
                 },
 
-                calculFieldsBalanceDu: function (){
+                calculFieldsBalanceDu: function ($dfd){
                     var me = this,
                         balance = (me.$el.find("#balance").val() !== '') ? parseFloat(me.$el.find("#balance").val()) : 0,
                         deposit_recovery = (me.$el.find("#deposit_recovery").val() !== '') ? parseFloat(me.$el.find("#deposit_recovery").val()) : 0,
@@ -506,10 +527,10 @@
                         me.changeFieldValue('balance_du', deposit);
                         return deposit;
                     }
-                    else if (balance === 0 && deposit_recovery === 0) {
+                    /* else if (balance === 0 && deposit_recovery === 0) {
                         me.$el.find('#balance_du').val(0);
                         return 0;
-                    }
+                    } */
 
                     balance_du = roundWith(balance - deposit_recovery,2);
 
@@ -518,10 +539,12 @@
                         me.changeFieldValue('balance_du', balance_du);
                     }
 
+                    $dfd.resolve();
+
                     return balance_du;
                 },
 
-                calculFieldsAmountToPay: function (){
+                calculFieldsAmountToPay: function ($dfd){
                     var me = this,
                         deduction_previous_payment = (me.$el.find("#deduction_previous_payment").val() !== '') ? parseFloat(me.$el.find("#deduction_previous_payment").val()) : 0,
                         balance_du = (me.$el.find("#balance_du").val() !== '') ? parseFloat(me.$el.find("#balance_du").val()) : 0,
@@ -546,7 +569,31 @@
                         me.changeFieldValue('amount_to_pay', amount_to_pay);
                     }
 
+                    $dfd.resolve();
+
                     return amount_to_pay;
+                },
+
+                calculFieldsBalanceToPay: function (){
+                    var me = this,
+                        amount_to_pay = (me.$el.find("#amount_to_pay").val() !== '') ? parseFloat(me.$el.find("#amount_to_pay").val()) : 0,
+                        amount_monitoring_previous_not_payed = me.model.attributes.amount_monitoring_previous_not_payed,
+                        balance_to_pay;
+                        
+                    /* if (tot_market_amount === 0 || account_management === 0 || account === 0 || retention_money === 0) {
+                        console.log("Cas d\'érreur : les valeurs sont à 0")
+                        me.$el.find('#balance').val(0);
+                        return 0;
+                    } */
+                    
+                    balance_to_pay = roundWith(amount_to_pay + amount_monitoring_previous_not_payed,2);
+
+                    if (balance_to_pay !== parseFloat(me.$el.find('#balance_to_pay').val())) {
+                        me.$el.find('#balance_to_pay').val(balance_to_pay);
+                        me.changeFieldValue('balance_to_pay', balance_to_pay);
+                    }
+
+                    return balance_to_pay;
                 },
 
                 changeFieldValue: function (elId, value) {
@@ -625,25 +672,29 @@
                         
                         case 'deposit' : 
                         case 'progress' :
-                            res = me.calculFieldsDepositRecovery();
+                            res = me.calculFieldsDepositRecovery($.Deferred());
                             console.log("Deposit_recovery : ", res);
                             if(elId === 'deposit'){
-                                res1 = me.calculFieldsBalanceDu();
+                                res1 = me.calculFieldsBalanceDu($.Deferred());
                                 console.log("balance_du : ", res1);
                             }
                             break;
                         
                         case 'balance' :
                         case 'deposit_recovery' : 
-                            res = me.calculFieldsBalanceDu();
+                            res = me.calculFieldsBalanceDu($.Deferred());
                             console.log("balance_du : ", res);
                             break;
 
                         case 'balance_du' : 
                         case 'deduction_previous_payment' :
-                            res = me.calculFieldsAmountToPay();
+                            res = me.calculFieldsAmountToPay($.Deferred());
                             console.log("Montant", res);
                             break;
+
+                        case 'amount_to_pay' : 
+                            res = me.calculFieldsBalanceToPay();
+                            console.log("BalanceToPay", res);
                     }
                 },
 

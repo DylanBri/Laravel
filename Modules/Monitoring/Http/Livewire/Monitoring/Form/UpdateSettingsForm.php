@@ -78,6 +78,9 @@ class UpdateSettingsForm extends Component
         'monitoring.amount_to_pay' =>'nullable|numeric',
         'monitoring.cumul_work_sit_lot_company'=> 'nullable|numeric',
         'monitoring.cumul_monitoring_previous'=> 'nullable|numeric',
+        'monitoring.is_payed' => 'nullable|numeric',
+        'monitoring.amount_monitoring_previous_not_payed' => 'nullable|numeric',
+        'monitoring.balance_to_pay' => 'nullable|numeric',
     ];
 
     protected $listeners = [

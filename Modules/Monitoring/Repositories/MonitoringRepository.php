@@ -131,9 +131,9 @@ class MonitoringRepository extends Repository
 
         // Mise en place de la hiérarchisation
         $maxId = Monitoring::query()
-                ->selectRaw("MAX(monitorings.id) AS parent_id")
-                ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
-                ->where('monitorings.id', '<', $monitoring->id);
+                 ->selectRaw("MAX(monitorings.id) AS parent_id")
+                 ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
+                 ->where('monitorings.id', '<', $monitoring->id);
         $idParent = $maxId->get();
         if(!$idParent->isEmpty()) {
             $parentId = $idParent[0]->parent_id;
@@ -157,14 +157,30 @@ class MonitoringRepository extends Repository
 
         // Remplissage automatique du champs Marché de base
         $wslc_amount_ttc = Monitoring::query()
-                        ->selectRaw("work_site_lot_company.amount_ttc AS total_market")
-                        ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id);
+                           ->selectRaw("work_site_lot_company.amount_ttc AS total_market")
+                           ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id);
         $total_market = $wslc_amount_ttc->get();
         if(!$total_market->IsEmpty()) {
             $total_market_amount = $total_market[0]->total_market;
             $monit = $monitoring;
             $monit->total_market_amount = $total_market_amount;
             $monit->save();
+        }
+
+        $monitoring_not_payed = Monitoring::query()
+                                -> selectRaw("SUM(monitorings.amount_to_pay) AS amount_not_payed")
+                                ->where('work_site_lot_company_id', $monitoring->work_site_lot_company_id)
+                                ->leftJoin('payments', 'monitorings.id', '=', 'payments.monitoring_id')
+                                ->where('monitorings.is_payed', '=', 0)
+                                ->where('monitorings.date', '<', $monitoring->date)
+                                ->groupBy('monitorings.work_site_lot_company_id');
+        $monitoring_not_payed = $monitoring_not_payed->get();
+        // dd($monitoring_not_payed);
+        if(!$monitoring_not_payed->IsEmpty()) {
+            $amount_monitoring_previous_not_payed = $monitoring_not_payed[0]->amount_not_payed;
+            $monito = $monitoring;
+            $monito->amount_monitoring_previous_not_payed = $amount_monitoring_previous_not_payed;
+            $monito->save();
         }
 
 

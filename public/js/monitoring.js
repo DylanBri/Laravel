@@ -266,7 +266,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
         'balance_du': 0,
         'deduction_previous_payment': 0,
         'cumul_monitoring_previous': 0,
-        'amount_to_pay': 0
+        'amount_to_pay': 0,
+        'is_payed': 0,
+        'amount_monitoring_previous_not_payed': 0,
+        'balance_to_pay': 0
       },
       urlRoot: "/monitoring",
       parse: function parse(resp) {
