@@ -35,6 +35,8 @@ class Monitoring extends Model
         'cumul_monitoring_previous',
         'progress',
         'is_progress',
+        'is_payed',
+        'amount_monitoring_previous_not_payed',
         'enabled',
         'suppressed'
     ];

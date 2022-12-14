@@ -46,7 +46,7 @@
                         $dfTotalModifyMarketAmount = $.Deferred(),
                         $dfdMarket = $.Deferred(),
                         $dfdAdditionMarket = $.Deferred(),
-                        $dfdPregress = $.Deferred(),
+                        $dfdProgress = $.Deferred(),
                         $dfdAccount = $.Deferred(),
                         $dfdAccountMng = $.Deferred(),
                         $dfdRetentionMon = $.Deferred(),
@@ -85,10 +85,10 @@
                         $.when($dfTotalModifyMarketAmount).then(function () {
                             me.calculFieldsAdditionMarket($dfdAdditionMarket);
                             $.when($dfdAdditionMarket).then(function () {
-                                me.calculFieldsProgress($dfdPregress)
-                                $.when($dfdPregress).then(function () {
+                                // me.calculFieldsProgress($dfdProgress)
+                                // $.when($dfdProgress).then(function () {
                                     me.calculFieldsDepositRecovery($dfdDepositRecovery);
-                                });
+                                // });
                             });  
                         })
                         
@@ -199,21 +199,15 @@
                     var me = this,
                         addition_market_amount = (me.$el.find("#addition_market_amount").val() !== '') ? parseFloat(me.$el.find("#addition_market_amount").val()) : 0,
                         tot_market_amount = (me.$el.find("#tot_market_amount").val() !== '') ? parseFloat(me.$el.find("#tot_market_amount").val()) : 0,
-                        is_progess = me.model.attributes.is_progress,
-                        progress;
+                        is_progress = (me.$el.find("#is_progress")[0].checked !== '') ? me.$el.find("#is_progress")[0].checked : false,
+                        progress = (me.$el.find("#progress").val() !== '') ? parseFloat(me.$el.find("#progress").val()) : 0;
                     
                     if ((tot_market_amount === 0 && addition_market_amount === 0) || (addition_market_amount === 0)) {
-                        me.$el.find('#progress').val(0);
-                        return 0;
+                        me.$el.find('#progress').val(progress);
+                        return progress;
                     }
                     
-                    
-                    if(is_progess === 1) {
-                        console.log('is_progess : ' + is_progess, 'Ne fais pas de calcul');
-                        progress = me.model.attributes.progress;
-                    } 
-                    else {
-                        console.log('is_progess : ' + is_progess, 'Fais le calcul');
+                    if (!is_progress) {
                         progress = roundWith((tot_market_amount / addition_market_amount) * 100,0);
                         if (progress !== parseFloat(me.$el.find('#progress').val())) {
                             me.$el.find('#progress').val(progress);
@@ -622,8 +616,8 @@
                         
                         case 'addition_market_amount':
                         case 'tot_market_amount' :
-                            res = me.calculFieldsProgress($.Deferred());
-                            console.log('progress', res);
+                            res = me.calculFieldsProgress($.Deferred()); 
+                            console.log('Progress',res);
                             break;
 
                         case 'doc_penality' : 
